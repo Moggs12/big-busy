@@ -117,7 +117,9 @@ header{display:flex;align-items:center;gap:10px}
   filter:drop-shadow(0 0 6px #fff) drop-shadow(0 4px 10px rgba(43,13,92,.35));animation:hugSwipe 1.8s ease-in-out infinite}
 @keyframes hugSwipe{0%,100%{transform:translate(-120%,-50%) rotate(-14deg)}50%{transform:translate(20%,-30%) rotate(10deg)}}
 #pet{position:absolute;inset:0;transform-origin:50% 96%;animation:breathe 3.2s ease-in-out infinite}
-#pet img,#pet svg{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}
+#pet img,#pet svg{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;
+  rotate:var(--leanR,0deg);translate:var(--leanX,0px) 0;transition:rotate .45s cubic-bezier(.3,1.4,.5,1),translate .45s cubic-bezier(.3,1.4,.5,1)}
+#pet img{transform-origin:50% 96%}
 @keyframes breathe{50%{transform:scale(1.03,.97)}}
 #pet.hop{animation:hop .75s cubic-bezier(.3,.6,.4,1)}
 @keyframes hop{0%{transform:scale(1,1)}15%{transform:scale(1.14,.84)}45%{transform:translateY(-18%) scale(.93,1.09)}75%{transform:translateY(0) scale(1.12,.88)}100%{transform:scale(1,1)}}
@@ -126,8 +128,8 @@ header{display:flex;align-items:center;gap:10px}
 #pet.nope{animation:nope .5s ease-in-out 2}
 @keyframes nope{25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
 #pet.wobble{animation:wobble .5s ease-in-out}
-#pet.droop img{transform:scale(1.03,.93);transform-origin:50% 96%;filter:saturate(.8) brightness(.95);transition:transform .4s,filter .4s}
-#pet.gape img{transform:scale(1.08,.94);transform-origin:50% 96%;transition:transform .2s}
+#pet.droop img{transform:scale(1.03,.93);transform-origin:50% 96%;filter:saturate(.8) brightness(.95);transition:transform .4s,filter .4s,rotate .45s,translate .45s}
+#pet.gape img{transform:scale(1.08,.94);transform-origin:50% 96%;transition:transform .2s,rotate .45s,translate .45s}
 #petWrap.glowing #pet{filter:drop-shadow(0 0 18px #fff) drop-shadow(0 0 36px #ffd84a);animation:glowPulse 1.4s ease-in-out infinite}
 @keyframes glowPulse{50%{filter:drop-shadow(0 0 30px #fff) drop-shadow(0 0 60px #ff9ef0);transform:scale(1.04)}}
 #pet.evolving{transform-origin:50% 58%;animation:evolveSpin 2.4s cubic-bezier(.5,0,.5,1) forwards}
@@ -893,6 +895,17 @@ function newEgg(){ const keep = { sound:S.sound, speed:S.speed, quiet:S.quiet };
 let audioUnlocked = false;
 function unlockAudio(){ if(audioUnlocked) return; audioUnlocked = true; Object.values(SFX).forEach(a => { try{ a.load(); }catch(e){} }); }
 $('eggWrap').addEventListener('pointerdown', () => { if(!drag) tapEgg(); });
+// Glance: he leans toward wherever you tap, then settles back.
+let leanT;
+document.addEventListener('pointerdown', e => {
+  if(S.phase !== 'pet' || !S.pet || S.pet.asleep || G || evolving) return;
+  const pw = $('petWrap'); if(pw.contains(e.target)) return;
+  const r = pw.getBoundingClientRect(), dx = e.clientX - (r.left + r.width/2);
+  const k = Math.max(-1, Math.min(1, dx / (innerWidth * .45)));
+  if(Math.abs(k) < .08) return;
+  const p = $('pet'); p.style.setProperty('--leanR', (k * 7).toFixed(1) + 'deg'); p.style.setProperty('--leanX', (k * 14).toFixed(0) + 'px');
+  clearTimeout(leanT); leanT = setTimeout(() => { p.style.setProperty('--leanR', '0deg'); p.style.setProperty('--leanX', '0px'); }, 1100);
+}, true);
 const pw = $('petWrap'); pw.addEventListener('pointerdown', petDown); pw.addEventListener('pointermove', petMove); pw.addEventListener('pointerup', petUp); pw.addEventListener('pointercancel', petUp);
 document.addEventListener('contextmenu', e => e.preventDefault());
 $('avatar').appendChild(pic('assets/Sprites/busy_idle.webp', '💜', ''));

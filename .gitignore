@@ -1,8 +1,5 @@
 # Full-size originals stay on this computer only (repo is public)
 /art/
-/bigbusy_art/
-# Unused duplicate copies of the originals
-game/assets/Sprites/*.png.png
 # System junk
 Thumbs.db
 desktop.ini

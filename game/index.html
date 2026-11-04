@@ -5,6 +5,13 @@
 <title>Big Busy's Egg</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Big Busy">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#33b6ff">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/app-icons/icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/app-icons/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Nunito:wght@700;800;900&display=swap">
@@ -59,7 +66,7 @@ img{-webkit-user-drag:none}
 
 /* ---------- top ---------- */
 .top{position:absolute;z-index:10;left:0;right:0;top:0;display:flex;flex-direction:column;gap:10px;
-  padding-top:14px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  padding-top:calc(14px + env(safe-area-inset-top,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 header{display:flex;align-items:center;gap:10px}
 .namepill{display:flex;align-items:center;gap:12px;border-radius:999px;padding:6px 18px 6px 8px;min-width:0}
 .avatar{flex:0 0 auto;width:48px;height:48px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--busy-hi),var(--busy-lo));
@@ -901,4 +908,8 @@ setInterval(() => {
 setInterval(save, 5000);
 document.addEventListener('visibilitychange', () => { if(document.hidden) save(); else { const n = Date.now(), gap = n - S.last; if(gap > 2000){ step(gap); S.last = n; prev = performance.now(); render(); } } });
 })();
+// Offline helper (saves the game on the device so it works without internet)
+if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+  window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
+}
 </script>

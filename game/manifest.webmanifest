@@ -1,0 +1,17 @@
+{
+  "name": "Big Busy",
+  "short_name": "Big Busy",
+  "description": "Hatch, feed and play with Big Busy, the purple fluffy pom-pom!",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#33b6ff",
+  "theme_color": "#33b6ff",
+  "icons": [
+    { "src": "assets/app-icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/app-icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/app-icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

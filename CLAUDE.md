@@ -7,6 +7,8 @@ A virtual pet game starring **Big Busy**, a purple fluffy pom-pom character from
 - Full-size original art lives in `art/` (PNG). Game uses trimmed/compressed `.webp` copies.
 - Sound effects: `game/assets/sounds/*.mp3` (from the series).
 - Saves progress in `localStorage` (key `bigbusy-v1`). Time keeps passing while closed (catch-up on load).
+- **Live at https://moggs12.github.io/big-busy/** (repo `Moggs12/big-busy`, public). Every push to `main` republishes the `game/` folder via `.github/workflows/pages.yml`. Top-level `art/` originals are kept out of git on purpose.
+- **Installable PWA:** `game/manifest.webmanifest`, home-screen icons in `game/assets/app-icons/` (made from `art/busy_idle.png`), offline helper `game/sw.js`. **When changing game files, bump `VERSION` in `sw.js`**, and add any new asset to its `FILES` list.
 - Grown-up settings (cog): sound on/off, game speed (Normal / ×20 / ×240 for testing), quiet hours, start over.
 
 ## Game design (agreed — keep)
@@ -33,8 +35,8 @@ A virtual pet game starring **Big Busy**, a purple fluffy pom-pom character from
 Art was made in Runway (owner's account, credits are low — always check cost before generating, video is expensive).
 
 ## Next steps (the reason for moving to Claude Code)
-1. Put this folder under git and on GitHub; host on GitHub Pages so it runs from a real URL.
-2. Make it an installable **PWA** (manifest, icons, service worker for offline) so it sits on the iPad home screen.
+1. ~~Git, GitHub, GitHub Pages~~ — done.
+2. ~~Installable PWA~~ — done.
 3. **Notifications** ("Big Busy's tummy is rumbling!") — 3–5 a day max, never in quiet hours. Web push on iPad needs the PWA installed + a small push server; native local notifications via **Capacitor** are the better long-term route (iOS build needs the 2019 MacBook + Xcode).
 4. Then: Android build, more characters, extra animations (Runway video if credits allow).
 

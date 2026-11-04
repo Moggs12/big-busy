@@ -12,7 +12,7 @@ A virtual pet game starring **Big Busy**, a purple fluffy pom-pom character from
 - Grown-up settings (cog): sound on/off, game speed (Normal / ×20 / ×240 for testing), quiet hours, start over.
 
 ## Game design (agreed — keep)
-- **Egg (~1 hour):** drag heat lamp over egg to keep "Cosy" up; hatching progress only fills while cosy. When ready the egg swaps to the cracked art; tap 4 times to hatch (in-code shell burst + flash).
+- **Egg (~5 min for Big Busy's first egg; later family eggs take longer = difficulty progression):** drag heat lamp over egg to keep "Cosy" up (drains in ~4 min). Hatching runs full speed while cosy, slower when chilly, and very slowly when cold (never stops). Sleeps in quiet hours (nothing changes, night garden). When ready the egg swaps to the cracked art; tap 4 times to hatch (in-code shell burst + flash).
 - **Four looks:** Egg → **Fluffball** (day 1: tiny pom-pom, beady eyes, no mouth/limbs, baby talk "Pip!", needs shown as icons, Play locked) → **Fuzzling** (day 2: feet + antenna nubs, short words, Play unlocks) → **Big Busy** (day 3–7: full character, keeps growing in size).
 - **Transformation:** at the right age he glows; child taps him → spin, white silhouette, flash, reveal, confetti. Only happens if reasonably cared for (happy ≥40, tummy ≥30, clean ≥25); otherwise he waits. Never regresses.
 - **Five meters:** Tummy, Happy, Energy, Clean, Fun.

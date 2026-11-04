@@ -463,7 +463,9 @@ header{display:flex;align-items:center;gap:10px}
 'use strict';
 /* ---------- tuning ---------- */
 const HOUR = 3600e3, MIN = 60e3;
-const T = { hatchMs:60*MIN, cosyDrainMs:22*MIN, lifeDays:7,
+// Big Busy's egg is the first one, so it hatches quickly (about 5 minutes of cosy time).
+// Later family eggs are meant to take longer and need more care (see the roadmap).
+const T = { hatchMs:5*MIN, cosyDrainMs:4*MIN, coldRate:.15, lifeDays:7,
   rates:{ tummy:14, happy:9, energy:9, clean:6, fun:11 }, sleepGain:32 };
 // Ground spot on the garden picture (fraction of the image) where Big Busy stands. Tuned to garden_day.webp.
 const GROUND = { x:.5, y:.70 };
@@ -510,9 +512,9 @@ let pendingWake = false;
 function tick(ms){
   const h = ms / HOUR;
   if(S.phase === 'egg'){
+    if(isQuiet(gameDate())) return;                                   // the egg sleeps overnight too: nothing cools, nothing changes
     const E = S.egg; E.cosy = clamp(E.cosy - 100*ms/T.cosyDrainMs);
-    const rate = E.cosy > 30 ? 1 : E.cosy > 0 ? .35 : 0;
-    E.warm = Math.min(T.hatchMs, E.warm + ms*rate); return;
+    E.warm = Math.min(T.hatchMs, E.warm + ms*eggRate()); return;
   }
   if(S.phase !== 'pet') return;
   const P = S.pet, quiet = isQuiet(gameDate());
@@ -763,7 +765,7 @@ function onDrag(e){
   const dist = Math.hypot(e.clientX - drag.x, e.clientY - drag.y); drag.moved += dist; drag.x = e.clientX; drag.y = e.clientY;
   moveGhost(e.clientX, e.clientY);
   const over = overTarget(e.clientX, e.clientY, 24);
-  if(drag.kind === 'lamp'){ $('eggWrap').classList.toggle('warm', over); if(over) warmEgg(dist); }
+  if(drag.kind === 'lamp'){ const ok = over && !eggAsleep(); $('eggWrap').classList.toggle('warm', ok); if(ok) warmEgg(dist); }
   else if(drag.kind.startsWith('food:')){ if(over !== drag.over && S.pet && !S.pet.asleep && !eating) setMood(over ? 'munch' : moodNow()); }
   else if(drag.kind === 'sponge'){ if(over && S.pet && !S.pet.asleep){ drag.scrub += dist; if(drag.scrub > 26){ drag.scrub = 0; scrub(e.clientX, e.clientY); } } }
   drag.over = over;
@@ -777,6 +779,7 @@ function endDrag(e){
   if(d.kind.startsWith('food:')){ if(over) feed(d.kind.slice(5), e.clientX, e.clientY); else { if(S.pet) setMood(moodNow()); if(d.moved < 10) say('Drag it to my mouth!'); } }
   else if(d.kind === 'moon' && over && d.moved > 30) toggleSleep();
   else if(d.kind === 'sponge' && d.moved < 10) say('Rub the sponge on me!');
+  else if(d.kind === 'lamp' && eggAsleep()) say('Zzz… the egg is asleep');
   else if(d.kind === 'lamp' && d.moved < 10) hint('Drag the lamp over the egg');
   save();
 }
@@ -790,8 +793,12 @@ function warmEgg(dist){
 }
 function wiggleEgg(){ const g = $('egg'); g.classList.remove('wiggle'); void g.offsetWidth; g.classList.add('wiggle'); play('boing', .35, 900); }
 function eggReady(){ return S.egg.warm >= T.hatchMs; }
+// Cosy = full speed; chilly = slower; cold = very slow, but it never stops, so a forgotten egg still hatches.
+function eggRate(){ const c = S.egg.cosy; return c > 30 ? 1 : c > 0 ? .35 : T.coldRate; }
+function eggAsleep(){ return S.phase === 'egg' && !eggReady() && isQuiet(gameDate()); }
 function tapEgg(){
   unlockAudio(); if(S.phase !== 'egg') return;
+  if(eggAsleep()){ say('Zzz… sleeping till morning'); return; }
   if(!eggReady()){ wiggleEgg(); say(S.egg.cosy < 30 ? 'Brrr! I need warming up' : 'Not yet… keep me cosy!'); return; }
   S.egg.taps++; play('squeak', .7); showEgg(); wiggleEgg(); fx(ICON('star'), '✨', targetRect());
   if(S.egg.taps >= 4) hatch(); else say(['Tap tap!','Crack!','Nearly there!'][S.egg.taps - 1]);
@@ -1072,11 +1079,11 @@ function render(force){
   const d = gameDate(), st = stageInfo();
   if(S.phase === 'egg'){
     setMeter('cosy', S.egg.cosy); setMeter('hatch', 100*S.egg.warm/T.hatchMs);
-    $('sub').textContent = eggReady() ? 'Egg · ready to hatch!' : 'Egg · keep it cosy';
-    const rate = S.egg.cosy > 30 ? 1 : .35, left = Math.max(0, (T.hatchMs - S.egg.warm) / S.speed / rate);
-    hint(eggReady() ? "It's moving! Tap the egg!" : S.egg.cosy < 30 ? 'Brrr! The egg needs the lamp' : `Hatching in about ${fmtDur(left)}`);
+    $('sub').textContent = eggReady() ? 'Egg · ready to hatch!' : eggAsleep() ? 'Egg · fast asleep' : 'Egg · keep it cosy';
+    const left = Math.max(0, (T.hatchMs - S.egg.warm) / S.speed / eggRate());
+    hint(eggReady() ? "It's moving! Tap the egg!" : eggAsleep() ? 'Shh… the egg is sleeping until morning' : S.egg.cosy < 30 ? 'Brrr! The egg needs the lamp' : `Hatching in about ${fmtDur(left)}`);
     $('egg').classList.toggle('ready', eggReady() && !$('egg').classList.contains('shake'));
-    $('app').classList.remove('sleeping');
+    $('app').classList.toggle('sleeping', eggAsleep());
   } else if(S.phase === 'pet'){
     const P = S.pet; $('hint').hidden = true;
     STATS.forEach(s => setMeter(s.k, P[s.k]));

@@ -113,6 +113,9 @@ header{display:flex;align-items:center;gap:10px}
 #stage{position:absolute;inset:0;z-index:5;pointer-events:none}
 #petWrap,#eggWrap{position:absolute;left:50%;pointer-events:auto;touch-action:none;transform-origin:50% 100%}
 #petWrap{width:var(--petW,380px);aspect-ratio:1;cursor:grab}
+#hugHand{position:absolute;left:50%;top:62%;font-size:calc(var(--petW,380px)*.2);line-height:1;pointer-events:none;
+  filter:drop-shadow(0 0 6px #fff) drop-shadow(0 4px 10px rgba(43,13,92,.35));animation:hugSwipe 1.8s ease-in-out infinite}
+@keyframes hugSwipe{0%,100%{transform:translate(-120%,-50%) rotate(-14deg)}50%{transform:translate(20%,-30%) rotate(10deg)}}
 #pet{position:absolute;inset:0;transform-origin:50% 96%;animation:breathe 3.2s ease-in-out infinite}
 #pet img,#pet svg{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}
 @keyframes breathe{50%{transform:scale(1.03,.97)}}
@@ -298,6 +301,7 @@ header{display:flex;align-items:center;gap:10px}
       <div id="pet"></div>
       <div id="dirt"></div>
       <div id="zzz" hidden><span>z</span><span>z</span><span>z</span></div>
+      <div id="hugHand" hidden aria-hidden="true">👆</div>
     </div>
   </div>
 
@@ -380,7 +384,7 @@ const GROUND = { x:.5, y:.70 };
 const ICON = n => 'assets/icons/' + n + '.webp';
 const STATS = [
   {k:'tummy', icon:'tummy', em:'🍓', label:'Tummy', need:"My tummy's rumbling!"},
-  {k:'happy', icon:'happy', em:'💜', label:'Happy', need:'Can I have a cuddle?'},
+  {k:'happy', icon:'happy', em:'💜', label:'Happy', need:'Hug me! Stroke my fluff!'},
   {k:'energy',icon:'energy',em:'⚡', label:'Energy', need:"I'm so sleepy…"},
   {k:'clean', icon:'sponge', em:'🫧', label:'Clean', need:"I'm a bit grubby!"},
   {k:'fun',   icon:'fun',   em:'🎈', label:'Fun', need:"Let's play a game!"}
@@ -722,7 +726,7 @@ function toggleSleep(){
 
 /* stroking */
 let stroke = null;
-function petDown(e){ if(S.phase !== 'pet' || drag) return; unlockAudio(); stroke = { id:e.pointerId, x:e.clientX, y:e.clientY, acc:0, total:0 }; $('petWrap').setPointerCapture(e.pointerId); }
+function petDown(e){ if(S.phase !== 'pet' || drag) return; unlockAudio(); stroke = { id:e.pointerId, x:e.clientX, y:e.clientY, acc:0, total:0 }; $('hugHand').hidden = true;$('petWrap').setPointerCapture(e.pointerId); }
 function petMove(e){
   if(!stroke || e.pointerId !== stroke.id) return;
   const d = Math.hypot(e.clientX - stroke.x, e.clientY - stroke.y); stroke.x = e.clientX; stroke.y = e.clientY; stroke.acc += d; stroke.total += d;
@@ -840,6 +844,9 @@ function render(force){
     $('petWrap').classList.toggle('glowing', due && evolveCared());
     if(due && evolveCared()) hint('Something is happening! Tap him!');
     else if(due) hint('He wants to grow! Feed him and give him cuddles');
+    const wantsHug = !due && !P.asleep && !G && !eating && P.happy < 50;
+    if(wantsHug) hint('Big Busy wants a hug! Stroke his fluff');
+    $('hugHand').hidden = !wantsHug || !!stroke;
     if(due && !P.evolveToldAt){ P.evolveToldAt = S.simNow; play('sparkle', .7); }
     $('petWrap').style.transform = `translateX(-50%) scale(${st.s})`;
     $('app').classList.toggle('sleeping', P.asleep); $('zzz').hidden = !P.asleep;
@@ -862,7 +869,8 @@ function showDone(){
 
 setInterval(() => {
   if(S.phase !== 'pet' || S.pet.asleep || eating || G) return;
-  const need = STATS.filter(s => S.pet[s.k] < 30).sort((a,b) => S.pet[a.k] - S.pet[b.k])[0];
+  const need = STATS.filter(s => S.pet[s.k] < 30).sort((a,b) => S.pet[a.k] - S.pet[b.k])[0]
+    || (S.pet.happy < 50 ? STATS.find(s => s.k === 'happy') : null);
   if(need) sayNeed(need); else if(Math.random() < .35) hopPet();
 }, 25000);
 

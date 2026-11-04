@@ -113,9 +113,15 @@ header{display:flex;align-items:center;gap:10px}
 #stage{position:absolute;inset:0;z-index:5;pointer-events:none}
 #petWrap,#eggWrap{position:absolute;left:50%;pointer-events:auto;touch-action:none;transform-origin:50% 100%}
 #petWrap{width:var(--petW,380px);aspect-ratio:1;cursor:grab}
-#hugHand{position:absolute;left:50%;top:62%;font-size:calc(var(--petW,380px)*.2);line-height:1;pointer-events:none;
-  filter:drop-shadow(0 0 6px #fff) drop-shadow(0 4px 10px rgba(43,13,92,.35));animation:hugSwipe 1.8s ease-in-out infinite}
-@keyframes hugSwipe{0%,100%{transform:translate(-120%,-50%) rotate(-14deg)}50%{transform:translate(20%,-30%) rotate(10deg)}}
+#hugHand{position:absolute;left:50%;top:60%;font-size:calc(var(--petW,380px)*.2);line-height:1;pointer-events:none;
+  filter:drop-shadow(0 0 6px #fff) drop-shadow(0 4px 10px rgba(43,13,92,.35));animation:hugPress 1.6s ease-in-out infinite}
+@keyframes hugPress{0%,100%{transform:translate(-50%,-70%) scale(1)}35%,65%{transform:translate(-50%,-45%) scale(.82)}}
+#hugRing{position:absolute;left:8%;top:10%;width:84%;height:84%;pointer-events:none;transform:rotate(-90deg);overflow:visible}
+#hugRing circle{fill:none;stroke-width:5}
+#hugRing .track{stroke:rgba(255,255,255,.7)}
+#hugRing .fill{stroke:#ff2f9a;stroke-linecap:round;stroke-dasharray:289;stroke-dashoffset:289;filter:drop-shadow(0 0 4px #fff)}
+#pet.squeeze{animation:squeeze .6s ease-out}
+@keyframes squeeze{30%{transform:scale(1.12,.86)}60%{transform:scale(.95,1.06)}100%{transform:scale(1,1)}}
 #pet{position:absolute;inset:0;transform-origin:50% 96%;animation:breathe 3.2s ease-in-out infinite}
 #pet img,#pet svg{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;
   rotate:var(--leanR,0deg);translate:var(--leanX,0px) 0;transition:rotate .45s cubic-bezier(.3,1.4,.5,1),translate .45s cubic-bezier(.3,1.4,.5,1)}
@@ -304,6 +310,7 @@ header{display:flex;align-items:center;gap:10px}
       <div id="dirt"></div>
       <div id="zzz" hidden><span>z</span><span>z</span><span>z</span></div>
       <div id="hugHand" hidden aria-hidden="true">👆</div>
+      <svg id="hugRing" hidden viewBox="0 0 100 100" aria-hidden="true"><circle class="track" cx="50" cy="50" r="46"/><circle class="fill" cx="50" cy="50" r="46"/></svg>
     </div>
   </div>
 
@@ -386,15 +393,15 @@ const GROUND = { x:.5, y:.70 };
 const ICON = n => 'assets/icons/' + n + '.webp';
 const STATS = [
   {k:'tummy', icon:'tummy', em:'🍓', label:'Tummy', need:"My tummy's rumbling!"},
-  {k:'happy', icon:'happy', em:'💜', label:'Happy', need:'Hug me! Stroke my fluff!'},
+  {k:'happy', icon:'happy', em:'💜', label:'Happy', need:'Hug me! Press and hold me!'},
   {k:'energy',icon:'energy',em:'⚡', label:'Energy', need:"I'm so sleepy…"},
   {k:'clean', icon:'sponge', em:'🫧', label:'Clean', need:"I'm a bit grubby!"},
   {k:'fun',   icon:'fun',   em:'🎈', label:'Fun', need:"Let's play a game!"}
 ];
 const FOODS = {
-  berries:{em:'🫐', name:'Berries', tummy:26, happy:8, fav:true},
-  apple:{em:'🍎', name:'Apple', tummy:20, happy:3},
-  cupcake:{em:'🧁', name:'Cupcake', tummy:22, happy:6, fun:4, clean:-6},
+  berries:{em:'🫐', name:'Berries', tummy:26, happy:4, fav:true},
+  apple:{em:'🍎', name:'Apple', tummy:20},
+  cupcake:{em:'🧁', name:'Cupcake', tummy:22, happy:2, fun:4, clean:-6},
   broccoli:{em:'🥦', name:'Broccoli', tummy:0, yuck:true}
 };
 const MEALS = [ {n:'Breakfast',a:7,b:9}, {n:'Lunch',a:12,b:13.5}, {n:'Teatime',a:16.5,b:18.5} ];
@@ -670,7 +677,7 @@ function flashOut(cb){ const f = $('flash'); f.classList.add('on'); setTimeout((
 
 /* ---------- pet ---------- */
 function moodNow(){ const P = S.pet; if(!P) return 'idle'; if(P.asleep) return 'sleep'; return STATS.some(s => P[s.k] < 25) ? 'sad' : 'idle'; }
-function petAnim(cls){ const p = $('pet'); p.classList.remove('hop','munch','nope','wobble'); void p.offsetWidth; p.classList.add(cls); clearTimeout(petAnim.t); petAnim.t = setTimeout(() => p.classList.remove(cls), 1400); }
+function petAnim(cls){ const p = $('pet'); p.classList.remove('hop','munch','nope','wobble','squeeze'); void p.offsetWidth; p.classList.add(cls); clearTimeout(petAnim.t); petAnim.t = setTimeout(() => p.classList.remove(cls), 1400); }
 function hopPet(){ petAnim('hop'); }
 let eating = false;
 function feed(k, x, y){
@@ -705,7 +712,7 @@ function crumbs(){
     document.body.appendChild(c); setTimeout(() => c.remove(), 950); }
 }
 function scrub(x, y){
-  const P = S.pet, was = P.clean; P.clean = clamp(P.clean + 4); P.happy = clamp(P.happy + .4);
+  const P = S.pet, was = P.clean; P.clean = clamp(P.clean + 4);
   for(let i=0;i<2;i++){ const b = document.createElement('i'); b.className = 'bub'; const s = 16 + Math.random()*26;
     b.style.width = b.style.height = s + 'px'; b.style.left = (x - s/2 + (Math.random()-.5)*40) + 'px'; b.style.top = (y - s/2) + 'px';
     b.style.setProperty('--dx', ((Math.random()-.5)*90) + 'px'); document.body.appendChild(b); setTimeout(() => b.remove(), 1250); }
@@ -726,15 +733,41 @@ function toggleSleep(){
   save(); render();
 }
 
+/* hugging: press and hold still on him; each hug in a row gives less */
+const HUG = { delayMs:200, holdMs:1300, gains:[25, 15, 8], windowMs:30*MIN };
+function hugsRecent(){ const P = S.pet; P.hugs = (P.hugs || []).filter(t => S.simNow - t < HUG.windowMs); return P.hugs.length; }
+function cuddledOut(){ return !!S.pet && hugsRecent() >= HUG.gains.length; }
+function hugRing(p){ const r = $('hugRing'); if(p <= 0){ r.hidden = true; return; } r.hidden = false; r.querySelector('.fill').style.strokeDashoffset = ((1 - p) * 289).toFixed(1); }
+function holdTick(){
+  const s = stroke; if(!s || s.hugged) return;
+  if(Math.hypot(s.x - s.sx, s.y - s.sy) > 18){ hugRing(0); return; }   // moved away = a stroke, not a hug (small finger wobble is fine)
+  const p = (performance.now() - s.t0 - HUG.delayMs) / HUG.holdMs; hugRing(cuddledOut() ? 0 : Math.min(1, p));
+  if(p >= 1){ s.hugged = true; hugRing(0); hug(); return; }
+  setTimeout(holdTick, 16);
+}
+function hug(){
+  const P = S.pet;
+  if(cuddledOut()){ petAnim('nope'); say("I'm all cuddled out, let's play!"); return; }
+  P.happy = clamp(P.happy + HUG.gains[hugsRecent()]); P.hugs.push(S.simNow); S.pets++;
+  petAnim('squeeze'); play('coo', .8); setTimeout(() => play('giggle', .6), 350);
+  const r = targetRect(); for(let i = 0; i < 6; i++) setTimeout(() => fx(ICON('happy'), '💜', r), i * 80);
+  say(['Aww, I love hugs!','Squeeeze!','Mmm, so cosy!'][Math.floor(Math.random()*3)]);
+  bump('happy'); save(); render();
+}
+
 /* stroking */
 let stroke = null;
-function petDown(e){ if(S.phase !== 'pet' || drag) return; unlockAudio(); stroke = { id:e.pointerId, x:e.clientX, y:e.clientY, acc:0, total:0 }; $('hugHand').hidden = true;$('petWrap').setPointerCapture(e.pointerId); }
+function petDown(e){ if(S.phase !== 'pet' || drag) return; unlockAudio(); stroke = { id:e.pointerId, x:e.clientX, y:e.clientY, acc:0, total:0, t0:performance.now(), sx:e.clientX, sy:e.clientY }; $('hugHand').hidden = true;
+  if(!S.pet.asleep) setTimeout(holdTick, 16);$('petWrap').setPointerCapture(e.pointerId); }
 function petMove(e){
   if(!stroke || e.pointerId !== stroke.id) return;
   const d = Math.hypot(e.clientX - stroke.x, e.clientY - stroke.y); stroke.x = e.clientX; stroke.y = e.clientY; stroke.acc += d; stroke.total += d;
+  if(Math.hypot(stroke.x - stroke.sx, stroke.y - stroke.sy) > 18) hugRing(0);
   if(stroke.acc > 70){
-    stroke.acc = 0; const P = S.pet; if(P.asleep) say('Zzz… happy snore');
-    P.happy = clamp(P.happy + 3); S.pets++;
+    stroke.acc = 0; const P = S.pet;
+    if(cuddledOut()){ if(!stroke.told){ stroke.told = true; say("I'm all cuddled out, let's play!"); } return; }
+    if(P.asleep) say('Zzz… happy snore');
+    P.happy = clamp(P.happy + 1); S.pets++;
     const h = document.createElement('div'); h.className = 'fx'; h.appendChild(pic(ICON('happy'), '💜'));
     h.style.left = e.clientX + 'px'; h.style.top = e.clientY + 'px'; h.style.setProperty('--dx', ((Math.random()-.5)*60)+'px');
     document.body.appendChild(h); setTimeout(() => h.remove(), 1300);
@@ -743,13 +776,15 @@ function petMove(e){
 }
 function petUp(e){
   if(!stroke || e.pointerId !== stroke.id) return;
-  const short = stroke.total < 12; stroke = null;
-  if(short && S.pet){
+  const short = stroke.total < 12 || Math.hypot(stroke.x - stroke.sx, stroke.y - stroke.sy) < 18, quick = performance.now() - stroke.t0 < 350, hugged = stroke.hugged;
+  stroke = null; hugRing(0);
+  if(hugged){ save(); return; }
+  if(short && S.pet && (quick || S.pet.asleep)){
     if(S.pet.asleep){ toggleSleep(); return; }
     if(evolveDue() && evolveCared()){ evolve(); return; }
     hopPet(); play('boing', .5, 600);
     const need = STATS.find(s => S.pet[s.k] < 35);
-    if(need) sayNeed(need); else say(S.pet.form === 'busy' ? ['Hee hee!','Hello!','Wheee!','Stroke my fluff!'][Math.floor(Math.random()*4)] : S.pet.form === 'fuzz' ? FUZZ[Math.floor(Math.random()*FUZZ.length)] : BABY[Math.floor(Math.random()*BABY.length)]);
+    if(need) sayNeed(need); else say(S.pet.form === 'busy' ? ['Hee hee!','Hello!','Wheee!','Hold me for a hug!'][Math.floor(Math.random()*4)] : S.pet.form === 'fuzz' ? FUZZ[Math.floor(Math.random()*FUZZ.length)] : BABY[Math.floor(Math.random()*BABY.length)]);
   }
   save();
 }
@@ -792,7 +827,7 @@ function spawnBubble(){
 }
 function endGame(){
   const P = S.pet, sc = G.score; G = null; $('game').hidden = true;
-  P.fun = clamp(P.fun + 12 + sc*2.5); P.energy = clamp(P.energy - 6); P.happy = clamp(P.happy + 6); S.plays++;
+  P.fun = clamp(P.fun + 12 + sc*2.5); P.energy = clamp(P.energy - 6); P.happy = clamp(P.happy + 3); S.plays++;
   bump('fun'); hopPet(); play('giggle', .7); if(sc >= 15) confetti();
   say(sc >= 15 ? `WOW! ${sc} bubbles!` : `${sc} bubbles! That was fun!`); save(); render();
 }
@@ -846,8 +881,8 @@ function render(force){
     $('petWrap').classList.toggle('glowing', due && evolveCared());
     if(due && evolveCared()) hint('Something is happening! Tap him!');
     else if(due) hint('He wants to grow! Feed him and give him cuddles');
-    const wantsHug = !due && !P.asleep && !G && !eating && P.happy < 50;
-    if(wantsHug) hint('Big Busy wants a hug! Stroke his fluff');
+    const wantsHug = !due && !P.asleep && !G && !eating && P.happy < 50 && !cuddledOut();
+    if(wantsHug) hint('Big Busy wants a hug! Press and hold him');
     $('hugHand').hidden = !wantsHug || !!stroke;
     if(due && !P.evolveToldAt){ P.evolveToldAt = S.simNow; play('sparkle', .7); }
     $('petWrap').style.transform = `translateX(-50%) scale(${st.s})`;

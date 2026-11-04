@@ -1,7 +1,7 @@
 // Offline helper for Big Busy.
 // Saves the whole game on the device the first time it's opened, so it works with no internet.
 // When you change the game: bump VERSION so devices pick up the new files straight away.
-const VERSION = 'bigbusy-2026-11-04c';
+const VERSION = 'bigbusy-2026-11-04d';
 const FONT_CACHE = 'bigbusy-fonts';
 
 const FILES = [

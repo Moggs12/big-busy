@@ -271,6 +271,27 @@ header{display:flex;align-items:center;gap:10px}
 .gb.gold{background:radial-gradient(circle at 30% 28%,#fff 0 9%,#ffe36b 35%,#ffb300 80%);border-color:#fff6cf}
 .gb.pop{animation:pop .25s ease-out forwards}
 @keyframes pop{to{transform:var(--t) scale(1.7);opacity:0}}
+.gb.rainbow{background:radial-gradient(circle at 30% 28%,#fff 0 10%,transparent 32%),conic-gradient(from 0deg,#ff4f8b,#ffcf3a,#3fd85a,#14c8f5,#8a3ffc,#ff4f8b);
+  border-color:#fff;animation:rainbowSpin 2.4s linear infinite;box-shadow:0 0 18px rgba(255,255,255,.9),0 6px 14px rgba(43,13,92,.2)}
+@keyframes rainbowSpin{to{filter:hue-rotate(360deg)}}
+.gb.grumpy{background:radial-gradient(circle at 30% 28%,#fff 0 8%,#c9ccd6 34%,#8d92a3 85%);border-color:#eef0f5}
+.gb.grumpy::before{content:"";position:absolute;left:28%;top:36%;width:44%;height:12%;
+  background:radial-gradient(circle,#3b3f4c 0 45%,transparent 50%) left/28% 100% no-repeat,radial-gradient(circle,#3b3f4c 0 45%,transparent 50%) right/28% 100% no-repeat}
+.gb.grumpy::after{content:"";position:absolute;left:32%;top:60%;width:36%;height:18%;border:4px solid #3b3f4c;border-bottom:0;border-radius:50% 50% 0 0}
+.gb.berry img{position:absolute;left:18%;top:18%;width:64%;height:64%;object-fit:contain;pointer-events:none}
+.gb.berry{background:radial-gradient(circle at 30% 28%,#fff 0 9%,rgba(200,170,255,.5) 40%,rgba(138,63,252,.35) 85%)}
+.plus.bad{color:#eef0f5;text-shadow:0 3px 0 #5c6070}
+.plus.yum{font-size:22px;text-shadow:0 3px 0 #c0146f}
+.combo{position:absolute;z-index:4;left:50%;top:22%;transform:translate(-50%,-50%);font-family:var(--font-display);font-weight:800;font-size:64px;color:#fff;
+  text-shadow:0 4px 0 var(--magenta),0 0 24px rgba(255,255,255,.8);pointer-events:none;animation:comboPop .7s ease-out forwards}
+@keyframes comboPop{0%{transform:translate(-50%,-50%) scale(.4);opacity:0}25%{transform:translate(-50%,-50%) scale(1.15);opacity:1}100%{transform:translate(-50%,-80%) scale(1);opacity:0}}
+#game .hud .pill.best{font-size:20px;margin-left:auto}
+#game .hud .pill.best:empty{display:none}
+#game .cheer.in{animation:cheerIn .7s cubic-bezier(.3,1.5,.5,1),heroBob 1.2s ease-in-out .7s infinite}
+@keyframes cheerIn{from{transform:translateX(120%) rotate(20deg)}}
+#game .cheer.puff img{animation:puff .5s ease-out}
+@keyframes puff{35%{transform:scale(1.12,.88) rotate(-6deg)}70%{transform:scale(.95,1.06)}}
+.bestBadge{position:absolute;top:0;right:4px;padding:1px 7px;border-radius:999px;background:var(--sun);color:var(--ink);font-family:var(--font-display);font-weight:800;font-size:13px;line-height:20px;box-shadow:0 2px 0 #c99a00,0 0 0 2px #fff}
 .plus{position:absolute;z-index:4;font-family:var(--font-display);font-weight:800;font-size:30px;color:#fff;text-shadow:0 3px 0 var(--busy-lo);pointer-events:none;animation:floatUp 1s ease-out forwards}
 
 @media (prefers-reduced-motion:reduce){
@@ -377,7 +398,7 @@ header{display:flex;align-items:center;gap:10px}
 
 <div id="game" hidden>
   <div class="gbg"><img alt="" src="assets/art/garden_day.webp"></div>
-  <div class="hud"><span class="pill glass" id="gScore">0</span><span class="pill glass" id="gTime">20</span></div>
+  <div class="hud"><span class="pill glass" id="gScore">0</span><span class="pill glass best" id="gBest"></span><span class="pill glass" id="gTime">25</span></div>
   <div class="cheer"><img alt="" src="assets/Sprites/busy_munch.webp"></div>
 </div>
 
@@ -455,9 +476,9 @@ function tick(ms){
 const SFX = {};
 ['squeak','coo','boing','squish','giggle','flutter','poof','splash','shimmer','sparkle'].forEach(n => { const a = new Audio('assets/sounds/' + n + '.mp3'); a.preload = 'auto'; SFX[n] = a; });
 const lastPlay = {};
-function play(n, vol = .8, gap = 0){
+function play(n, vol = .8, gap = 0, rate = 1){
   if(!S.sound) return; const t = performance.now(); if(gap && lastPlay[n] && t - lastPlay[n] < gap) return; lastPlay[n] = t;
-  try{ const a = SFX[n].cloneNode(); a.volume = vol; a.play().catch(()=>{}); }catch(e){}
+  try{ const a = SFX[n].cloneNode(); a.volume = vol; if(rate !== 1){ a.preservesPitch = false; a.webkitPreservesPitch = false; a.playbackRate = rate; } a.play().catch(()=>{}); }catch(e){}
 }
 
 /* ---------- images with fallbacks ---------- */
@@ -592,7 +613,8 @@ function buildDock(){
   const s = document.createElement('div'); s.className = 'sep'; t.appendChild(s);
   t.appendChild(mkItem('sponge', 'sponge', '🧽', 'Bath'));
   t.appendChild(mkItem('moon', 'moon', '🌙', 'Bedtime'));
-  t.appendChild(mkItem('play', 'wand', '🫧', 'Play', S.pet && S.pet.form === 'fluff' ? 'locked' : ''));
+  const pl = mkItem('play', 'wand', '🫧', 'Play', S.pet && S.pet.form === 'fluff' ? 'locked' : ''); t.appendChild(pl);
+  if(S.best){ const bd = document.createElement('span'); bd.className = 'bestBadge'; bd.textContent = '★' + S.best; pl.querySelector('.tile').appendChild(bd); }
 }
 function mkItem(kind, icon, em, label, cls){
   const b = document.createElement('button'); b.className = 'item ' + (cls || ''); b.dataset.kind = kind; b.dataset.icon = icon; b.dataset.em = em;
@@ -791,45 +813,110 @@ function petUp(e){
 
 /* ---------- bubble pop ---------- */
 let G = null;
+// Bubble types: points, chance comes from the level. Grumpy costs a point; berry feeds him a little.
+const BUBBLES = {
+  plain:  { pts:1,  snd:'splash',  vol:.45 },
+  gold:   { pts:3,  snd:'sparkle', vol:.5 },
+  rainbow:{ pts:5,  snd:'shimmer', vol:.6 },
+  grumpy: { pts:-1, snd:'squeak',  vol:.6, rate:.7 },
+  berry:  { pts:1,  snd:'squish',  vol:.6, tummy:5 },
+};
+const GAME_MS = 25000, COMBO_MS = 900;
+// Level by look: Fuzzling gets big slow bubbles; Big Busy gets faster, smaller ones and more specials as the days go on.
+function gameLevel(){
+  const st = stageInfo();
+  if(S.pet.form === 'fuzz') return { size:[110,160], speed:[1.0,2.0], gap:[650,950], gold:.10, rainbow:.03, grumpy:.05, berry:.06 };
+  const d = Math.max(0, Math.min(1, (st.ageDays - 2) / 4));          // 0 on day 3 -> 1 by day 7
+  return { size:[70 - d*12, 140 - d*40], speed:[1.6 + d*.8, 3.4 + d*1.2], gap:[480 - d*120, 840 - d*200],
+           gold:.12, rainbow:.04 + d*.03, grumpy:.08 + d*.07, berry:.05 };
+}
+const rnd = (a, b) => a + Math.random()*(b - a);
 function startGame(){
   const P = S.pet; if(!P) return; unlockAudio();
   if(P.asleep){ say("Zzz… he's asleep"); return; }
   if(P.form === 'fluff'){ say("He's too little to play. Tomorrow!", ICON('wand')); return; }
   if(P.energy < 12){ say("I'm too tired to play"); return; }
-  const g = $('game'); g.hidden = false; g.querySelectorAll('.gb,.plus').forEach(b => b.remove());
-  G = { score:0, end:performance.now() + 20000, spawn:0 }; setScore(); play('giggle', .7);
+  const g = $('game'); g.hidden = false; g.querySelectorAll('.gb,.plus,.combo').forEach(b => b.remove());
+  const ch = g.querySelector('.cheer'); ch.querySelector('img').src = 'assets/Sprites/' + (P.form === 'busy' ? 'busy_munch' : form().files.idle) + '.webp';
+  ch.classList.remove('in'); void ch.offsetWidth; ch.classList.add('in');
+  $('gBest').textContent = S.best ? 'Best ' + S.best : '';
+  const now = performance.now();
+  G = { score:0, end:now + GAME_MS, spawn:0, lvl:gameLevel(), combo:0, lastPop:0, fed:0, puff:now + 2500 };
+  setScore(); play('giggle', .7);
   requestAnimationFrame(gameLoop);
 }
 function setScore(){ const s = $('gScore'); s.innerHTML = ''; s.appendChild(pic(ICON('clean'), '🫧')); s.append(' ' + G.score); }
 function gameLoop(t){
   if(!G) return;
   $('gTime').textContent = Math.max(0, Math.ceil((G.end - t)/1000)) + 's';
-  if(t > G.spawn){ G.spawn = t + 480 + Math.random()*360; spawnBubble(); }
+  if(t > G.spawn){ G.spawn = t + rnd(G.lvl.gap[0], G.lvl.gap[1]); spawnBubble(); }
+  if(t > G.puff){ G.puff = t + rnd(3000, 4500); busyPuff(); }
   $('game').querySelectorAll('.gb:not(.pop)').forEach(b => {
     const y = parseFloat(b.dataset.y) - parseFloat(b.dataset.v); b.dataset.y = y;
-    const x = parseFloat(b.dataset.x) + Math.sin(t/600 + parseFloat(b.dataset.p))*.7; b.dataset.x = x;
-    b.style.transform = `translate(${x}px,${y}px)`; if(y < -160) b.remove();
+    const x = parseFloat(b.dataset.x) + Math.sin(t/600 + parseFloat(b.dataset.p))*.7 + parseFloat(b.dataset.vx || 0); b.dataset.x = x;
+    b.style.transform = `translate(${x}px,${y}px)`; if(y < -180) b.remove();
   });
   if(t >= G.end) return endGame();
   requestAnimationFrame(gameLoop);
 }
-function spawnBubble(){
-  const g = $('game'), gold = Math.random() < .12, s = gold ? 70 : 70 + Math.random()*70, b = document.createElement('div');
-  b.className = 'gb' + (gold ? ' gold' : ''); b.style.width = b.style.height = s + 'px'; b.style.left = '0'; b.style.top = '0';
-  b.dataset.x = Math.random()*(innerWidth - s); b.dataset.y = innerHeight + 10; b.dataset.v = (gold ? 3.2 : 1.6) + Math.random()*1.8; b.dataset.p = Math.random()*6;
-  b.addEventListener('pointerdown', e => {
-    e.preventDefault(); if(b.classList.contains('pop')) return;
-    b.style.setProperty('--t', b.style.transform); b.classList.add('pop'); const pts = gold ? 3 : 1; G.score += pts; setScore(); play(gold ? 'sparkle' : 'splash', .45);
-    const p = document.createElement('div'); p.className = 'plus'; p.textContent = '+' + pts; p.style.left = e.clientX + 'px'; p.style.top = e.clientY + 'px'; g.appendChild(p); setTimeout(() => p.remove(), 1000);
-    setTimeout(() => b.remove(), 260);
-  });
+function pickKind(){
+  const L = G.lvl, r = Math.random();
+  if(r < L.rainbow) return 'rainbow';
+  if(r < L.rainbow + L.gold) return 'gold';
+  if(r < L.rainbow + L.gold + L.grumpy) return 'grumpy';
+  if(r < L.rainbow + L.gold + L.grumpy + L.berry) return 'berry';
+  return 'plain';
+}
+function spawnBubble(kind, at){
+  const g = $('game'); kind = kind || pickKind();
+  const L = G.lvl, s = kind === 'plain' ? rnd(L.size[0], L.size[1]) : Math.max(84, L.size[0] + 14);
+  const b = document.createElement('div'); b.className = 'gb ' + kind; b.style.width = b.style.height = s + 'px'; b.style.left = '0'; b.style.top = '0';
+  if(kind === 'berry') b.appendChild(pic(ICON('berries'), '🫐'));
+  b.dataset.x = at ? at.x - s/2 : Math.random()*(innerWidth - s); b.dataset.y = at ? at.y - s/2 : innerHeight + 10;
+  b.dataset.v = rnd(L.speed[0], L.speed[1]) * (kind === 'gold' || kind === 'rainbow' ? 1.6 : 1); b.dataset.p = Math.random()*6;
+  if(at) b.dataset.vx = -rnd(.6, 1.4);
+  b.addEventListener('pointerdown', e => { e.preventDefault(); popBubble(b, kind, e.clientX, e.clientY); });
   g.appendChild(b);
 }
+function popBubble(b, kind, x, y){
+  if(!G || b.classList.contains('pop')) return;
+  b.style.setProperty('--t', b.style.transform); b.classList.add('pop'); setTimeout(() => b.remove(), 260);
+  const B = BUBBLES[kind], now = performance.now();
+  let pts = B.pts;
+  if(kind === 'grumpy'){ G.combo = 0; }
+  else { G.combo = now - G.lastPop < COMBO_MS ? G.combo + 1 : 1; G.lastPop = now; if(G.combo >= 5) pts += 1; }
+  if(B.tummy){ S.pet.tummy = clamp(S.pet.tummy + B.tummy); G.fed += B.tummy; }
+  G.score = Math.max(0, G.score + pts); setScore();
+  play(B.snd, B.vol, 0, kind === 'grumpy' ? B.rate : 1 + Math.min(G.combo, 10) * .06);
+  floatText(pts > 0 ? '+' + pts : String(pts), x, y, kind === 'grumpy' ? 'bad' : '');
+  if(kind === 'berry') floatText('Yum!', x, y - 40, 'yum');
+  if(G.combo >= 3 && kind !== 'grumpy') showCombo(G.combo);
+}
+function floatText(t, x, y, cls){
+  const p = document.createElement('div'); p.className = 'plus ' + (cls || ''); p.textContent = t; p.style.left = x + 'px'; p.style.top = y + 'px';
+  $('game').appendChild(p); setTimeout(() => p.remove(), 1000);
+}
+function showCombo(n){
+  const g = $('game'); g.querySelectorAll('.combo').forEach(c => c.remove());
+  const c = document.createElement('div'); c.className = 'combo'; c.textContent = 'x' + n + '!'; g.appendChild(c); setTimeout(() => c.remove(), 700);
+}
+// Big Busy (or Fuzzling) in the corner puffs out a bubble now and then.
+function busyPuff(){
+  const ch = $('game').querySelector('.cheer'); const r = ch.getBoundingClientRect();
+  ch.classList.remove('puff'); void ch.offsetWidth; ch.classList.add('puff');
+  setTimeout(() => { if(G) spawnBubble(Math.random() < .3 ? 'gold' : 'plain', { x:r.left + r.width*.3, y:r.top + r.height*.35 }); play('poof', .35); }, 250);
+}
+function gameStars(sc){ return sc >= 30 ? 3 : sc >= 20 ? 2 : sc >= 10 ? 1 : 0; }
 function endGame(){
-  const P = S.pet, sc = G.score; G = null; $('game').hidden = true;
+  const P = S.pet, sc = G.score, fed = G.fed; G = null; $('game').hidden = true;
   P.fun = clamp(P.fun + 12 + sc*2.5); P.energy = clamp(P.energy - 6); P.happy = clamp(P.happy + 3); S.plays++;
-  bump('fun'); hopPet(); play('giggle', .7); if(sc >= 15) confetti();
-  say(sc >= 15 ? `WOW! ${sc} bubbles!` : `${sc} bubbles! That was fun!`); save(); render();
+  const stars = gameStars(sc), best = sc > (S.best || 0) && sc > 0;
+  S.stars += stars; if(best) S.best = sc;
+  bump('fun'); if(fed) bump('tummy'); hopPet(); play('giggle', .7);
+  if(best || sc >= 15) confetti();
+  if(best || stars) setTimeout(() => { toast([best ? 'New best!' : '', sc + ' points', stars ? '+' + stars + ' ★' : ''].filter(Boolean).join(' · '), ICON('star')); play('sparkle', .7); }, 500);
+  say(best ? `WOW! ${sc}! My best ever!` : sc >= 15 ? `WOW! ${sc} points!` : `${sc} points! That was fun!`);
+  save(); render(); buildDock();
 }
 
 function sayNeed(need){ if(S.pet.form === 'busy') say(need.need); else say(' ?', ICON(need.icon)); }

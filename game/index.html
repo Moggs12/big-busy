@@ -94,7 +94,8 @@ header{display:flex;align-items:center;gap:10px}
 
 /* meters */
 #meters{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
-#meters.egg{grid-template-columns:repeat(2,minmax(0,1fr));max-width:640px}
+/* Egg: the two bars sit at the left and right edges so the middle (where the egg is) stays clear. */
+#meters.egg{grid-template-columns:repeat(2,minmax(0,min(300px,32vw)));justify-content:space-between}
 .meter{border-radius:22px;padding:10px 12px 12px 62px;min-width:0;min-height:64px;display:flex;flex-direction:column;justify-content:center;gap:6px}
 .meter .ic{position:absolute;left:6px;top:50%;width:54px;height:54px;transform:translateY(-50%);display:grid;place-items:center;font-size:34px;filter:drop-shadow(0 4px 4px rgba(43,13,92,.25))}
 .meter .ic img{width:100%;height:100%;object-fit:contain}
@@ -336,6 +337,21 @@ header{display:flex;align-items:center;gap:10px}
   .avatar{width:40px;height:40px}
 }
 @media (max-height:620px){ .meter .lab{display:none} .meter{min-height:52px} }
+/* Short, wide screens (phone or small window sideways): bars go down the two sides so the middle is free for him, and the toys shrink a little. */
+@media (orientation:landscape) and (max-height:520px){
+  .top{gap:6px}
+  #meters,#meters.egg{position:absolute;top:100%;left:max(16px,env(safe-area-inset-left,0px));right:max(16px,env(safe-area-inset-right,0px));margin-top:8px;
+    grid-template-columns:min(170px,22vw) 1fr min(170px,22vw);justify-content:stretch;gap:6px;max-width:none;pointer-events:none}
+  .meter{pointer-events:auto;min-height:40px;padding:6px 10px 6px 46px;border-radius:16px}
+  .meter .ic{width:36px;height:36px;font-size:24px;left:5px}
+  .meter .lab{display:none}
+  .tube{height:10px}
+  #m-tummy,#m-cosy{grid-area:1/1} #m-happy{grid-area:2/1} #m-energy{grid-area:3/1} #m-clean,#m-hatch{grid-area:1/3} #m-fun{grid-area:2/3}
+  #dock{padding-bottom:calc(6px + env(safe-area-inset-bottom,0px))}
+  .dock-in{padding:6px 10px;gap:6px;border-radius:26px}
+  .item{width:64px} .item .tile{width:50px;border-radius:16px} .item small{font-size:11px}
+  .item.lamp{width:96px} .item.lamp .tile{width:78px}
+}
 </style>
 
 <div id="app">

@@ -60,6 +60,14 @@ img{-webkit-user-drag:none}
 #bgNight{opacity:0}
 #app.sleeping #bgNight{opacity:1}
 #app.sleeping #bgDay{opacity:.0}
+#decor{position:absolute;inset:0;pointer-events:none;transition:filter 1.4s}
+#decor img{position:absolute;inset:auto;width:auto;height:auto;object-fit:fill;transform-origin:50% 100%;filter:drop-shadow(0 6px 8px rgba(30,60,20,.25))}
+#decor img.new{animation:decorIn .9s cubic-bezier(.3,1.6,.5,1)}
+@keyframes decorIn{0%{transform:scale(0) translateY(30px);opacity:0}60%{opacity:1}}
+#decor img.sky{filter:drop-shadow(0 0 18px rgba(255,255,255,.7));animation:floaty 5s ease-in-out infinite}
+#decor img.sky.new{animation:decorIn .9s cubic-bezier(.3,1.6,.5,1),floaty 5s ease-in-out .9s infinite}
+@keyframes floaty{50%{translate:0 -8px}}
+#app.sleeping #decor{filter:brightness(.68) saturate(.85) hue-rotate(-10deg)}
 #nightTint{position:absolute;inset:0;background:radial-gradient(120% 80% at 50% 10%,rgba(40,20,120,.0),rgba(20,8,70,.45));opacity:0;transition:opacity 1.4s;pointer-events:none}
 #app.sleeping #nightTint{opacity:1}
 #app.noNightArt.sleeping #nightTint{background:linear-gradient(180deg,rgba(22,10,80,.82),rgba(60,30,150,.55));}
@@ -247,6 +255,26 @@ header{display:flex;align-items:center;gap:10px}
 .seg{display:flex;background:rgba(43,13,92,.1);border-radius:999px;padding:5px;gap:4px}
 .seg button{flex:1;border:0;border-radius:999px;padding:10px 10px;background:transparent;font-weight:900;cursor:pointer;color:var(--ink-2);font-size:15px}
 .seg button[aria-pressed="true"]{background:#fff;color:var(--busy-lo);box-shadow:0 3px 8px rgba(43,13,92,.18)}
+/* star shop */
+#shopBtn{cursor:pointer;border:1.5px solid var(--glass-edge);font-family:var(--font-display);font-weight:800;font-size:20px;padding:7px 16px 7px 10px;color:var(--ink)}
+#shopBtn img{width:30px;height:30px}
+#shopBtn:active{transform:scale(.94)}
+#shopBtn.ping{animation:ping .7s cubic-bezier(.3,1.6,.5,1)}
+@keyframes ping{40%{transform:scale(1.18)}}
+#shopPanel .card{width:min(620px,100%);max-height:100%;overflow:auto}
+.shopHave{display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-display);font-weight:800;font-size:22px;color:var(--ink)}
+.shopHave img{width:32px;height:32px}
+.shopGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:12px}
+.shopItem{border-radius:26px;padding:12px 10px 12px;display:flex;flex-direction:column;align-items:center;gap:6px;background:rgba(255,255,255,.55);border:1.5px solid #fff;
+  box-shadow:0 6px 16px rgba(43,13,92,.12),inset 0 1.5px 0 #fff}
+.shopItem .pic{width:100%;height:96px;position:relative}
+.shopItem .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 4px 6px rgba(43,13,92,.2))}
+.shopItem b{font-family:var(--font-display);font-weight:800;font-size:18px;line-height:1.1}
+.shopItem .btn{font-size:17px;padding:9px 16px;display:flex;align-items:center;gap:6px}
+.shopItem .btn img{width:22px;height:22px}
+.shopItem .btn.off{background:linear-gradient(180deg,#e9e4f3,#cfc6e2);box-shadow:0 5px 0 #a99cc6;color:#6d5d94;text-shadow:none}
+.shopItem .owned{font-weight:900;color:#1d9a3a;font-size:16px;padding:9px 0}
+.shopItem .need{font-weight:900;font-size:13px;color:var(--ink-2)}
 .setrow{display:flex;flex-direction:column;gap:6px;text-align:left}
 .setrow label{font-weight:900;font-size:14px;color:var(--ink-2);padding-left:6px}
 
@@ -314,6 +342,7 @@ header{display:flex;align-items:center;gap:10px}
   <div class="scene">
     <img id="bgDay" alt="" src="assets/art/garden_day.webp">
     <img id="bgNight" alt="" src="assets/art/garden_night.webp">
+    <div id="decor"></div>
     <div id="nightTint"></div>
   </div>
 
@@ -343,6 +372,7 @@ header{display:flex;align-items:center;gap:10px}
       </div>
       <div class="spacer"></div>
       <div class="pill glass" id="mealPill"></div>
+      <button class="pill glass" id="shopBtn" aria-label="Star shop: decorate the garden" hidden></button>
       <button class="roundbtn glass" id="settingsBtn" aria-label="Grown-up settings">
         <svg viewBox="0 0 24 24" fill="none" stroke="#2b0d5c" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2.4"/><circle cx="10" cy="17" r="2.4"/></svg>
       </button>
@@ -383,6 +413,16 @@ header{display:flex;align-items:center;gap:10px}
       <p style="width:100%">Start again with a new egg? Big Busy's progress will be cleared.</p>
       <button class="btn pink small" id="resetYes">Yes, new egg</button>
     </div>
+  </div>
+</div>
+
+<div class="panel" id="shopPanel" hidden>
+  <div class="card glass">
+    <h2>Decorate the garden</h2>
+    <div class="shopHave" id="shopHave"></div>
+    <div class="shopGrid" id="shopGrid"></div>
+    <p style="font-size:14px">Earn stars by feeding Big Busy at meal times and playing Bubble Party.</p>
+    <div class="row"><button class="btn small" id="closeShop">Done</button></div>
   </div>
 </div>
 
@@ -553,6 +593,69 @@ function layout(){
   $('bubble').style.left = gx + 'px';
   $('hint').style.top = Math.min(dockTop - 52, gy + 10) + 'px';
   $('hint').style.left = gx + 'px';
+  layoutDecor(oy, dh, gy, top, dockTop);
+}
+/* ---------- garden decorations (bought with stars) ---------- */
+// x: centre as a fraction of the screen width; w: width as a fraction of the shorter screen side; spot: where it sits.
+const DECOR = [
+  { id:'flowers',  name:'Flower patch',   price:3,  x:.82, w:.17, ar:1.081, spot:'front', say:'Ooh, pretty flowers!' },
+  { id:'swing',    name:'Swing',          price:5,  x:.89, w:.20, ar:1.06,  spot:'back',  say:'A swing! Wheee!' },
+  { id:'pond',     name:'Duck pond',      price:6,  x:.19, w:.28, ar:1.508, spot:'front', say:'Quack quack! A duckling!' },
+  { id:'mushroom', name:'Mushroom house', price:8,  x:.11, w:.20, ar:.937,  spot:'back',  say:'A little house! Who lives there?' },
+  { id:'rainbow',  name:'Rainbow',        price:10, x:.80, w:.34, ar:1.571, spot:'sky',   say:'A RAINBOW! Best day ever!' },
+];
+function owned(id){ return (S.decor || []).includes(id); }
+function buildDecor(newId){
+  const box = $('decor'); box.innerHTML = '';
+  DECOR.forEach(D => { if(!owned(D.id)) return;
+    const i = new Image(); i.alt = ''; i.draggable = false; i.src = 'assets/decor/' + D.id + '.webp'; i.dataset.id = D.id;
+    if(D.spot === 'sky') i.classList.add('sky'); if(D.id === newId) i.classList.add('new');
+    i.onerror = () => i.remove(); box.appendChild(i); });
+}
+function layoutDecor(oy, dh, gy, top, dockTop){
+  const W = innerWidth, U = Math.min(W, innerHeight), horizon = oy + .47*dh;
+  $('decor').querySelectorAll('img').forEach(i => {
+    const D = DECOR.find(d => d.id === i.dataset.id); if(!D) return;
+    const w = D.w*U, h = w / D.ar;
+    const bottom = D.spot === 'sky' ? Math.min(horizon + 10, top + 20 + h)
+                 : D.spot === 'back' ? gy - .12*(gy - horizon)
+                 : dockTop + 4;
+    const cx = Math.max(w/2 + 6, Math.min(W - w/2 - 6, D.x*W));
+    Object.assign(i.style, { width:w + 'px', height:h + 'px', left:(cx - w/2) + 'px', top:(bottom - h) + 'px' });
+  });
+}
+function showShopBtn(){
+  const b = $('shopBtn'), n = S.stars || 0;
+  b.hidden = !(S.phase === 'pet' || n > 0 || (S.decor || []).length);
+  if(b.dataset.n !== String(n)){ const up = n > Number(b.dataset.n || n); b.dataset.n = n; b.innerHTML = ''; b.appendChild(pic(ICON('star'), '⭐')); b.append(String(n));
+    if(up){ b.classList.remove('ping'); void b.offsetWidth; b.classList.add('ping'); } }
+}
+function openShop(){
+  const n = S.stars || 0; $('shopHave').innerHTML = ''; $('shopHave').appendChild(pic(ICON('star'), '⭐')); $('shopHave').append(`You have ${n} star${n === 1 ? '' : 's'}`);
+  const g = $('shopGrid'); g.innerHTML = '';
+  DECOR.forEach(D => {
+    const c = document.createElement('div'); c.className = 'shopItem';
+    const p = document.createElement('div'); p.className = 'pic'; p.appendChild(pic('assets/decor/' + D.id + '.webp', '🌼', D.name)); c.appendChild(p);
+    const nm = document.createElement('b'); nm.textContent = D.name; c.appendChild(nm);
+    if(owned(D.id)){ c.insertAdjacentHTML('beforeend', '<div class="owned">In the garden ✓</div>'); }
+    else {
+      const can = n >= D.price, b = document.createElement('button'); b.className = 'btn' + (can ? '' : ' off');
+      b.appendChild(pic(ICON('star'), '⭐')); b.append(String(D.price)); b.setAttribute('aria-label', `Buy ${D.name} for ${D.price} stars`);
+      b.onclick = () => buyDecor(D); c.appendChild(b);
+      if(!can) c.insertAdjacentHTML('beforeend', `<div class="need">${D.price - n} more to go</div>`);
+    }
+    g.appendChild(c);
+  });
+  $('shopPanel').hidden = false; unlockAudio(); play('flutter', .5);
+}
+function buyDecor(D){
+  if(owned(D.id)) return;
+  if((S.stars || 0) < D.price){ play('squeak', .5, 0, .8); toast(`Collect ${D.price - (S.stars || 0)} more stars for the ${D.name.toLowerCase()}!`, ICON('star')); return; }
+  S.stars -= D.price; S.decor = (S.decor || []).concat(D.id); save();
+  $('shopPanel').hidden = true; buildDecor(D.id); layout(); showShopBtn();
+  play('poof', .6); setTimeout(() => { play('sparkle', .8); confetti(); }, 350);
+  setTimeout(() => say(D.say), 900);
+  toast(`${D.name} added to the garden!`, ICON('star'));
 }
 function stageInfo(){
   if(S.phase !== 'pet') return { n:'Egg', s:1, day:0 };
@@ -961,7 +1064,7 @@ function render(force){
   } else if(S.phase === 'pet'){
     const P = S.pet; $('hint').hidden = true;
     STATS.forEach(s => setMeter(s.k, P[s.k]));
-    $('sub').textContent = `${S.pet.form === 'busy' ? 'Grown-up' : st.n} · Day ${st.day} of ${T.lifeDays}${S.stars ? ' · ' + S.stars + '★' : ''}`;
+    $('sub').textContent = `${S.pet.form === 'busy' ? 'Grown-up' : st.n} · Day ${st.day} of ${T.lifeDays}`;
     const av = $('avatar').querySelector('img'), want = 'assets/Sprites/' + form().files.idle + '.webp';
     if(av && !av.src.endsWith(want)) av.src = want;
     const due = evolveDue() && !evolving;
@@ -978,13 +1081,14 @@ function render(force){
     if(!eating && !(drag && drag.over)) setMood(moodNow());
     if(st.ageDays >= T.lifeDays && $('donePanel').hidden) showDone();
   }
+  showShopBtn();
   const h = hourOf(d), m = MEALS.find(m => h >= m.a && h < m.b), mp = $('mealPill');
   mp.classList.toggle('hot', !!m && S.phase === 'pet');
   mp.textContent = m && S.phase === 'pet' ? `${m.n} time!` : d.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
 }
 function fmtDur(ms){ const m = Math.ceil(ms/MIN); if(m < 60) return m + ' min'; const h = Math.floor(m/60), r = m % 60; return h + ' hr' + (r ? ' ' + r + ' min' : ''); }
 function showDone(){
-  $('doneText').textContent = `You looked after him for a whole week: ${S.pets} strokes, ${S.plays} games and ${S.stars} meal stars. He's off to Fluff Village to live with Big Lizzy, and he'll always remember you.`;
+  $('doneText').textContent = `You looked after him for a whole week: ${S.pets} strokes and ${S.plays} games. He's off to Fluff Village to live with Big Lizzy, and he'll always remember you.`;
   $('doneHero').innerHTML = ''; $('doneHero').appendChild(pic('assets/Sprites/busy_idle.webp', '💜', 'Big Busy'));
   $('donePanel').hidden = false; play('shimmer', .8); confetti();
 }
@@ -1010,7 +1114,10 @@ $('settingsBtn').onclick = () => { syncs.forEach(f => f()); $('resetConfirm').hi
 $('closeSettings').onclick = () => $('settingsPanel').hidden = true;
 $('resetBtn').onclick = () => $('resetConfirm').hidden = false;
 $('resetYes').onclick = newEgg; $('newEggBtn').onclick = newEgg;
-function newEgg(){ const keep = { sound:S.sound, speed:S.speed, quiet:S.quiet }; S = Object.assign(fresh(), keep); save();
+$('shopBtn').onclick = openShop;
+$('closeShop').onclick = () => $('shopPanel').hidden = true;
+// The garden and any unspent stars stay when a new egg arrives.
+function newEgg(){ const keep = { sound:S.sound, speed:S.speed, quiet:S.quiet, stars:S.stars || 0, decor:S.decor || [] }; S = Object.assign(fresh(), keep); save();
   $('settingsPanel').hidden = true; $('donePanel').hidden = true; render(true); toast('A new purple egg! Keep it cosy.', ICON('lamp')); }
 
 /* ---------- boot ---------- */
@@ -1038,7 +1145,7 @@ else { const i = new Image(); i.alt = 'Purple egg'; i.src = 'assets/art/egg.webp
 $('startBtn').onclick = () => { unlockAudio(); $('startPanel').hidden = true; play('boing', .6); if(S.phase === 'pet') hopPet(); else wiggleEgg(); };
 
 const now = Date.now(), away = Math.min(now - S.last, 10*24*HOUR); if(away > 0) step(away); S.last = now;
-render(true);
+buildDecor(); render(true);
 addEventListener('resize', layout);
 if(document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
 

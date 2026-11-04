@@ -1,7 +1,7 @@
 // Offline helper for Big Busy.
 // Saves the whole game on the device the first time it's opened, so it works with no internet.
 // When you change the game: bump VERSION so devices pick up the new files straight away.
-const VERSION = 'bigbusy-2026-11-04e';
+const VERSION = 'bigbusy-2026-11-04f';
 const FONT_CACHE = 'bigbusy-fonts';
 
 const FILES = [
@@ -12,6 +12,7 @@ const FILES = [
   'assets/Sprites/fluff_idle.webp', 'assets/Sprites/fluff_sleep.webp', 'assets/Sprites/fuzz_idle.webp', 'assets/Sprites/fuzz_sleep.webp',
   ...['apple', 'berries', 'broccoli', 'clean', 'cupcake', 'energy', 'fun', 'happy', 'lamp', 'moon', 'sponge', 'star', 'tummy', 'wand']
     .map(n => 'assets/icons/' + n + '.webp'),
+  ...['flowers', 'mushroom', 'pond', 'rainbow', 'swing'].map(n => 'assets/decor/' + n + '.webp'),
   ...['boing', 'coo', 'flutter', 'giggle', 'poof', 'shimmer', 'sparkle', 'splash', 'squeak', 'squish']
     .map(n => 'assets/sounds/' + n + '.mp3'),
 ];

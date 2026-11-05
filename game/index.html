@@ -323,6 +323,44 @@ header{display:flex;align-items:center;gap:10px}
 .bestBadge{position:absolute;top:0;right:4px;padding:1px 7px;border-radius:999px;background:var(--sun);color:var(--ink);font-family:var(--font-display);font-weight:800;font-size:13px;line-height:20px;box-shadow:0 2px 0 #c99a00,0 0 0 2px #fff}
 .plus{position:absolute;z-index:4;font-family:var(--font-display);font-weight:800;font-size:30px;color:#fff;text-shadow:0 3px 0 var(--busy-lo);pointer-events:none;animation:floatUp 1s ease-out forwards}
 
+/* ---------- Big Lizzy: pink-tinted placeholder art (her baby looks reuse Big Busy's pictures) ---------- */
+.tintPink,#pet.tint img,#egg.tint img{filter:hue-rotate(52deg) saturate(1.25) brightness(1.04)}
+#pet.tint.droop img{filter:hue-rotate(52deg) saturate(1) brightness(.95)}
+#pet.tint.evolving img{filter:brightness(0) invert(1) drop-shadow(0 0 20px #fff)}
+.avatar.pink{background:radial-gradient(circle at 35% 30%,#ffa3d6,#e0147d);box-shadow:inset 0 2px 0 rgba(255,255,255,.6),0 3px 8px rgba(224,20,125,.4)}
+.logo.pink{background:linear-gradient(180deg,#ff9ad5 0%,#ff2f9a 55%,#c0146f 100%);-webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 4px 0 #fff) drop-shadow(0 8px 10px rgba(192,20,111,.35))}
+.shell.pink{background:radial-gradient(circle at 35% 30%,#ffa3d6,#e0147d)}
+#pet.spin{animation:spin .85s cubic-bezier(.3,.6,.4,1)}
+@keyframes spin{0%{transform:perspective(900px) translateY(0) rotateY(0) scale(1,1)}12%{transform:perspective(900px) translateY(0) rotateY(0) scale(1.1,.9)}
+  55%{transform:perspective(900px) translateY(-14%) rotateY(200deg) scale(.96,1.05)}85%{transform:perspective(900px) translateY(0) rotateY(360deg) scale(1.08,.92)}100%{transform:perspective(900px) translateY(0) rotateY(360deg) scale(1,1)}}
+#pet.sour{animation:sour .11s linear 7}
+@keyframes sour{0%,100%{transform:scale(.95,1.04)}25%{transform:translateX(-2.5%) scale(.93,1.05) rotate(-2deg)}75%{transform:translateX(2.5%) scale(.93,1.05) rotate(2deg)}}
+#hugHand.circle{top:50%;animation:hugCircle 1.8s linear infinite}
+@keyframes hugCircle{from{transform:translate(-50%,-50%) rotate(0deg) translateX(calc(var(--petW,380px)*.2)) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg) translateX(calc(var(--petW,380px)*.2)) rotate(-360deg)}}
+#game.pink .gbg{background:linear-gradient(#ff9be0,#ffd1ef)}
+#game.pink .gb{background:radial-gradient(circle at 30% 28%,#fff 0 9%,rgba(255,170,220,.6) 34%,rgba(255,80,170,.42) 70%,rgba(255,160,225,.4));box-shadow:inset -8px -10px 18px rgba(255,47,154,.3),0 6px 14px rgba(120,10,70,.15)}
+#game.pink .gb.heart{background:radial-gradient(circle at 30% 28%,#fff 0 9%,#ff9ad5 35%,#ff2f9a 85%);border-color:#ffe0f1}
+#game.pink .gb.berry{background:radial-gradient(circle at 30% 28%,#fff 0 9%,rgba(255,200,230,.55) 40%,rgba(255,47,154,.3) 85%)}
+#game.pink .gb.rainbow{background:radial-gradient(circle at 30% 28%,#fff 0 10%,transparent 32%),conic-gradient(from 0deg,#ff4f8b,#ffcf3a,#3fd85a,#14c8f5,#8a3ffc,#ff4f8b)}
+#game.pink .gb.grumpy{background:radial-gradient(circle at 30% 28%,#fff 0 8%,#c9ccd6 34%,#8d92a3 85%)}
+.gb .hrt,.gb .em{position:absolute;inset:0;display:grid;place-items:center;line-height:1;pointer-events:none}
+.gb .hrt{color:#fff;text-shadow:0 3px 0 rgba(192,20,111,.45)}
+#game.pink .plus{text-shadow:0 3px 0 #c0146f}
+/* egg choice */
+#eggPanel .card{width:min(560px,100%);max-height:100%;overflow:auto}
+.eggGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.eggPick{border:1.5px solid #fff;border-radius:28px;padding:14px 12px 16px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;
+  background:linear-gradient(160deg,rgba(255,255,255,.8),rgba(230,215,255,.55));box-shadow:0 7px 0 rgba(90,23,201,.25),0 12px 22px rgba(43,13,92,.15),inset 0 1.5px 0 #fff;transition:transform .15s}
+.eggPick.pink{background:linear-gradient(160deg,rgba(255,255,255,.8),rgba(255,205,232,.6));box-shadow:0 7px 0 rgba(224,20,125,.25),0 12px 22px rgba(120,10,70,.15),inset 0 1.5px 0 #fff}
+.eggPick:active{transform:translateY(4px)}
+.eggPick .pic{width:100%;height:130px;position:relative}
+.eggPick .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;animation:heroBob 2.6s ease-in-out infinite}
+.eggPick .pic img.tintPink{filter:hue-rotate(52deg) saturate(1.25) brightness(1.04)}
+.eggPick b{font-family:var(--font-display);font-weight:800;font-size:22px;line-height:1.1}
+.eggPick span{font-weight:900;font-size:13px;color:var(--ink-2)}
+.eggPick.locked{cursor:default}
+.eggPick.locked .pic img,.eggPick.locked .pic img.tintPink{filter:grayscale(.85) brightness(.9);opacity:.6;animation:none}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
@@ -384,7 +422,7 @@ header{display:flex;align-items:center;gap:10px}
     <header>
       <div class="namepill glass">
         <div class="avatar" id="avatar"></div>
-        <div class="nameblock"><div class="name">Big Busy</div><div class="sub" id="sub">Egg</div></div>
+        <div class="nameblock"><div class="name" id="petName">Big Busy</div><div class="sub" id="sub">Egg</div></div>
       </div>
       <div class="spacer"></div>
       <div class="pill glass" id="mealPill"></div>
@@ -405,7 +443,7 @@ header{display:flex;align-items:center;gap:10px}
 
 <div class="panel" id="startPanel">
   <div class="card glass">
-    <h1 class="logo">Big Busy<small>Egg to Grown-up</small></h1>
+    <h1 class="logo" id="logo"><span id="logoName">Big Busy</span><small>Egg to Grown-up</small></h1>
     <div class="hero" id="hero"></div>
     <p id="startText">A purple egg has arrived in the garden! Keep it cosy with the heat lamp and see who hatches.</p>
     <button class="btn" id="startBtn">Let's play!</button>
@@ -419,14 +457,16 @@ header{display:flex;align-items:center;gap:10px}
       <div class="seg" id="segSound"><button data-v="on">On</button><button data-v="off">Off</button></div></div>
     <div class="setrow"><label for="segSpeed">Game speed (for testing)</label>
       <div class="seg" id="segSpeed"><button data-v="1">Normal</button><button data-v="20">Fast ×20</button><button data-v="240">Super ×240</button></div></div>
-    <div class="setrow"><label for="segQuiet">Quiet hours: Big Busy sleeps overnight and nothing drops</label>
+    <div class="setrow"><label for="segQuiet">Quiet hours: your pet sleeps overnight and nothing drops</label>
       <div class="seg" id="segQuiet"><button data-v="on">8:30pm – 7am</button><button data-v="off">Off</button></div></div>
+    <div class="setrow"><label for="segEggs">Family eggs</label>
+      <div class="seg" id="segEggs"><button data-v="earn">Earn them</button><button data-v="all">All unlocked</button></div></div>
     <div class="row">
       <button class="btn plain small" id="resetBtn">Start over</button>
       <button class="btn small" id="closeSettings">Done</button>
     </div>
     <div class="row" id="resetConfirm" hidden>
-      <p style="width:100%">Start again with a new egg? Big Busy's progress will be cleared.</p>
+      <p style="width:100%">Start again with a new egg? This pet's progress will be cleared.</p>
       <button class="btn pink small" id="resetYes">Yes, new egg</button>
     </div>
   </div>
@@ -437,20 +477,28 @@ header{display:flex;align-items:center;gap:10px}
     <h2>Decorate the garden</h2>
     <div class="shopHave" id="shopHave"></div>
     <div class="shopGrid" id="shopGrid"></div>
-    <p style="font-size:14px">Earn stars by feeding Big Busy at meal times and playing Bubble Party.</p>
+    <p style="font-size:14px">Earn stars by feeding your pet at meal times and playing Bubble Party.</p>
     <div class="row"><button class="btn small" id="closeShop">Done</button></div>
   </div>
 </div>
 
 <div class="panel" id="donePanel" hidden>
   <div class="card glass">
-    <h2>Big Busy is all grown up!</h2>
+    <h2 id="doneTitle">All grown up!</h2>
     <div class="hero" id="doneHero"></div>
     <p id="doneText"></p>
     <button class="btn" id="newEggBtn">Look after a new egg</button>
   </div>
 </div>
 
+
+<div class="panel" id="eggPanel" hidden>
+  <div class="card glass">
+    <h2>Choose an egg</h2>
+    <div class="eggGrid" id="eggGrid"></div>
+    <div class="row"><button class="btn plain small" id="closeEgg">Back</button></div>
+  </div>
+</div>
 
 <div id="game" hidden>
   <div class="gbg"><img alt="" src="assets/art/garden_day.webp"></div>
@@ -465,8 +513,8 @@ header{display:flex;align-items:center;gap:10px}
 const HOUR = 3600e3, MIN = 60e3;
 // Big Busy's egg is the first one, so it hatches quickly (about 5 minutes of cosy time).
 // Later family eggs are meant to take longer and need more care (see the roadmap).
-const T = { hatchMs:5*MIN, cosyDrainMs:4*MIN, coldRate:.15, lifeDays:7,
-  rates:{ tummy:14, happy:9, energy:9, clean:6, fun:11 }, sleepGain:32 };
+// Each family member's egg timings live in CHARS below.
+const T = { coldRate:.15, lifeDays:7, sleepGain:32 };
 // Ground spot on the garden picture (fraction of the image) where Big Busy stands. Tuned to garden_day.webp.
 const GROUND = { x:.5, y:.70 };
 const ICON = n => 'assets/icons/' + n + '.webp';
@@ -477,29 +525,60 @@ const STATS = [
   {k:'clean', icon:'sponge', em:'🫧', label:'Clean', need:"I'm a bit grubby!"},
   {k:'fun',   icon:'fun',   em:'🎈', label:'Fun', need:"Let's play a game!"}
 ];
-const FOODS = {
-  berries:{em:'🫐', name:'Berries', tummy:26, happy:4, fav:true},
-  apple:{em:'🍎', name:'Apple', tummy:20},
-  cupcake:{em:'🧁', name:'Cupcake', tummy:22, happy:2, fun:4, clean:-6},
-  broccoli:{em:'🥦', name:'Broccoli', tummy:0, yuck:true}
-};
 const MEALS = [ {n:'Breakfast',a:7,b:9}, {n:'Lunch',a:12,b:13.5}, {n:'Teatime',a:16.5,b:18.5} ];
-// Growth: Fluffball (day 1) -> Fuzzling (day 2) -> Big Busy (day 3 to 7)
+// Growth: baby (day 1) -> middle look (day 2) -> grown-up (day 3 to 7). stage 1/2/3; tint = pink-shifted placeholder art.
+// Big Lizzy's baby looks reuse Big Busy's pictures tinted pink until her own Runway art is made (see the roadmap).
 const FORMS = {
-  fluff:{ n:'Fluffball', next:'fuzz', at:1, s:.48, files:{idle:'fluff_idle', sleep:'fluff_sleep'} },
-  fuzz: { n:'Fuzzling',  next:'busy', at:2, s:.6,  files:{idle:'fuzz_idle',  sleep:'fuzz_sleep'} },
-  busy: { n:'Big Busy',  next:null,   at:99, s:.86, files:{idle:'busy_idle', munch:'busy_munch', sleep:'busy_sleep', sad:'busy_sad'} }
+  fluff:{ n:'Fluffball', stage:1, next:'fuzz',  at:1, s:.48, files:{idle:'fluff_idle', sleep:'fluff_sleep'} },
+  fuzz: { n:'Fuzzling',  stage:2, next:'busy',  at:2, s:.6,  files:{idle:'fuzz_idle',  sleep:'fuzz_sleep'} },
+  busy: { n:'Big Busy',  stage:3, next:null,    at:99, s:.86, files:{idle:'busy_idle', munch:'busy_munch', sleep:'busy_sleep', sad:'busy_sad'} },
+  puff: { n:'Puffbud',   stage:1, next:'twirl', at:1, s:.48, files:{idle:'fluff_idle', sleep:'fluff_sleep'}, tint:true },
+  twirl:{ n:'Twirlet',   stage:2, next:'lizzy', at:2, s:.6,  files:{idle:'fuzz_idle',  sleep:'fuzz_sleep'}, tint:true },
+  lizzy:{ n:'Big Lizzy', stage:3, next:null,    at:99, s:.86, files:{idle:'lizzy_idle', sleep:'lizzy_sleep'} }
 };
-const BABY = ['Pip!','Pip pip!','Squee!','Mmmf!','Pip?'];
-const FUZZ = ['Hi hi!','Wheee!','Hee hee!','Fluff!'];
+// The family. Foods without an icon file show their emoji.
+const CHARS = {
+  busy:{ name:'Big Busy', he:'he', him:'him', egg:'purple', forms:['fluff','fuzz','busy'], tint:false,
+    hatchMs:5*MIN, cosyDrainMs:4*MIN, rates:{ tummy:14, happy:9, energy:9, clean:6, fun:11 }, cuddle:'hug', voice:1,
+    foods:{
+      berries:{em:'🫐', icon:'berries', name:'Berries', tummy:26, happy:4, fav:true},
+      apple:{em:'🍎', icon:'apple', name:'Apple', tummy:20},
+      cupcake:{em:'🧁', icon:'cupcake', name:'Cupcake', tummy:22, happy:2, fun:4, clean:-6},
+      broccoli:{em:'🥦', icon:'broccoli', name:'Broccoli', tummy:0, yuck:true} },
+    baby:['Pip!','Pip pip!','Squee!','Mmmf!','Pip?'], mid:['Hi hi!','Wheee!','Hee hee!','Fluff!'],
+    grown:['Hee hee!','Hello!','Wheee!','Hold me for a hug!'],
+    yuck:'Bleurgh! Not broccoli!', fav:'Yum! Berries are my favourite!', favMid:'Berries! Yay!',
+    grownHi:"I'm Big Busy! Look, I've got wings!", happyNeed:'Hug me! Press and hold me!',
+    wantHint:'Big Busy wants a hug! Press and hold him', cuddledOut:"I'm all cuddled out, let's play!",
+    cuddleSay:['Aww, I love hugs!','Squeeeze!','Mmm, so cosy!'], home:'to live with Big Lizzy' },
+  lizzy:{ name:'Big Lizzy', he:'she', him:'her', egg:'pink', forms:['puff','twirl','lizzy'], tint:true,
+    hatchMs:15*MIN, cosyDrainMs:2.5*MIN, rates:{ tummy:14, happy:9, energy:9, clean:4, fun:14 }, cuddle:'twirl', voice:1.18,
+    foods:{
+      strawberries:{em:'🍓', name:'Strawberries', tummy:26, happy:6, fav:true},
+      watermelon:{em:'🍉', name:'Watermelon', tummy:22},
+      icecream:{em:'🍦', name:'Ice cream', tummy:16, happy:2, fun:8, clean:-8},
+      lemon:{em:'🍋', name:'Lemon', tummy:0, yuck:true} },
+    baby:['Tee!','La la!','Tee tee!','Lalala!','Tee?'], mid:['Twirl!','Wheee-hee!','Dance?','La la!'],
+    grown:['Tra-la-la!','Hello!','Watch me twirl!','Twirl me round!'],
+    yuck:'Eek! Lemons are SO sour!', fav:'Strawberries! My favourite!', favMid:'Berry yum!',
+    grownHi:"I'm Big Lizzy! Let's dance!", happyNeed:'Twirl me! Draw a circle on me!',
+    wantHint:'Big Lizzy wants a twirl! Draw a circle on her', cuddledOut:"I'm all twirled out, let's play!",
+    cuddleSay:['Wheee! Again!','Twirly whirly!','I love to dance!'], home:'to dance with Big Busy' }
+};
+const KINDS = ['busy', 'lizzy'];
+const UNLOCK = { lizzy:{ by:'busy', text:'Raise Big Busy to unlock' } };
+function C(){ return CHARS[S.kind] || CHARS.busy; }
+const cap = s => s[0].toUpperCase() + s.slice(1);
+const any = a => a[Math.floor(Math.random()*a.length)];
 
 /* ---------- storage ---------- */
 const KEY = 'bigbusy-v1';
 function load(){ try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s && s.v === 1) return s; }catch(e){} return null; }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
-function fresh(){ const n = Date.now();
-  return { v:1, phase:'egg', last:n, simNow:n, speed:1, sound:true, quiet:true, egg:{cosy:70, warm:0, taps:0}, pet:null, stars:0, meals:{}, pets:0, plays:0 }; }
+function fresh(kind){ const n = Date.now();
+  return { v:1, kind:kind || 'busy', phase:'egg', last:n, simNow:n, speed:1, sound:true, quiet:true, egg:{cosy:70, warm:0, taps:0}, pet:null, stars:0, meals:{}, pets:0, plays:0 }; }
 let S = load() || fresh();
+if(!S.kind) S.kind = 'busy';
 if(S.pet && !S.pet.form) S.pet.form = 'busy';
 
 /* ---------- time ---------- */
@@ -513,20 +592,20 @@ function tick(ms){
   const h = ms / HOUR;
   if(S.phase === 'egg'){
     if(isQuiet(gameDate())) return;                                   // the egg sleeps overnight too: nothing cools, nothing changes
-    const E = S.egg; E.cosy = clamp(E.cosy - 100*ms/T.cosyDrainMs);
-    E.warm = Math.min(T.hatchMs, E.warm + ms*eggRate()); return;
+    const E = S.egg; E.cosy = clamp(E.cosy - 100*ms/C().cosyDrainMs);
+    E.warm = Math.min(C().hatchMs, E.warm + ms*eggRate()); return;
   }
   if(S.phase !== 'pet') return;
-  const P = S.pet, quiet = isQuiet(gameDate());
+  const P = S.pet, quiet = isQuiet(gameDate()), R = C().rates;
   if(quiet && !P.asleep){ P.asleep = true; P.autoSleep = true; }
   if(!quiet && P.autoSleep && P.asleep){ P.asleep = false; P.autoSleep = false; pendingWake = true; }
   const f = quiet ? 0 : 1;
-  P.tummy = clamp(P.tummy - T.rates.tummy*h*f*(P.asleep?.5:1));
-  P.clean = clamp(P.clean - T.rates.clean*h*f);
-  P.fun   = clamp(P.fun   - T.rates.fun*h*f*(P.asleep?.3:1)*(P.form === 'fluff' ? .4 : 1));
-  if(P.asleep) P.energy = clamp(P.energy + T.sleepGain*h); else P.energy = clamp(P.energy - T.rates.energy*h);
+  P.tummy = clamp(P.tummy - R.tummy*h*f*(P.asleep?.5:1));
+  P.clean = clamp(P.clean - R.clean*h*f);
+  P.fun   = clamp(P.fun   - R.fun*h*f*(P.asleep?.3:1)*(stage() === 1 ? .4 : 1));
+  if(P.asleep) P.energy = clamp(P.energy + T.sleepGain*h); else P.energy = clamp(P.energy - R.energy*h);
   const lows = ['tummy','clean','fun','energy'].filter(k => P[k] < 25).length;
-  P.happy = clamp(P.happy - (T.rates.happy + lows*4)*h*f*(P.asleep?.4:1));
+  P.happy = clamp(P.happy - (R.happy + lows*4)*h*f*(P.asleep?.4:1));
   if(P.asleep && !P.autoSleep && P.energy >= 100){ P.asleep = false; pendingWake = true; }
 }
 
@@ -534,14 +613,17 @@ function tick(ms){
 const SFX = {};
 ['squeak','coo','boing','squish','giggle','flutter','poof','splash','shimmer','sparkle'].forEach(n => { const a = new Audio('assets/sounds/' + n + '.mp3'); a.preload = 'auto'; SFX[n] = a; });
 const lastPlay = {};
+// Her voice is the same family sounds, a little higher.
+const VOICE = new Set(['squeak','coo','giggle','squish','boing']);
 function play(n, vol = .8, gap = 0, rate = 1){
-  if(!S.sound) return; const t = performance.now(); if(gap && lastPlay[n] && t - lastPlay[n] < gap) return; lastPlay[n] = t;
+  if(!S.sound) return; if(VOICE.has(n)) rate *= C().voice; const t = performance.now(); if(gap && lastPlay[n] && t - lastPlay[n] < gap) return; lastPlay[n] = t;
   try{ const a = SFX[n].cloneNode(); a.volume = vol; if(rate !== 1){ a.preservesPitch = false; a.webkitPreservesPitch = false; a.playbackRate = rate; } a.play().catch(()=>{}); }catch(e){}
 }
 
 /* ---------- images with fallbacks ---------- */
 const $ = id => document.getElementById(id);
-function pic(src, fallbackEm, alt = ''){ // <img> that turns into an emoji if the file is missing
+function pic(src, fallbackEm, alt = ''){ // <img> that turns into an emoji if the file is missing (or straight away with no file)
+  if(!src){ const s = document.createElement('span'); s.className = 'em'; s.textContent = fallbackEm; return s; }
   const i = new Image(); i.alt = alt; i.draggable = false; i.src = src;
   i.onerror = () => { const s = document.createElement('span'); s.className = 'em'; s.textContent = fallbackEm; i.replaceWith(s); };
   return i;
@@ -559,7 +641,7 @@ function showEgg(){
   const e = $('egg'), cracked = eggReady() && S.egg.taps > 0;
   const img = (cracked && EGG.cracked) || EGG.normal;
   e.innerHTML = ''; if(img) e.appendChild(img); else e.innerHTML = eggFallbackSVG();
-  drawCracks();
+  e.classList.toggle('tint', C().tint); drawCracks();
 }
 function drawCracks(){
   const n = eggReady() ? Math.min(3, S.egg.taps) : 0, paths = ['M38 50 l7 5 l-4 7 l8 4','M62 44 l-6 8 l6 6 l-4 8','M50 30 l-4 8 l6 5 l-5 7 l5 6'];
@@ -577,11 +659,13 @@ Object.values(FORMS).forEach(F => Object.values(F.files).forEach(f => { if(SPRIT
   const img = new Image(); img.alt = 'Big Busy'; img.draggable = false;
   img.onerror = () => { SPRITES[f] = { svg:busySVG(f.split('_')[1]) }; if(curKey === f) setMood(curMoodName, true); };
   img.src = 'assets/Sprites/' + f + '.webp'; SPRITES[f] = { img }; }));
-function form(){ return FORMS[(S.pet && S.pet.form) || 'busy']; }
+function form(){ return FORMS[(S.pet && S.pet.form) || C().forms[2]]; }
+function stage(){ return S.phase === 'pet' && S.pet ? form().stage : 0; }
 let curMoodName = null;
 function setMood(m, force){
   const F = form(), f = F.files[m] || (m === 'sleep' ? F.files.sleep : F.files.idle);
   const p = $('pet'); p.classList.toggle('droop', m === 'sad' && !F.files.sad); p.classList.toggle('gape', m === 'munch' && !F.files.munch);
+  p.classList.toggle('tint', !!F.tint);
   curMoodName = m; if(f === curKey && !force) return; curKey = f;
   const sp = SPRITES[f]; p.innerHTML = ''; if(sp.svg) p.innerHTML = sp.svg; else p.appendChild(sp.img);
 }
@@ -678,7 +762,7 @@ function buyDecor(D){
 function stageInfo(){
   if(S.phase !== 'pet') return { n:'Egg', s:1, day:0 };
   const ageDays = (S.simNow - S.pet.born) / (24*HOUR), F = form();
-  const s = S.pet.form === 'busy' ? Math.min(1, F.s + Math.max(0, ageDays - 2) * .035) : F.s;
+  const s = F.stage === 3 ? Math.min(1, F.s + Math.max(0, ageDays - 2) * .035) : F.s;
   return { n:F.n, s, day:Math.floor(ageDays) + 1, ageDays };
 }
 // Ready to change form? Needs the right age, and to be reasonably looked after (otherwise he just waits).
@@ -692,16 +776,16 @@ function evolve(){
   if(evolving) return; evolving = true;
   const P = S.pet, F = form(), wrap = $('petWrap'), pet = $('pet');
   wrap.classList.remove('glowing'); $('hint').hidden = true;
-  play('shimmer', .9); pet.classList.remove('hop','munch','nope','wobble'); pet.classList.add('evolving');
+  play('shimmer', .9); pet.classList.remove('hop','munch','nope','wobble','spin','sour','squeeze'); pet.classList.add('evolving');
   const r = targetRect(); for(let i=0;i<16;i++) setTimeout(() => fx(ICON('star'), '✨', r), i*120);
   setTimeout(() => flashOut(() => {
     P.form = F.next; pet.classList.remove('evolving'); setMood('idle', true);
     pet.classList.add('reveal'); setTimeout(() => pet.classList.remove('reveal'), 950);
     layout(); render(true); confetti(); play('boing', .8);
     const nf = form();
-    setTimeout(() => { say(nf.next ? 'Hi hi! Look at me!' : "I'm Big Busy! Look, I've got wings!"); }, 700);
-    toast(`Wow! He's a ${nf.n} now!`, ICON('star'));
-    if(P.form === 'fuzz') setTimeout(() => toast('Play is unlocked! Try the bubble game.', ICON('wand')), 4200);
+    setTimeout(() => { say(nf.next ? C().mid[0] + ' Look at me!' : C().grownHi); }, 700);
+    toast(`Wow! ${cap(C().he)}'s a ${nf.n} now!`, ICON('star'));
+    if(nf.stage === 2) setTimeout(() => toast('Play is unlocked! Try the bubble game.', ICON('wand')), 4200);
     evolving = false; save();
   }), 2300);
 }
@@ -729,18 +813,18 @@ function bump(k){ const d = $('m-' + k); if(!d) return; d.classList.remove('bump
 
 function buildDock(){
   const t = $('dockIn'); t.innerHTML = '';
-  if(S.phase === 'egg'){ t.appendChild(mkItem('lamp', 'lamp', '🔆', 'Heat lamp', 'lamp')); return; }
-  Object.entries(FOODS).forEach(([k, f]) => t.appendChild(mkItem('food:' + k, k, f.em, f.name, f.fav ? 'fav' : '')));
+  if(S.phase === 'egg'){ t.appendChild(mkItem('lamp', ICON('lamp'), '🔆', 'Heat lamp', 'lamp')); return; }
+  Object.entries(C().foods).forEach(([k, f]) => t.appendChild(mkItem('food:' + k, f.icon ? ICON(f.icon) : '', f.em, f.name, f.fav ? 'fav' : '')));
   const s = document.createElement('div'); s.className = 'sep'; t.appendChild(s);
-  t.appendChild(mkItem('sponge', 'sponge', '🧽', 'Bath'));
-  t.appendChild(mkItem('moon', 'moon', '🌙', 'Bedtime'));
-  const pl = mkItem('play', 'wand', '🫧', 'Play', S.pet && S.pet.form === 'fluff' ? 'locked' : ''); t.appendChild(pl);
+  t.appendChild(mkItem('sponge', ICON('sponge'), '🧽', 'Bath'));
+  t.appendChild(mkItem('moon', ICON('moon'), '🌙', 'Bedtime'));
+  const pl = mkItem('play', ICON('wand'), '🫧', 'Play', stage() === 1 ? 'locked' : ''); t.appendChild(pl);
   if(S.best){ const bd = document.createElement('span'); bd.className = 'bestBadge'; bd.textContent = '★' + S.best; pl.querySelector('.tile').appendChild(bd); }
 }
-function mkItem(kind, icon, em, label, cls){
-  const b = document.createElement('button'); b.className = 'item ' + (cls || ''); b.dataset.kind = kind; b.dataset.icon = icon; b.dataset.em = em;
+function mkItem(kind, src, em, label, cls){
+  const b = document.createElement('button'); b.className = 'item ' + (cls || ''); b.dataset.kind = kind; b.dataset.src = src; b.dataset.em = em;
   b.setAttribute('aria-label', label);
-  const tile = document.createElement('span'); tile.className = 'tile'; tile.appendChild(pic(ICON(icon), em)); b.appendChild(tile);
+  const tile = document.createElement('span'); tile.className = 'tile'; tile.appendChild(pic(src, em)); b.appendChild(tile);
   b.insertAdjacentHTML('beforeend', `<small>${label}</small>`);
   b.addEventListener('pointerdown', startDrag);
   b.addEventListener('click', () => { if(kind === 'play') startGame(); if(kind === 'moon' && !b._dragged) toggleSleep(); b._dragged = false; });
@@ -752,7 +836,7 @@ let drag = null;
 function startDrag(e){
   const btn = e.currentTarget, kind = btn.dataset.kind; if(kind === 'play') return;
   e.preventDefault(); unlockAudio();
-  const g = $('ghost'); g.innerHTML = ''; g.appendChild(pic(ICON(btn.dataset.icon), btn.dataset.em)); g.hidden = false;
+  const g = $('ghost'); g.innerHTML = ''; g.appendChild(pic(btn.dataset.src, btn.dataset.em)); g.hidden = false;
   drag = { btn, kind, id:e.pointerId, moved:0, x:e.clientX, y:e.clientY, over:false, scrub:0 };
   moveGhost(e.clientX, e.clientY);
   addEventListener('pointermove', onDrag); addEventListener('pointerup', endDrag); addEventListener('pointercancel', endDrag);
@@ -792,7 +876,7 @@ function warmEgg(dist){
   setMeter('cosy', S.egg.cosy);
 }
 function wiggleEgg(){ const g = $('egg'); g.classList.remove('wiggle'); void g.offsetWidth; g.classList.add('wiggle'); play('boing', .35, 900); }
-function eggReady(){ return S.egg.warm >= T.hatchMs; }
+function eggReady(){ return S.egg.warm >= C().hatchMs; }
 // Cosy = full speed; chilly = slower; cold = very slow, but it never stops, so a forgotten egg still hatches.
 function eggRate(){ const c = S.egg.cosy; return c > 30 ? 1 : c > 0 ? .35 : T.coldRate; }
 function eggAsleep(){ return S.phase === 'egg' && !eggReady() && isQuiet(gameDate()); }
@@ -807,15 +891,16 @@ function tapEgg(){
 function hatch(){
   const g = $('egg'); g.classList.add('shake'); play('shimmer', .9);
   const done = () => {
-    g.classList.remove('shake');
-    S.phase = 'pet'; S.pet = { born:S.simNow, form:'fluff', tummy:55, happy:80, energy:75, clean:100, fun:60, asleep:false, autoSleep:false };
+    g.classList.remove('shake'); const K = C();
+    S.phase = 'pet'; S.pet = { born:S.simNow, form:K.forms[0], tummy:55, happy:80, energy:75, clean:100, fun:60, asleep:false, autoSleep:false };
     save(); render(true); confetti(); play('boing', .8); $('pet').classList.add('reveal'); setTimeout(() => $('pet').classList.remove('reveal'), 950);
-    setTimeout(() => say('Pip!'), 600);
-    setTimeout(() => toast("It's a baby Fluffball! He's hungry. Drag some berries to him.", ICON('berries')), 1700);
+    setTimeout(() => say(K.baby[0]), 600);
+    const [fk, fav] = Object.entries(K.foods).find(([k, f]) => f.fav);
+    setTimeout(() => toast(`It's a baby ${form().n}! ${cap(K.he)}'s hungry. Drag some ${fav.name.toLowerCase()} to ${K.him}.`, fav.icon ? ICON(fav.icon) : null, fav.em), 1700);
   };
   setTimeout(() => {
     const r = targetRect(), cx = r.left + r.width/2, cy = r.top + r.height*.5;
-    for(let i=0;i<12;i++){ const sh = document.createElement('i'); sh.className = 'shell'; sh.style.left = (cx-30)+'px'; sh.style.top = (cy-30)+'px';
+    for(let i=0;i<12;i++){ const sh = document.createElement('i'); sh.className = 'shell' + (C().tint ? ' pink' : ''); sh.style.left = (cx-30)+'px'; sh.style.top = (cy-30)+'px';
       const a = Math.random()*Math.PI*2, d = 160 + Math.random()*220; sh.style.setProperty('--dx', Math.cos(a)*d+'px'); sh.style.setProperty('--dy', (Math.sin(a)*d + 120)+'px'); sh.style.setProperty('--r', (Math.random()*720-360)+'deg');
       document.body.appendChild(sh); setTimeout(() => sh.remove(), 1250); }
     flashOut(done);
@@ -825,14 +910,18 @@ function flashOut(cb){ const f = $('flash'); f.classList.add('on'); setTimeout((
 
 /* ---------- pet ---------- */
 function moodNow(){ const P = S.pet; if(!P) return 'idle'; if(P.asleep) return 'sleep'; return STATS.some(s => P[s.k] < 25) ? 'sad' : 'idle'; }
-function petAnim(cls){ const p = $('pet'); p.classList.remove('hop','munch','nope','wobble','squeeze'); void p.offsetWidth; p.classList.add(cls); clearTimeout(petAnim.t); petAnim.t = setTimeout(() => p.classList.remove(cls), 1400); }
-function hopPet(){ petAnim('hop'); }
+function petAnim(cls){ const p = $('pet'); p.classList.remove('hop','munch','nope','wobble','squeeze','spin','sour'); void p.offsetWidth; p.classList.add(cls); clearTimeout(petAnim.t); petAnim.t = setTimeout(() => p.classList.remove(cls), 1400); }
+// Big Busy hops; Big Lizzy does a little twirl.
+function hopPet(){ petAnim(C().cuddle === 'twirl' ? 'spin' : 'hop'); }
+const HEART = () => C().tint ? [null, '💗'] : [ICON('happy'), '💜'];
 let eating = false;
 function feed(k, x, y){
-  const P = S.pet, f = FOODS[k];
-  if(P.asleep){ say("Zzz… he's asleep"); return; }
+  const P = S.pet, f = C().foods[k]; if(!f) return;
+  if(P.asleep){ say(`Zzz… ${C().he}'s asleep`); return; }
   if(eating) return;
-  if(f.yuck){ setMood('idle'); petAnim('nope'); play('squeak', .8); say(P.form === 'busy' ? 'Bleurgh! Not broccoli!' : 'Bleh!'); return; }
+  if(f.yuck){ setMood('idle'); const sour = C().cuddle === 'twirl'; petAnim(sour ? 'sour' : 'nope'); play('squeak', .8, 0, sour ? 1.15 : 1);
+    if(sour) fx(null, '😖', targetRect());
+    say(stage() === 3 ? C().yuck : sour ? 'Eek!' : 'Bleh!'); return; }
   if(P.tummy > 94){ setMood('idle'); petAnim('nope'); say("I'm full up!"); return; }
   eating = true; let n = 0; petAnim('munch'); play('squish', .8);
   const iv = setInterval(() => { setMood(n % 2 ? 'idle' : 'munch'); crumbs(); if(++n >= 6){ clearInterval(iv); finish(); } }, 200);
@@ -841,9 +930,9 @@ function feed(k, x, y){
     P.tummy = clamp(P.tummy + f.tummy); P.happy = clamp(P.happy + (f.happy || 0));
     if(f.fun) P.fun = clamp(P.fun + f.fun); if(f.clean) P.clean = clamp(P.clean + f.clean); P.clean = clamp(P.clean - 3);
     bump('tummy'); const r = targetRect();
-    if(f.fav){ fx(ICON('happy'), '💜', r); fx(ICON('happy'), '💜', r); say(P.form === 'busy' ? 'Yum! Berries are my favourite!' : P.form === 'fuzz' ? 'Berries! Yay!' : 'Squee!'); play('sparkle', .5); }
-    else if(P.form === 'busy') say(['Mmm, yummy!','Nom nom nom!','Delicious!'][Math.floor(Math.random()*3)]);
-    else say(P.form === 'fuzz' ? 'Nom nom!' : 'Mmmf!');
+    if(f.fav){ fx(...HEART(), r); fx(...HEART(), r); say(stage() === 3 ? C().fav : stage() === 2 ? C().favMid : C().baby[0]); play('sparkle', .5); }
+    else if(stage() === 3) say(any(['Mmm, yummy!','Nom nom nom!','Delicious!']));
+    else say(stage() === 2 ? 'Nom nom!' : 'Mmmf!');
     mealBonus(); setMood(moodNow()); hopPet(); save(); render();
   }
 }
@@ -893,34 +982,50 @@ function holdTick(){
   if(p >= 1){ s.hugged = true; hugRing(0); hug(); return; }
   setTimeout(holdTick, 16);
 }
+// A hug (Big Busy: press and hold) or a twirl (Big Lizzy: draw a circle on her). Same reward either way.
 function hug(){
-  const P = S.pet;
-  if(cuddledOut()){ petAnim('nope'); say("I'm all cuddled out, let's play!"); return; }
+  const P = S.pet, K = C(), twirl = K.cuddle === 'twirl';
+  if(cuddledOut()){ petAnim('nope'); say(K.cuddledOut); return; }
   P.happy = clamp(P.happy + HUG.gains[hugsRecent()]); P.hugs.push(S.simNow); S.pets++;
-  petAnim('squeeze'); play('coo', .8); setTimeout(() => play('giggle', .6), 350);
-  const r = targetRect(); for(let i = 0; i < 6; i++) setTimeout(() => fx(ICON('happy'), '💜', r), i * 80);
-  say(['Aww, I love hugs!','Squeeeze!','Mmm, so cosy!'][Math.floor(Math.random()*3)]);
+  petAnim(twirl ? 'spin' : 'squeeze'); play(twirl ? 'flutter' : 'coo', .8); setTimeout(() => play('giggle', .6), 350);
+  const r = targetRect(); for(let i = 0; i < 6; i++) setTimeout(() => fx(...HEART(), r), i * 80);
+  say(any(K.cuddleSay));
   bump('happy'); save(); render();
 }
 
-/* stroking */
+/* stroking (and drawing twirl circles) */
 let stroke = null;
-function petDown(e){ if(S.phase !== 'pet' || drag) return; unlockAudio(); stroke = { id:e.pointerId, x:e.clientX, y:e.clientY, acc:0, total:0, t0:performance.now(), sx:e.clientX, sy:e.clientY }; $('hugHand').hidden = true;
-  if(!S.pet.asleep) setTimeout(holdTick, 16);$('petWrap').setPointerCapture(e.pointerId); }
+function petCentre(){ const r = $('petWrap').getBoundingClientRect(); return { x:r.left + r.width/2, y:r.top + r.height*.6, r:r.width }; }
+function petDown(e){ if(S.phase !== 'pet' || drag) return; unlockAudio(); stroke = { id:e.pointerId, x:e.clientX, y:e.clientY, acc:0, total:0, t0:performance.now(), sx:e.clientX, sy:e.clientY, turn:0 }; $('hugHand').hidden = true;
+  if(!S.pet.asleep && C().cuddle === 'hug') setTimeout(holdTick, 16);$('petWrap').setPointerCapture(e.pointerId); }
 function petMove(e){
   if(!stroke || e.pointerId !== stroke.id) return;
+  const px = stroke.x, py = stroke.y;
   const d = Math.hypot(e.clientX - stroke.x, e.clientY - stroke.y); stroke.x = e.clientX; stroke.y = e.clientY; stroke.acc += d; stroke.total += d;
-  if(Math.hypot(stroke.x - stroke.sx, stroke.y - stroke.sy) > 18) hugRing(0);
+  if(C().cuddle === 'twirl'){ if(twirlMove(px, py)) return; }
+  else if(Math.hypot(stroke.x - stroke.sx, stroke.y - stroke.sy) > 18) hugRing(0);
   if(stroke.acc > 70){
     stroke.acc = 0; const P = S.pet;
-    if(cuddledOut()){ if(!stroke.told){ stroke.told = true; say("I'm all cuddled out, let's play!"); } return; }
+    if(cuddledOut()){ if(!stroke.told){ stroke.told = true; say(C().cuddledOut); } return; }
     if(P.asleep) say('Zzz… happy snore');
     P.happy = clamp(P.happy + 1); S.pets++;
-    const h = document.createElement('div'); h.className = 'fx'; h.appendChild(pic(ICON('happy'), '💜'));
+    const h = document.createElement('div'); h.className = 'fx'; h.appendChild(pic(...HEART()));
     h.style.left = e.clientX + 'px'; h.style.top = e.clientY + 'px'; h.style.setProperty('--dx', ((Math.random()-.5)*60)+'px');
     document.body.appendChild(h); setTimeout(() => h.remove(), 1300);
-    petAnim('wobble'); play('coo', .55, 1400); bump('happy'); render();
+    if(C().cuddle !== 'twirl') petAnim('wobble'); play('coo', .55, 1400); bump('happy'); render();
   }
+}
+// Twirl: add up how far the finger has gone round her middle. One full circle (either way) = a twirl.
+function twirlMove(px, py){
+  const s = stroke; if(s.hugged || S.pet.asleep) return s.hugged;
+  const c = petCentre(), r0 = Math.hypot(px - c.x, py - c.y), r1 = Math.hypot(s.x - c.x, s.y - c.y);
+  if(r0 < c.r*.06 || r1 < c.r*.06) return false;                      // too close to the middle to tell the direction
+  let da = Math.atan2(s.y - c.y, s.x - c.x) - Math.atan2(py - c.y, px - c.x);
+  if(da > Math.PI) da -= 2*Math.PI; if(da < -Math.PI) da += 2*Math.PI;
+  s.turn += da; const p = Math.abs(s.turn) / (2*Math.PI);
+  hugRing(cuddledOut() ? 0 : Math.min(1, p));
+  if(p >= 1){ s.hugged = true; hugRing(0); hug(); return true; }
+  return false;
 }
 function petUp(e){
   if(!stroke || e.pointerId !== stroke.id) return;
@@ -932,7 +1037,7 @@ function petUp(e){
     if(evolveDue() && evolveCared()){ evolve(); return; }
     hopPet(); play('boing', .5, 600);
     const need = STATS.find(s => S.pet[s.k] < 35);
-    if(need) sayNeed(need); else say(S.pet.form === 'busy' ? ['Hee hee!','Hello!','Wheee!','Hold me for a hug!'][Math.floor(Math.random()*4)] : S.pet.form === 'fuzz' ? FUZZ[Math.floor(Math.random()*FUZZ.length)] : BABY[Math.floor(Math.random()*BABY.length)]);
+    if(need) sayNeed(need); else say(any(stage() === 3 ? C().grown : stage() === 2 ? C().mid : C().baby));
   }
   save();
 }
@@ -951,7 +1056,7 @@ const GAME_MS = 25000, COMBO_MS = 900;
 // Level by look: Fuzzling gets big slow bubbles; Big Busy gets faster, smaller ones and more specials as the days go on.
 function gameLevel(){
   const st = stageInfo();
-  if(S.pet.form === 'fuzz') return { size:[110,160], speed:[1.0,2.0], gap:[650,950], gold:.10, rainbow:.03, grumpy:.05, berry:.06 };
+  if(stage() === 2) return { size:[110,160], speed:[1.0,2.0], gap:[650,950], gold:.10, rainbow:.03, grumpy:.05, berry:.06 };
   const d = Math.max(0, Math.min(1, (st.ageDays - 2) / 4));          // 0 on day 3 -> 1 by day 7
   return { size:[70 - d*12, 140 - d*40], speed:[1.6 + d*.8, 3.4 + d*1.2], gap:[480 - d*120, 840 - d*200],
            gold:.12, rainbow:.04 + d*.03, grumpy:.08 + d*.07, berry:.05 };
@@ -959,11 +1064,13 @@ function gameLevel(){
 const rnd = (a, b) => a + Math.random()*(b - a);
 function startGame(){
   const P = S.pet; if(!P) return; unlockAudio();
-  if(P.asleep){ say("Zzz… he's asleep"); return; }
-  if(P.form === 'fluff'){ say("He's too little to play. Tomorrow!", ICON('wand')); return; }
+  if(P.asleep){ say(`Zzz… ${C().he}'s asleep`); return; }
+  if(stage() === 1){ say(`${cap(C().he)}'s too little to play. Tomorrow!`, ICON('wand')); return; }
   if(P.energy < 12){ say("I'm too tired to play"); return; }
   const g = $('game'); g.hidden = false; g.querySelectorAll('.gb,.plus,.combo').forEach(b => b.remove());
-  const ch = g.querySelector('.cheer'); ch.querySelector('img').src = 'assets/Sprites/' + (P.form === 'busy' ? 'busy_munch' : form().files.idle) + '.webp';
+  g.classList.toggle('pink', C().tint);   // Big Lizzy's Bubble Party: pink bubbles, heart bubbles instead of gold
+  const ch = g.querySelector('.cheer'), ci = ch.querySelector('img');
+  ci.src = 'assets/Sprites/' + (P.form === 'busy' ? 'busy_munch' : form().files.idle) + '.webp'; ci.classList.toggle('tintPink', !!form().tint);
   ch.classList.remove('in'); void ch.offsetWidth; ch.classList.add('in');
   $('gBest').textContent = S.best ? 'Best ' + S.best : '';
   const now = performance.now();
@@ -997,7 +1104,9 @@ function spawnBubble(kind, at){
   const g = $('game'); kind = kind || pickKind();
   const L = G.lvl, s = kind === 'plain' ? rnd(L.size[0], L.size[1]) : Math.max(84, L.size[0] + 14);
   const b = document.createElement('div'); b.className = 'gb ' + kind; b.style.width = b.style.height = s + 'px'; b.style.left = '0'; b.style.top = '0';
-  if(kind === 'berry') b.appendChild(pic(ICON('berries'), '🫐'));
+  const pink = C().tint;
+  if(kind === 'berry'){ const f = pic(pink ? null : ICON('berries'), pink ? '🍓' : '🫐'); f.style.fontSize = (s*.5) + 'px'; b.appendChild(f); }
+  if(kind === 'gold' && pink){ b.classList.add('heart'); const h = document.createElement('span'); h.className = 'hrt'; h.textContent = '♥'; h.style.fontSize = (s*.62) + 'px'; b.appendChild(h); }
   b.dataset.x = at ? at.x - s/2 : Math.random()*(innerWidth - s); b.dataset.y = at ? at.y - s/2 : innerHeight + 10;
   b.dataset.v = rnd(L.speed[0], L.speed[1]) * (kind === 'gold' || kind === 'rainbow' ? 1.6 : 1); b.dataset.p = Math.random()*6;
   if(at) b.dataset.vx = -rnd(.6, 1.4);
@@ -1045,7 +1154,7 @@ function endGame(){
   save(); render(); buildDock();
 }
 
-function sayNeed(need){ if(S.pet.form === 'busy') say(need.need); else say(' ?', ICON(need.icon)); }
+function sayNeed(need){ if(stage() === 3) say(need.k === 'happy' ? C().happyNeed : need.need); else say(' ?', ICON(need.icon)); }
 /* ---------- feedback ---------- */
 function fx(src, em, r){
   const d = document.createElement('div'); d.className = 'fx'; d.appendChild(pic(src, em));
@@ -1061,41 +1170,38 @@ function confetti(){
     document.body.appendChild(c); setTimeout(() => c.remove(), 1900); }
 }
 let sayT; function say(t, icon){
-  const f = S.phase === 'pet' && S.pet ? S.pet.form : 'busy';
-  if(f === 'fluff' && !icon && !/^[A-Z][a-z]+!$/.test(t)) t = BABY[Math.floor(Math.random()*BABY.length)];
+  if(stage() === 1 && !icon && !C().baby.includes(t) && !/^[A-Z][a-z]+!$/.test(t)) t = any(C().baby);   // babies only babble
   const b = $('bubble'); b.textContent = t; if(icon){ b.textContent = ''; b.appendChild(pic(icon, '?')); b.append(t); } b.classList.remove('hide'); clearTimeout(sayT); sayT = setTimeout(() => b.classList.add('hide'), 2600); }
 function hint(t){ const h = $('hint'); h.textContent = t; h.hidden = false; }
-let toastT; function toast(t, icon){ const el = $('toast'); el.innerHTML = ''; if(icon) el.appendChild(pic(icon, '⭐')); el.append(t); el.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('show'), 3600); }
+let toastT; function toast(t, icon, em){ const el = $('toast'); el.innerHTML = ''; if(icon || em) el.appendChild(pic(icon, em || '⭐')); el.append(t); el.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('show'), 3600); }
 
 /* ---------- render ---------- */
 let renderedPhase = null;
 function render(force){
   if(renderedPhase !== S.phase || force){
-    renderedPhase = S.phase; buildMeters(); buildDock();
+    renderedPhase = S.phase; buildMeters(); buildDock(); applyChar();
     $('eggWrap').hidden = S.phase !== 'egg'; $('petWrap').hidden = S.phase !== 'pet';
     if(S.phase === 'egg') showEgg(); else setMood(moodNow(), true);
     layout();
   }
   const d = gameDate(), st = stageInfo();
   if(S.phase === 'egg'){
-    setMeter('cosy', S.egg.cosy); setMeter('hatch', 100*S.egg.warm/T.hatchMs);
+    setMeter('cosy', S.egg.cosy); setMeter('hatch', 100*S.egg.warm/C().hatchMs);
     $('sub').textContent = eggReady() ? 'Egg · ready to hatch!' : eggAsleep() ? 'Egg · fast asleep' : 'Egg · keep it cosy';
-    const left = Math.max(0, (T.hatchMs - S.egg.warm) / S.speed / eggRate());
+    const left = Math.max(0, (C().hatchMs - S.egg.warm) / S.speed / eggRate());
     hint(eggReady() ? "It's moving! Tap the egg!" : eggAsleep() ? 'Shh… the egg is sleeping until morning' : S.egg.cosy < 30 ? 'Brrr! The egg needs the lamp' : `Hatching in about ${fmtDur(left)}`);
     $('egg').classList.toggle('ready', eggReady() && !$('egg').classList.contains('shake'));
     $('app').classList.toggle('sleeping', eggAsleep());
   } else if(S.phase === 'pet'){
     const P = S.pet; $('hint').hidden = true;
     STATS.forEach(s => setMeter(s.k, P[s.k]));
-    $('sub').textContent = `${S.pet.form === 'busy' ? 'Grown-up' : st.n} · Day ${st.day} of ${T.lifeDays}`;
-    const av = $('avatar').querySelector('img'), want = 'assets/Sprites/' + form().files.idle + '.webp';
-    if(av && !av.src.endsWith(want)) av.src = want;
-    const due = evolveDue() && !evolving;
+    $('sub').textContent = `${stage() === 3 ? 'Grown-up' : st.n} · Day ${st.day} of ${T.lifeDays}`;
+    const due = evolveDue() && !evolving, K = C();
     $('petWrap').classList.toggle('glowing', due && evolveCared());
-    if(due && evolveCared()) hint('Something is happening! Tap him!');
-    else if(due) hint('He wants to grow! Feed him and give him cuddles');
+    if(due && evolveCared()) hint(`Something is happening! Tap ${K.him}!`);
+    else if(due) hint(`${cap(K.he)} wants to grow! Feed ${K.him} and give ${K.him} cuddles`);
     const wantsHug = !due && !P.asleep && !G && !eating && P.happy < 50 && !cuddledOut();
-    if(wantsHug) hint('Big Busy wants a hug! Press and hold him');
+    if(wantsHug) hint(K.wantHint);
     $('hugHand').hidden = !wantsHug || !!stroke;
     if(due && !P.evolveToldAt){ P.evolveToldAt = S.simNow; play('sparkle', .7); }
     $('petWrap').style.transform = `translateX(-50%) scale(${st.s})`;
@@ -1104,16 +1210,47 @@ function render(force){
     if(!eating && !(drag && drag.over)) setMood(moodNow());
     if(st.ageDays >= T.lifeDays && $('donePanel').hidden) showDone();
   }
-  showShopBtn();
+  showShopBtn(); setAvatar();
   const h = hourOf(d), m = MEALS.find(m => h >= m.a && h < m.b), mp = $('mealPill');
   mp.classList.toggle('hot', !!m && S.phase === 'pet');
   mp.textContent = m && S.phase === 'pet' ? `${m.n} time!` : d.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
 }
+// Names and labels for whoever is in the garden.
+function applyChar(){
+  const K = C(); $('petName').textContent = K.name;
+  $('eggWrap').setAttribute('aria-label', K.name + "'s egg"); $('petWrap').setAttribute('aria-label', K.name);
+  $('meters').setAttribute('aria-label', `How ${K.name} is feeling`); $('dock').setAttribute('aria-label', 'Things for ' + K.name);
+  $('avatar').classList.toggle('pink', K.tint); $('hugHand').classList.toggle('circle', K.cuddle === 'twirl');
+}
+function setAvatar(){
+  const av = $('avatar').querySelector('img'); if(!av) return;
+  const F = S.phase === 'pet' ? form() : FORMS[C().forms[2]], want = 'assets/Sprites/' + F.files.idle + '.webp';
+  if(!av.src.endsWith(want)) av.src = want; av.classList.toggle('tintPink', !!F.tint);
+}
 function fmtDur(ms){ const m = Math.ceil(ms/MIN); if(m < 60) return m + ' min'; const h = Math.floor(m/60), r = m % 60; return h + ' hr' + (r ? ' ' + r + ' min' : ''); }
 function showDone(){
-  $('doneText').textContent = `You looked after him for a whole week: ${S.pets} strokes and ${S.plays} games. He's off to Fluff Village to live with Big Lizzy, and he'll always remember you.`;
-  $('doneHero').innerHTML = ''; $('doneHero').appendChild(pic('assets/Sprites/busy_idle.webp', '💜', 'Big Busy'));
+  const K = C(), newKinds = KINDS.filter(k => UNLOCK[k] && UNLOCK[k].by === S.kind && !unlocked(k));
+  S.unlocked = (S.unlocked || []).concat(newKinds.filter(k => !(S.unlocked || []).includes(k))); save();
+  $('doneTitle').textContent = `${K.name} is all grown up!`;
+  $('doneText').textContent = `You looked after ${K.him} for a whole week: ${S.pets} cuddle${S.pets === 1 ? "" : "s"} and ${S.plays} game${S.plays === 1 ? "" : "s"}. ${cap(K.he)}'s off to Fluff Village ${K.home}, and ${K.he}'ll always remember you.`
+    + (newKinds.length ? ` And look: a ${CHARS[newKinds[0]].egg} egg has turned up for you!` : '');
+  $('doneHero').innerHTML = ''; $('doneHero').appendChild(pic('assets/Sprites/' + FORMS[K.forms[2]].files.idle + '.webp', '💜', K.name));
   $('donePanel').hidden = false; play('shimmer', .8); confetti();
+}
+// Which eggs can be chosen: Big Busy always; the others once someone has been raised (or the grown-up setting says all).
+function unlocked(k){ return !UNLOCK[k] || S.unlockAll || (S.unlocked || []).includes(k); }
+function eggPic(k){ const i = pic('assets/art/egg.webp', '🥚', CHARS[k].name + "'s egg"); if(CHARS[k].tint) i.classList.add('tintPink'); return i; }
+function openEggChoice(){
+  const g = $('eggGrid'); g.innerHTML = '';
+  KINDS.forEach(k => {
+    const K = CHARS[k], ok = unlocked(k), b = document.createElement('button');
+    b.className = 'eggPick' + (ok ? '' : ' locked') + (K.tint ? ' pink' : '');
+    const p = document.createElement('div'); p.className = 'pic'; p.appendChild(eggPic(k)); b.appendChild(p);
+    b.insertAdjacentHTML('beforeend', `<b>${K.name}</b><span>${ok ? `${cap(K.egg)} egg · about ${Math.round(K.hatchMs/MIN)} min to hatch` : '🔒 ' + UNLOCK[k].text}</span>`);
+    b.onclick = () => { if(!ok){ play('squeak', .5, 0, .8); toast(UNLOCK[k].text + '!', null, '🔒'); return; } startEgg(k); };
+    g.appendChild(b);
+  });
+  $('settingsPanel').hidden = true; $('eggPanel').hidden = false; unlockAudio(); play('flutter', .5);
 }
 
 (function(){ const d = $('dirt'); [[30,40,18],[62,55,16],[44,70,14],[70,32,12]].forEach(([x,y,s]) => { const i = document.createElement('i'); i.style.left = x+'%'; i.style.top = y+'%'; i.style.width = i.style.height = s+'%'; d.appendChild(i); }); })();
@@ -1132,16 +1269,23 @@ function segInit(id, get, set){
 }
 const syncs = [ segInit('segSound', () => S.sound ? 'on' : 'off', v => S.sound = v === 'on'),
   segInit('segSpeed', () => S.speed, v => S.speed = Number(v)),
-  segInit('segQuiet', () => S.quiet ? 'on' : 'off', v => S.quiet = v === 'on') ];
+  segInit('segQuiet', () => S.quiet ? 'on' : 'off', v => S.quiet = v === 'on'),
+  segInit('segEggs', () => S.unlockAll ? 'all' : 'earn', v => S.unlockAll = v === 'all') ];
 $('settingsBtn').onclick = () => { syncs.forEach(f => f()); $('resetConfirm').hidden = true; $('settingsPanel').hidden = false; };
 $('closeSettings').onclick = () => $('settingsPanel').hidden = true;
 $('resetBtn').onclick = () => $('resetConfirm').hidden = false;
-$('resetYes').onclick = newEgg; $('newEggBtn').onclick = newEgg;
+$('resetYes').onclick = openEggChoice; $('newEggBtn').onclick = openEggChoice;
+$('closeEgg').onclick = () => $('eggPanel').hidden = true;
 $('shopBtn').onclick = openShop;
 $('closeShop').onclick = () => $('shopPanel').hidden = true;
-// The garden and any unspent stars stay when a new egg arrives.
-function newEgg(){ const keep = { sound:S.sound, speed:S.speed, quiet:S.quiet, stars:S.stars || 0, decor:S.decor || [] }; S = Object.assign(fresh(), keep); save();
-  $('settingsPanel').hidden = true; $('donePanel').hidden = true; render(true); toast('A new purple egg! Keep it cosy.', ICON('lamp')); }
+// The garden, any unspent stars and unlocked eggs stay when a new egg arrives.
+function startEgg(kind){
+  const keep = { sound:S.sound, speed:S.speed, quiet:S.quiet, stars:S.stars || 0, decor:S.decor || [], unlocked:S.unlocked || [], unlockAll:!!S.unlockAll, best:S.best };
+  S = Object.assign(fresh(kind), keep); save();
+  ['settingsPanel','donePanel','eggPanel'].forEach(id => $(id).hidden = true); render(true);
+  toast(`A new ${C().egg} egg! Keep it cosy.`, ICON('lamp'));
+  if(C().hatchMs > 6*MIN) setTimeout(() => toast("This egg gets chilly fast. Keep that lamp handy!", ICON('lamp')), 4000);
+}
 
 /* ---------- boot ---------- */
 let audioUnlocked = false;
@@ -1162,9 +1306,12 @@ const pw = $('petWrap'); pw.addEventListener('pointerdown', petDown); pw.addEven
 document.addEventListener('contextmenu', e => e.preventDefault());
 $('avatar').appendChild(pic('assets/Sprites/busy_idle.webp', '💜', ''));
 
-if(S.phase === 'pet'){ $('startText').textContent = "Big Busy missed you! Let's see how he's feeling."; $('startBtn').textContent = 'Say hello'; $('hero').appendChild(pic('assets/Sprites/' + form().files.idle + '.webp', '💜', 'Big Busy')); }
-else { const i = new Image(); i.alt = 'Purple egg'; i.src = 'assets/art/egg.webp'; i.onerror = () => { $('hero').innerHTML = eggFallbackSVG(); }; $('hero').appendChild(i);
-  if(S.egg.warm > 0) $('startText').textContent = 'Your egg is waiting in the garden. Is it still cosy?'; }
+(function startScreen(){ const K = C(); $('logoName').textContent = K.name; $('logo').classList.toggle('pink', K.tint);
+  if(S.phase === 'pet'){ $('startText').textContent = `${K.name} missed you! Let's see how ${K.he}'s feeling.`; $('startBtn').textContent = 'Say hello';
+    const h = pic('assets/Sprites/' + form().files.idle + '.webp', '💜', K.name); if(form().tint) h.classList.add('tintPink'); $('hero').appendChild(h); }
+  else { const i = eggPic(S.kind); i.onerror = () => { $('hero').innerHTML = eggFallbackSVG(); }; $('hero').appendChild(i);
+    $('startText').textContent = S.egg.warm > 0 ? 'Your egg is waiting in the garden. Is it still cosy?' : `A ${K.egg} egg has arrived in the garden! Keep it cosy with the heat lamp and see who hatches.`; }
+})();
 $('startBtn').onclick = () => { unlockAudio(); $('startPanel').hidden = true; play('boing', .6); if(S.phase === 'pet') hopPet(); else wiggleEgg(); };
 
 const now = Date.now(), away = Math.min(now - S.last, 10*24*HOUR); if(away > 0) step(away); S.last = now;

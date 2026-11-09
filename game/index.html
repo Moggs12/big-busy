@@ -279,6 +279,53 @@ header{display:flex;align-items:center;gap:10px}
 .setrow{display:flex;flex-direction:column;gap:6px;text-align:left}
 .setrow label{font-weight:900;font-size:14px;color:var(--ink-2);padding-left:6px}
 
+/* ---------- dance party (Big Lizzy's game) ---------- */
+#dance{position:fixed;inset:0;z-index:65;touch-action:none;overflow:hidden;-webkit-user-select:none;user-select:none}
+#dance .dbg{position:absolute;inset:-20px;background:linear-gradient(#ff9be0,#ffd1ef)}
+#dance .dbg img{width:100%;height:100%;object-fit:cover}
+#dance .dbg::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(255,120,200,.22),rgba(140,60,255,.3))}
+#dance .stagef{position:absolute;left:0;right:0;top:calc(62px + env(safe-area-inset-top,0px));height:calc(37% - 62px - env(safe-area-inset-top,0px));display:flex;justify-content:center;align-items:flex-end;pointer-events:none}
+#dance .dancer{position:relative;height:100%;aspect-ratio:1;max-width:80%}
+#dance .dancer::before{content:"";position:absolute;left:16%;right:16%;bottom:0;height:14%;border-radius:50%;background:radial-gradient(closest-side,rgba(255,255,255,.9),rgba(255,255,255,0))}
+#dance .dancer img{position:relative;width:100%;height:100%;object-fit:contain;transform-origin:50% 92%}
+#dance .dancer.bob{animation:dBob .3s ease-out}
+@keyframes dBob{35%{transform:translateY(3%) scaleY(.96)}}
+#dance .dancer img.mL{animation:mL .38s ease-out}
+#dance .dancer img.mR{animation:mR .38s ease-out}
+#dance .dancer img.mU{animation:mU .38s ease-out}
+#dance .dancer img.mD{animation:mD .38s ease-out}
+#dance .dancer img.mS{animation:mS .7s ease-in-out}
+@keyframes mL{40%{transform:translateX(-16%) rotate(-14deg)}}
+@keyframes mR{40%{transform:translateX(16%) rotate(14deg)}}
+@keyframes mU{40%{transform:translateY(-22%) scale(1.04)}}
+@keyframes mD{40%{transform:scale(1.14,.8)}}
+@keyframes mS{from{transform:perspective(600px) rotateY(0)}to{transform:perspective(600px) rotateY(360deg)}}
+#dance .glitter{position:absolute;top:-6px;left:50%;width:44px;margin-left:-22px;font-size:40px;text-align:center;transform-origin:50% 0;animation:glit 2.4s ease-in-out infinite;filter:drop-shadow(0 0 10px #fff)}
+@keyframes glit{50%{transform:rotate(14deg)}}
+#dance .track{position:absolute;left:50%;top:37%;bottom:calc(16px + env(safe-area-inset-bottom,0px));width:min(calc(100% - 20px),540px);transform:translateX(-50%)}
+#dance .lg{position:absolute;top:0;bottom:0;width:21%;border-radius:22px;background:linear-gradient(rgba(255,255,255,0),rgba(255,255,255,.3))}
+#dance .lg:nth-child(1){left:2%}#dance .lg:nth-child(2){left:27.3%}#dance .lg:nth-child(3){left:51.7%}#dance .lg:nth-child(4){left:77%}
+#dance .pads{position:absolute;z-index:1;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(4,1fr)}
+#dance .pad{position:relative;margin:0 8%;aspect-ratio:1;border:0;padding:7%;border-radius:30%;background:rgba(255,255,255,.5);cursor:pointer;
+  box-shadow:inset 0 0 0 3px #fff,0 6px 16px rgba(120,10,90,.18);transition:transform .08s,background .08s;-webkit-tap-highlight-color:transparent;touch-action:none}
+#dance .pad svg{width:100%;height:100%;opacity:.5;display:block;pointer-events:none}
+#dance .pad.on{transform:scale(.9);background:#fff}
+#dance .pad.on svg{opacity:1}
+#dance .pad.off{opacity:.22;pointer-events:none}
+#dance .track.pulse .pad{animation:padPulse .25s ease-out}
+@keyframes padPulse{30%{box-shadow:inset 0 0 0 3px #fff,0 0 0 7px rgba(255,255,255,.55),0 6px 16px rgba(120,10,90,.18)}}
+#dance .note{position:absolute;z-index:2;left:0;top:0;padding:4px;will-change:transform;pointer-events:none}
+#dance .note svg{width:100%;height:100%;display:block;filter:drop-shadow(0 4px 5px rgba(90,10,80,.28))}
+#dance .note.star svg{filter:drop-shadow(0 0 9px #fff6b0) drop-shadow(0 4px 5px rgba(90,10,80,.28))}
+#dance .note.hit svg{animation:noteHit .28s ease-out forwards}
+@keyframes noteHit{to{transform:scale(1.6);opacity:0}}
+#dance .note.miss{transition:opacity .35s;opacity:0 !important}
+#dance .judge{position:absolute;z-index:4;left:50%;top:40%;transform:translate(-50%,-50%);font-family:var(--font-display);font-weight:800;font-size:40px;color:#fff;white-space:nowrap;
+  text-shadow:0 3px 0 var(--jc,#c0146f),0 0 18px rgba(255,255,255,.8);pointer-events:none;opacity:0}
+#dance .judge.show{animation:judgePop .55s ease-out}
+@keyframes judgePop{0%{opacity:0;transform:translate(-50%,-50%) scale(.5)}25%{opacity:1;transform:translate(-50%,-50%) scale(1.12)}100%{opacity:0;transform:translate(-50%,-75%) scale(1)}}
+#dance .combo{top:26%;text-shadow:0 4px 0 #ff2f9a,0 0 24px rgba(255,255,255,.8)}
+
 /* ---------- hatch film ---------- */
 #film{position:fixed;inset:0;z-index:85;background:#000;display:grid;place-items:center}
 #film video{width:100%;height:100%;object-fit:cover}
@@ -289,9 +336,9 @@ header{display:flex;align-items:center;gap:10px}
 #game{position:fixed;inset:0;z-index:65;touch-action:none;overflow:hidden}
 #game .gbg{position:absolute;inset:-20px;background:linear-gradient(#5ccaff,#ff9be0);}
 #game .gbg img{width:100%;height:100%;object-fit:cover}
-#game .hud,#village .hud{position:absolute;z-index:3;left:0;right:0;top:0;display:flex;justify-content:space-between;align-items:center;gap:10px;
+#game .hud,#village .hud,#dance .hud{position:absolute;z-index:3;left:0;right:0;top:0;display:flex;justify-content:space-between;align-items:center;gap:10px;
   padding-top:calc(14px + env(safe-area-inset-top,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-#game .hud .pill,#village .hud .pill{font-family:var(--font-display);font-weight:800;font-size:28px;padding:8px 22px}
+#game .hud .pill,#village .hud .pill,#dance .hud .pill{font-family:var(--font-display);font-weight:800;font-size:28px;padding:8px 22px}
 #game .cheer{position:absolute;z-index:2;right:-2%;bottom:-4%;width:min(34vmin,260px);aspect-ratio:1;pointer-events:none;animation:heroBob 1.2s ease-in-out infinite}
 #game .cheer img{width:100%;height:100%;object-fit:contain}
 .gb{position:absolute;z-index:1;border-radius:50%;cursor:pointer;border:3px solid rgba(255,255,255,.95);
@@ -317,8 +364,8 @@ header{display:flex;align-items:center;gap:10px}
 .combo{position:absolute;z-index:4;left:50%;top:22%;transform:translate(-50%,-50%);font-family:var(--font-display);font-weight:800;font-size:64px;color:#fff;
   text-shadow:0 4px 0 var(--magenta),0 0 24px rgba(255,255,255,.8);pointer-events:none;animation:comboPop .7s ease-out forwards}
 @keyframes comboPop{0%{transform:translate(-50%,-50%) scale(.4);opacity:0}25%{transform:translate(-50%,-50%) scale(1.15);opacity:1}100%{transform:translate(-50%,-80%) scale(1);opacity:0}}
-#game .hud .pill.best{font-size:20px;margin-left:auto}
-#game .hud .pill.best:empty{display:none}
+#game .hud .pill.best,#dance .hud .pill.best{font-size:20px;margin-left:auto}
+#game .hud .pill.best:empty,#dance .hud .pill.best:empty{display:none}
 #game .cheer.in{animation:cheerIn .7s cubic-bezier(.3,1.5,.5,1),heroBob 1.2s ease-in-out .7s infinite}
 @keyframes cheerIn{from{transform:translateX(120%) rotate(20deg)}}
 #game .cheer.puff img{animation:puff .5s ease-out}
@@ -581,7 +628,7 @@ header{display:flex;align-items:center;gap:10px}
     <div class="shopHave" id="shopHave"></div>
     <div class="shopTabs" id="shopTabs"></div>
     <div class="shopGrid" id="shopGrid"></div>
-    <p style="font-size:14px">Earn stars at meal times, in Bubble Party and from goals.</p>
+    <p style="font-size:14px">Earn stars at meal times, playing games and from goals.</p>
     <div class="row"><button class="btn small" id="closeShop">Done</button></div>
   </div>
 </div>
@@ -618,6 +665,15 @@ header{display:flex;align-items:center;gap:10px}
     <div class="eggGrid" id="eggGrid"></div>
     <div class="row"><button class="btn plain small" id="closeEgg">Back</button></div>
   </div>
+</div>
+
+<div id="dance" hidden>
+  <div class="dbg"><img alt="" src="assets/art/garden_blur.webp"></div>
+  <div class="hud"><span class="pill glass" id="dScore">0</span><span class="pill glass best" id="dBest"></span><span class="pill glass" id="dTime">30s</span></div>
+  <div class="stagef"><div class="dancer"><img alt="" src="assets/Sprites/lizzy_idle.webp"></div><div class="glitter" hidden>🪩</div></div>
+  <div class="judge" id="dJudge"></div>
+  <div class="track"><i class="lg"></i><i class="lg"></i><i class="lg"></i><i class="lg"></i>
+    <div class="pads"><button class="pad" data-l="0" aria-label="Left"></button><button class="pad" data-l="1" aria-label="Up"></button><button class="pad" data-l="2" aria-label="Down"></button><button class="pad" data-l="3" aria-label="Right"></button></div></div>
 </div>
 
 <div id="game" hidden>
@@ -672,7 +728,7 @@ const CHARS = {
     wantHint:'Big Busy wants a hug! Press and hold him', cuddledOut:"I'm all cuddled out, let's play!",
     cuddleSay:['Aww, I love hugs!','Squeeeze!','Mmm, so cosy!'], home:'to live with Big Lizzy',
     his:'his', next:'lizzy', found:"Look what I found! It's my sister!", tricks:['wingFlap','peekaboo','wiggle','flip'] },
-  lizzy:{ name:'Big Lizzy', he:'she', him:'her', egg:'pink', forms:['puff','twirl','lizzy'], tint:true,
+  lizzy:{ name:'Big Lizzy', he:'she', him:'her', egg:'pink', forms:['puff','twirl','lizzy'], tint:true, game:'dance',
     hatchMs:15*MIN, cosyDrainMs:2.5*MIN, rates:{ tummy:14, happy:9, energy:9, clean:4, fun:14 }, cuddle:'twirl', voice:1.18,
     foods:{
       strawberries:{em:'🍓', name:'Strawberries', tummy:26, happy:6, fav:true},
@@ -871,7 +927,7 @@ const DECOR = [
   { id:'strawberryPatch', who:'lizzy', name:'Strawberry patch', price:10, x:.64, w:.2, ar:1.6, spot:'front', draw:'strawberryPatch', tap:true, does:'Free strawberries every day: tap the patch', say:'Strawberries! Yummy!' },
   { id:'ribbonSwing', who:'lizzy', name:'Ribbon swing', price:14, x:.24, w:.15, ar:.9, spot:'back', draw:'ribbonSwing', does:'She sleeps faster', say:'A ribbon swing! So pretty!' },
   { id:'musicBox',  who:'lizzy', name:'Music box', price:18, x:.36, w:.15, ar:1, spot:'front', draw:'musicBox', trick:'music', does:'Teaches her the Music Box Dance', say:'La la la! Music!' },
-  { id:'danceFloor', who:'lizzy', name:'Dance floor', price:25, x:.8, w:.21, ar:1.4, spot:'back', draw:'danceFloor', does:'Her Fun goes down slower', say:"A glitter ball! Let's dance!" },
+  { id:'danceFloor', who:'lizzy', name:'Dance floor', price:25, x:.8, w:.21, ar:1.4, spot:'back', draw:'danceFloor', does:'Her Fun goes down slower, and gold star arrows in Dance Party', say:"A glitter ball! Let's dance!" },
 ];
 const DEPTH = { sky:0, top:1, back:2, air:3, front:4 };
 function owned(id){ return (S.decor || []).includes(id); }
@@ -1043,7 +1099,7 @@ function evolve(){
     const nf = form();
     setTimeout(() => { say(nf.next ? C().mid[0] + ' Look at me!' : C().grownHi); }, 700);
     toast(`Wow! ${cap(C().he)}'s a ${nf.n} now!`, ICON('star'));
-    if(nf.stage === 2) setTimeout(() => toast('Play is unlocked! Try the bubble game.', ICON('wand')), 4200);
+    if(nf.stage === 2) setTimeout(() => toast(`Play is unlocked! Try ${C().game === 'dance' ? 'Dance Party' : 'the bubble game'}.`, ICON('wand')), 4200);
     if(nf.stage === 3) setTimeout(() => toast(`New: ${C().name}'s goals and tricks! Look in the toy dock.`, null, '🏆'), 4200);
     evolving = false; save();
   }), 2300);
@@ -1078,7 +1134,8 @@ function buildDock(){
   t.appendChild(mkItem('sponge', ICON('sponge'), '🧽', 'Bath'));
   t.appendChild(mkItem('moon', ICON('moon'), '🌙', 'Bedtime'));
   const pl = mkItem('play', ICON('wand'), '🫧', 'Play', stage() === 1 ? 'locked' : ''); t.appendChild(pl);
-  if(S.best){ const bd = document.createElement('span'); bd.className = 'bestBadge'; bd.textContent = '★' + S.best; pl.querySelector('.tile').appendChild(bd); }
+  const myBest = C().game === 'dance' ? S.dBest : S.best;
+  if(myBest){ const bd = document.createElement('span'); bd.className = 'bestBadge'; bd.textContent = '★' + myBest; pl.querySelector('.tile').appendChild(bd); }
   if(stage() === 3){
     t.appendChild(mkItem('tricks', '', '✨', 'Tricks'));
     const gl = mkItem('goals', '', '🏆', 'Goals'); t.appendChild(gl);
@@ -1340,6 +1397,7 @@ function startGame(){
   if(P.asleep){ say(`Zzz… ${C().he}'s asleep`); return; }
   if(stage() === 1){ say(`${cap(C().he)}'s too little to play. Tomorrow!`, ICON('wand')); return; }
   if(P.energy < 12){ say("I'm too tired to play"); return; }
+  if(C().game === 'dance'){ startDance(); return; }
   const g = $('game'); g.hidden = false; g.querySelectorAll('.gb,.plus,.combo').forEach(b => b.remove());
   g.classList.toggle('pink', C().tint);   // Big Lizzy's Bubble Party: pink bubbles, heart bubbles instead of gold
   const ch = g.querySelector('.cheer'), ci = ch.querySelector('img');
@@ -1423,17 +1481,169 @@ function busyPuff(){
   setTimeout(() => { if(G) spawnBubble(Math.random() < .3 ? 'gold' : 'plain', { x:r.left + r.width*.3, y:r.top + r.height*.35 }); play('poof', .35); }, 250);
 }
 function gameStars(sc){ return sc >= 30 ? 3 : sc >= 20 ? 2 : sc >= 10 ? 1 : 0; }
-function endGame(){
-  const P = S.pet, sc = G.score, fed = G.fed; G = null; $('game').hidden = true;
+function endGame(){ const sc = G.score, fed = G.fed; G = null; $('game').hidden = true; gameReward(sc, fed, 'best'); }
+// Rewards after any game. key = where that game's best score is kept (Bubble Party: best, Dance Party: dBest).
+function gameReward(sc, fed, key){
+  const P = S.pet;
   P.fun = clamp(P.fun + 12 + sc*2.5); P.energy = clamp(P.energy - 6); P.happy = clamp(P.happy + 3); S.plays++;
-  const stars = gameStars(sc), best = sc > (S.best || 0) && sc > 0;
-  S.stars += stars; if(best) S.best = sc;
+  const stars = gameStars(sc), best = sc > (S[key] || 0) && sc > 0;
+  S.stars += stars; if(best) S[key] = sc;
   if(stage() === 3){ P.g = P.g || {}; P.g.best = Math.max(P.g.best || 0, sc); } careDone(10 + Math.min(15, Math.round(sc/2)));
   bump('fun'); if(fed) bump('tummy'); hopPet(); play('giggle', .7);
   if(best || sc >= 15) confetti();
   if(best || stars) setTimeout(() => { toast([best ? 'New best!' : '', sc + ' points', stars ? '+' + stars + ' ★' : ''].filter(Boolean).join(' · '), ICON('star')); play('sparkle', .7); }, 500);
   say(best ? `WOW! ${sc}! My best ever!` : sc >= 15 ? `WOW! ${sc} points!` : `${sc} points! That was fun!`);
   save(); render(); buildDock();
+}
+
+/* ---------- Dance Party (Big Lizzy's game) ---------- */
+// Arrows float down onto four pads; tap the pad as an arrow lands on it. Misses just don't score.
+// Twirlet gets only left and right, slowly; Big Lizzy gets all four, a bit faster as the days go on.
+let DP = null, padsReady = false, NOISE = null;
+const LANES = [
+  { k:'ArrowLeft',  rot:-90, col:'#ff4fa3', move:'mL' },
+  { k:'ArrowUp',    rot:0,   col:'#ffb000', move:'mU' },
+  { k:'ArrowDown',  rot:180, col:'#14c8f5', move:'mD' },
+  { k:'ArrowRight', rot:90,  col:'#8a3ffc', move:'mR' },
+];
+const PERFECT_MS = 120, GREAT_MS = 230, SONG_MS = 28000;
+const CHORDS = [[261.63,329.63,392.00],[196.00,246.94,293.66],[220.00,261.63,329.63],[174.61,220.00,261.63]];   // C G Am F
+const ARROW = (c, r) => `<svg viewBox="0 0 100 100"><g transform="rotate(${r} 50 50)"><path d="M50 7 L92 50 L67 50 L67 92 L33 92 L33 50 L8 50 Z" fill="${c}" stroke="#fff" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M50 22 L72 44" stroke="rgba(255,255,255,.6)" stroke-width="7" stroke-linecap="round"/></g></svg>`;
+function danceLevel(){
+  if(stage() === 2) return { bpm:92, lanes:[0,3], every:2, chance:1, eighths:0, travel:2600, star:has('danceFloor') ? .12 : 0 };
+  const d = Math.max(0, Math.min(1, (stageInfo().ageDays - 2) / 4));          // 0 on day 3 -> 1 by day 7
+  return { bpm:100 + Math.round(d*12), lanes:[0,1,2,3], every:1, chance:.5 + d*.3, eighths:d*.18, travel:2300 - d*450, star:has('danceFloor') ? .12 : 0 };
+}
+function danceChart(L){
+  const beat = 60000/L.bpm, notes = []; let prev = -1;
+  const lane = () => { let l; do l = any(L.lanes); while(l === prev && L.lanes.length > 2 && Math.random() < .6); return prev = l; };
+  for(let b = 4; b*beat <= SONG_MS; b++){            // 4 beats of count-in first
+    if(b % L.every) continue;
+    if(b > 4 && Math.random() > L.chance) continue;
+    notes.push({ hit:b*beat, lane:lane(), star:Math.random() < L.star });
+    if(Math.random() < L.eighths && (b + .5)*beat <= SONG_MS) notes.push({ hit:(b + .5)*beat, lane:lane(), star:false });
+  }
+  return notes;
+}
+function readyPads(){
+  if(padsReady) return; padsReady = true;
+  $('dance').querySelectorAll('.pad').forEach(p => { const l = +p.dataset.l; p.innerHTML = ARROW(LANES[l].col, LANES[l].rot);
+    p.addEventListener('pointerdown', e => { e.preventDefault(); danceHit(l); }); });
+  document.addEventListener('keydown', e => { if(!DP) return; const l = LANES.findIndex(x => x.k === e.key); if(l >= 0){ e.preventDefault(); if(DP.L.lanes.includes(l)) danceHit(l); } });
+  document.addEventListener('visibilitychange', () => { if(document.hidden && DP) endDance(); });
+}
+function startDance(){
+  readyPads(); const el = $('dance'); el.hidden = false;
+  el.querySelectorAll('.note,.combo').forEach(n => n.remove());
+  const img = el.querySelector('.dancer img'); img.src = 'assets/Sprites/' + form().files.idle + '.webp'; img.classList.toggle('tintPink', !!form().tint);
+  el.querySelector('.glitter').hidden = !has('danceFloor');
+  $('dBest').textContent = S.dBest ? 'Best ' + S.dBest : '';
+  const L = danceLevel(), tr = el.querySelector('.track'), trr = tr.getBoundingClientRect(), pads = [...el.querySelectorAll('.pad')];
+  pads.forEach(p => p.classList.toggle('off', !L.lanes.includes(+p.dataset.l)));
+  const pr = pads.map(p => p.getBoundingClientRect());
+  DP = { L, beat:60000/L.bpm, notes:danceChart(L), next:0, live:[], score:0, combo:0, t0:performance.now() + 150, lastBeat:-1, step:0, secs:-1,
+         size:pr[0].width, hitY:pr[0].top - trr.top, laneX:pr.map(r => r.left - trr.left), track:tr };
+  DP.end = (DP.notes.length ? DP.notes[DP.notes.length - 1].hit : SONG_MS) + 1500;
+  startMusic(); setDScore();
+  requestAnimationFrame(danceLoop);
+}
+function setDScore(){ $('dScore').textContent = '♪ ' + DP.score; }
+function danceLoop(){
+  if(!DP) return;
+  const now = performance.now() - DP.t0;
+  scheduleMusic(now);
+  const b = Math.floor(now / DP.beat);
+  if(now >= 0 && b !== DP.lastBeat){ DP.lastBeat = b; onBeat(b); }
+  while(DP.next < DP.notes.length && DP.notes[DP.next].hit - now <= DP.L.travel){
+    const N = DP.notes[DP.next++], n = document.createElement('div');
+    n.className = 'note' + (N.star ? ' star' : ''); n.innerHTML = ARROW(N.star ? '#ffcc1a' : LANES[N.lane].col, LANES[N.lane].rot);
+    n.style.width = n.style.height = DP.size + 'px'; n.style.opacity = 0; N.el = n; DP.track.appendChild(n); DP.live.push(N);
+  }
+  for(let i = DP.live.length - 1; i >= 0; i--){
+    const N = DP.live[i], left = N.hit - now;
+    if(left < -GREAT_MS){ N.el.classList.add('miss'); const e = N.el; setTimeout(() => e.remove(), 400); DP.live.splice(i, 1); DP.combo = 0; continue; }
+    const y = DP.hitY - left / DP.L.travel * (DP.hitY + DP.size);
+    N.el.style.transform = `translate3d(${DP.laneX[N.lane]}px,${y}px,0)`;
+    N.el.style.opacity = Math.min(1, (1 - left/DP.L.travel)*5);
+  }
+  const secs = Math.max(0, Math.ceil((DP.end - now)/1000)); if(secs !== DP.secs){ DP.secs = secs; $('dTime').textContent = secs + 's'; }
+  if(now >= DP.end) return endDance();
+  requestAnimationFrame(danceLoop);
+}
+function restartAnim(el, cls){ el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); }
+function onBeat(b){
+  if(b < 4) bigText(['3', '2', '1', 'Dance!'][b]);
+  restartAnim(DP.track, 'pulse'); restartAnim($('dance').querySelector('.dancer'), 'bob');
+}
+function bigText(t){
+  const el = $('dance'); el.querySelectorAll('.combo').forEach(c => c.remove());
+  const c = document.createElement('div'); c.className = 'combo'; c.textContent = t; el.appendChild(c); setTimeout(() => c.remove(), 700);
+}
+function danceHit(l){
+  if(!DP) return; unlockAudio();
+  const now = performance.now() - DP.t0, pad = $('dance').querySelectorAll('.pad')[l];
+  pad.classList.add('on'); clearTimeout(pad._t); pad._t = setTimeout(() => pad.classList.remove('on'), 130);
+  let best = null;
+  for(const N of DP.live) if(N.lane === l && Math.abs(N.hit - now) <= GREAT_MS && (!best || Math.abs(N.hit - now) < Math.abs(best.hit - now))) best = N;
+  if(!best) return;                                   // tapping between arrows never costs anything
+  DP.live.splice(DP.live.indexOf(best), 1);
+  const perfect = Math.abs(best.hit - now) <= PERFECT_MS;
+  let pts = perfect ? 2 : 1; if(best.star) pts += 2;
+  DP.combo++; if(DP.combo % 10 === 0){ pts += 2; bigText('x' + DP.combo + '!'); play('sparkle', .5); }
+  DP.score += pts; setDScore();
+  best.el.style.opacity = 1; best.el.classList.add('hit'); const e = best.el; setTimeout(() => e.remove(), 300);
+  const j = $('dJudge'); j.textContent = best.star ? 'Star! +' + pts : perfect ? 'Perfect!' : 'Great!'; j.style.setProperty('--jc', best.star ? '#d98a00' : LANES[l].col); restartAnim(j, 'show');
+  hitTone(l, perfect);
+  const img = $('dance').querySelector('.dancer img'); img.classList.remove('mL', 'mR', 'mU', 'mD', 'mS'); void img.offsetWidth;
+  img.classList.add(DP.combo % 8 === 0 ? 'mS' : LANES[l].move);   // every 8 in a row she does a twirl
+}
+function endDance(){
+  const sc = DP.score;
+  if(DP.mix){ const m = DP.mix; try{ m.gain.setTargetAtTime(0, AC.currentTime, .12); }catch(e){} setTimeout(() => { try{ m.disconnect(); }catch(e){} }, 1500); }
+  DP = null; $('dance').hidden = true; gameReward(sc, 0, 'dBest');
+}
+// The music is made right here with Web Audio: a bouncy beat, a little bass and a sparkly tune. No files, no Runway credits.
+function startMusic(){
+  DP.mix = null; if(!AC || !S.sound) return;
+  wakeAudio();
+  const mix = AC.createGain(); mix.gain.value = .6; mix.connect(AC.destination); DP.mix = mix;
+  DP.a0 = AC.currentTime + (DP.t0 - performance.now())/1000;
+  if(!NOISE){ NOISE = AC.createBuffer(1, Math.floor(AC.sampleRate*.3), AC.sampleRate); const d = NOISE.getChannelData(0); for(let i = 0; i < d.length; i++) d[i] = Math.random()*2 - 1; }
+}
+function scheduleMusic(now){
+  if(!DP.mix) return;
+  const half = DP.beat/2;
+  while(DP.step*half < now + 160 && DP.step*half < DP.end - 600){      // eighth-note steps, a little ahead of time
+    const s = DP.step++, at = DP.a0 + s*half/1000; if(at < AC.currentTime) continue;
+    const pos = s % 8, ch = CHORDS[Math.floor(s/8) % 4];
+    if(pos % 2 === 0) mKick(at); else if(s >= 8) mHat(at);
+    if(s < 8) continue;                                                 // count-in: just the kick
+    if(pos === 2 || pos === 6) mClap(at);
+    if(pos === 0 || pos === 3 || pos === 4 || pos === 7) mTone(ch[0]/2, at, .3, 'triangle', .2);
+    mTone(ch[[0,1,2,1,0,2,1,2][pos]]*2, at, .12, 'square', .03);
+  }
+}
+function mTone(f, at, dur, type, vol){
+  const o = AC.createOscillator(), g = AC.createGain(); o.type = type; o.frequency.value = f;
+  g.gain.setValueAtTime(.0001, at); g.gain.exponentialRampToValueAtTime(vol, at + .01); g.gain.exponentialRampToValueAtTime(.0001, at + dur);
+  o.connect(g); g.connect(DP.mix); o.start(at); o.stop(at + dur + .05);
+}
+function mKick(at){
+  const o = AC.createOscillator(), g = AC.createGain(); o.frequency.setValueAtTime(150, at); o.frequency.exponentialRampToValueAtTime(45, at + .14);
+  g.gain.setValueAtTime(.55, at); g.gain.exponentialRampToValueAtTime(.0001, at + .18); o.connect(g); g.connect(DP.mix); o.start(at); o.stop(at + .2);
+}
+function mNoise(at, dur, vol, type, freq){
+  const src = AC.createBufferSource(), f = AC.createBiquadFilter(), g = AC.createGain(); src.buffer = NOISE; f.type = type; f.frequency.value = freq;
+  g.gain.setValueAtTime(vol, at); g.gain.exponentialRampToValueAtTime(.0001, at + dur); src.connect(f); f.connect(g); g.connect(DP.mix); src.start(at); src.stop(at + dur + .02);
+}
+function mHat(at){ mNoise(at, .05, .07, 'highpass', 7000); }
+function mClap(at){ mNoise(at, .14, .22, 'bandpass', 1500); }
+// Each pad plays a note from the chord that's playing, so tapping along makes the tune.
+function hitTone(l, perfect){
+  if(!DP.mix) return;
+  const now = performance.now() - DP.t0, ch = CHORDS[Math.max(0, Math.floor(now/(DP.beat*4))) % 4], f = [ch[0]*2, ch[1]*2, ch[2]*2, ch[0]*4][l], at = AC.currentTime;
+  mTone(f, at, .35, 'triangle', perfect ? .22 : .14); if(perfect) mTone(f*2, at + .04, .25, 'sine', .07);
 }
 
 function sayNeed(need){ if(stage() === 3) say(need.k === 'happy' ? C().happyNeed : need.need); else say(' ?', ICON(need.icon)); }
@@ -1556,7 +1766,7 @@ function goalList(){
   return [
     { id:'tricks', em:'✨', text:`Teach ${K.him} 3 tricks`, have:knownTricks().length, need:3 },
     { id:'meals',  em:'⭐', text:'Get 6 meal-time stars', have:g.meals || 0, need:6 },
-    { id:'score',  em:'🫧', text:'Score 25 in Bubble Party', have:g.best || 0, need:25 },
+    { id:'score',  em:K.game === 'dance' ? '🎵' : '🫧', text:`Score 25 in ${K.game === 'dance' ? 'Dance Party' : 'Bubble Party'}`, have:g.best || 0, need:25 },
     { id:'shop',   em:'🛍️', text:`Buy something for ${K.name}'s corner`, have:DECOR.filter(D => D.who === S.kind && owned(D.id)).length, need:1 },
   ].map(x => Object.assign(x, { done:x.have >= x.need }));
 }
@@ -1675,7 +1885,7 @@ $('closeShop').onclick = () => $('shopPanel').hidden = true;
 // If the grown-up found an egg (all goals done), they move to Fluff Village first.
 function startEgg(kind){
   const moved = S.phase === 'pet' && S.pet && S.pet.eggFound ? toVillage() : null;
-  const keep = { sound:S.sound, speed:S.speed, quiet:S.quiet, stars:S.stars || 0, decor:S.decor || [], unlocked:S.unlocked || [], unlockAll:!!S.unlockAll, best:S.best, village:S.village || [] };
+  const keep = { sound:S.sound, speed:S.speed, quiet:S.quiet, stars:S.stars || 0, decor:S.decor || [], unlocked:S.unlocked || [], unlockAll:!!S.unlockAll, best:S.best, dBest:S.dBest, village:S.village || [] };
   S = Object.assign(fresh(kind), keep); save();
   ['settingsPanel','eggPanel','movePanel','goalsPanel'].forEach(id => $(id).hidden = true); $('foundEgg').innerHTML = ''; $('trickTray').hidden = true;
   buildDecor(); render(true);

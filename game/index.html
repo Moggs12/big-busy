@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Big Busy's Egg</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -192,9 +192,9 @@ header{display:flex;align-items:center;gap:10px}
 /* ---------- dock ---------- */
 #dock{position:absolute;z-index:10;left:0;right:0;bottom:0;display:flex;justify-content:center;
   padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px));padding-bottom:calc(14px + env(safe-area-inset-bottom,0px))}
-.dock-in{display:flex;gap:10px;border-radius:34px;padding:10px 12px;overflow-x:auto;max-width:100%;scrollbar-width:none}
+.dock-in{display:flex;gap:10px;border-radius:34px;padding:10px 12px;overflow-x:auto;max-width:100%;scrollbar-width:none;touch-action:pan-x;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
 .dock-in::-webkit-scrollbar{display:none}
-.item{flex:0 0 auto;width:clamp(74px,10.5vmin,98px);border:0;background:transparent;cursor:grab;touch-action:none;position:relative;
+.item{flex:0 0 auto;width:clamp(74px,10.5vmin,98px);border:0;background:transparent;cursor:grab;touch-action:pan-x;position:relative;
   display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0 2px;border-radius:24px;transition:transform .2s cubic-bezier(.3,1.6,.5,1)}
 .item .tile{width:clamp(58px,8.4vmin,78px);aspect-ratio:1;border-radius:22px;display:grid;place-items:center;
   background:linear-gradient(160deg,rgba(255,255,255,.95),rgba(255,255,255,.55));box-shadow:0 6px 14px rgba(43,13,92,.2),inset 0 -3px 0 rgba(43,13,92,.08),inset 0 2px 0 #fff}
@@ -205,7 +205,7 @@ header{display:flex;align-items:center;gap:10px}
 .item:active{transform:scale(.92)}
 .item.fav .tile::after{content:"";position:absolute;top:0;right:8px;width:22px;height:22px;border-radius:50%;
   background:var(--magenta) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z'/%3E%3C/svg%3E") center/14px no-repeat;box-shadow:0 2px 0 #c0146f,0 0 0 2px #fff}
-.item.lamp{width:clamp(120px,16vmin,160px)}
+.item.lamp{width:clamp(120px,16vmin,160px);touch-action:none}
 .item.lamp .tile{width:clamp(100px,13vmin,130px);background:linear-gradient(160deg,#fff2c6,#ffc65a)}
 .sep{width:2px;align-self:stretch;margin:10px 2px;border-radius:2px;background:rgba(43,13,92,.12)}
 
@@ -1086,8 +1086,10 @@ let drag = null;
 function startDrag(e){
   const btn = e.currentTarget, kind = btn.dataset.kind; if(kind === 'play' || kind === 'tricks' || kind === 'goals') return;
   e.preventDefault(); unlockAudio();
-  const g = $('ghost'); g.innerHTML = ''; g.appendChild(pic(btn.dataset.src, btn.dataset.em)); g.hidden = false;
-  drag = { btn, kind, id:e.pointerId, moved:0, x:e.clientX, y:e.clientY, over:false, scrub:0 };
+  const g = $('ghost'); g.innerHTML = ''; g.appendChild(pic(btn.dataset.src, btn.dataset.em));
+  // On touch the toy only lifts once the finger moves, so a sideways swipe can scroll the dock instead.
+  const live = e.pointerType !== 'touch' || kind === 'lamp'; g.hidden = !live;
+  drag = { btn, kind, id:e.pointerId, moved:0, x:e.clientX, y:e.clientY, sx:e.clientX, sy:e.clientY, over:false, scrub:0, live };
   moveGhost(e.clientX, e.clientY);
   addEventListener('pointermove', onDrag); addEventListener('pointerup', endDrag); addEventListener('pointercancel', endDrag);
 }
@@ -1097,6 +1099,7 @@ function overTarget(x, y, pad = 0){ const r = targetRect(); return x > r.left - 
 function onDrag(e){
   if(!drag || e.pointerId !== drag.id) return;
   const dist = Math.hypot(e.clientX - drag.x, e.clientY - drag.y); drag.moved += dist; drag.x = e.clientX; drag.y = e.clientY;
+  if(!drag.live){ if(Math.hypot(e.clientX - drag.sx, e.clientY - drag.sy) < 10) return; drag.live = true; $('ghost').hidden = false; }
   moveGhost(e.clientX, e.clientY);
   const over = overTarget(e.clientX, e.clientY, 24);
   if(drag.kind === 'lamp'){ const ok = over && !eggAsleep(); $('eggWrap').classList.toggle('warm', ok); if(ok) warmEgg(dist); }
@@ -1109,6 +1112,7 @@ function endDrag(e){
   removeEventListener('pointermove', onDrag); removeEventListener('pointerup', endDrag); removeEventListener('pointercancel', endDrag);
   $('ghost').hidden = true; $('eggWrap').classList.remove('warm');
   const d = drag; drag = null; if(d.moved > 10) d.btn._dragged = true;
+  if(e.type === 'pointercancel'){ if(S.pet && !eating) setMood(moodNow()); return; }   // the dock scrolled instead
   const over = overTarget(e.clientX, e.clientY, 24);
   if(d.kind.startsWith('food:')){ if(over) feed(d.kind.slice(5), e.clientX, e.clientY); else { if(S.pet) setMood(moodNow()); if(d.moved < 10) say('Drag it to my mouth!'); } }
   else if(d.kind === 'moon' && over && d.moved > 30) toggleSleep();
@@ -1677,6 +1681,10 @@ document.addEventListener('pointerdown', e => {
 }, true);
 const pw = $('petWrap'); pw.addEventListener('pointerdown', petDown); pw.addEventListener('pointermove', petMove); pw.addEventListener('pointerup', petUp); pw.addEventListener('pointercancel', petUp);
 document.addEventListener('contextmenu', e => e.preventDefault());
+// iPhone/iPad: no double-tap or pinch zoom (it knocks the garden out of place and can't be undone in-game).
+let lastTouchEnd = 0;
+document.addEventListener('touchend', e => { const t = Date.now(); if(t - lastTouchEnd < 350 && e.cancelable) e.preventDefault(); lastTouchEnd = t; }, { passive:false });
+['gesturestart', 'gesturechange', 'dblclick'].forEach(ev => document.addEventListener(ev, e => e.preventDefault(), { passive:false }));
 $('avatar').appendChild(pic('assets/Sprites/busy_idle.webp', '💜', ''));
 
 (function startScreen(){ const K = C(); $('logoName').textContent = K.name; $('logo').classList.toggle('pink', K.tint);

@@ -62,12 +62,12 @@ img{-webkit-user-drag:none}
 #app.sleeping #bgDay{opacity:.0}
 #decor{position:absolute;inset:0;pointer-events:none;transition:filter 1.4s}
 #decor img{position:absolute;inset:auto;width:auto;height:auto;object-fit:fill;transform-origin:50% 100%;filter:drop-shadow(0 6px 8px rgba(30,60,20,.25))}
-#decor img.new{animation:decorIn .9s cubic-bezier(.3,1.6,.5,1)}
+#decor .new{animation:decorIn .9s cubic-bezier(.3,1.6,.5,1)}
 @keyframes decorIn{0%{transform:scale(0) translateY(30px);opacity:0}60%{opacity:1}}
-#decor img.sky{filter:drop-shadow(0 0 18px rgba(255,255,255,.7));animation:floaty 5s ease-in-out infinite}
-#decor img.sky.new{animation:decorIn .9s cubic-bezier(.3,1.6,.5,1),floaty 5s ease-in-out .9s infinite}
+#decor .sky{filter:drop-shadow(0 0 18px rgba(255,255,255,.7));animation:floaty 5s ease-in-out infinite}
+#decor .sky.new{animation:decorIn .9s cubic-bezier(.3,1.6,.5,1),floaty 5s ease-in-out .9s infinite}
 @keyframes floaty{50%{translate:0 -8px}}
-#app.sleeping #decor{filter:brightness(.68) saturate(.85) hue-rotate(-10deg)}
+#app.sleeping #decor > :not(.lit){filter:brightness(.68) saturate(.85) hue-rotate(-10deg)}
 #nightTint{position:absolute;inset:0;background:radial-gradient(120% 80% at 50% 10%,rgba(40,20,120,.0),rgba(20,8,70,.45));opacity:0;transition:opacity 1.4s;pointer-events:none}
 #app.sleeping #nightTint{opacity:1}
 #app.noNightArt.sleeping #nightTint{background:linear-gradient(180deg,rgba(22,10,80,.82),rgba(60,30,150,.55));}
@@ -289,9 +289,9 @@ header{display:flex;align-items:center;gap:10px}
 #game{position:fixed;inset:0;z-index:65;touch-action:none;overflow:hidden}
 #game .gbg{position:absolute;inset:-20px;background:linear-gradient(#5ccaff,#ff9be0);}
 #game .gbg img{width:100%;height:100%;object-fit:cover;filter:blur(10px) saturate(1.3) brightness(1.05)}
-#game .hud{position:absolute;z-index:3;left:0;right:0;top:0;display:flex;justify-content:space-between;align-items:center;gap:10px;
+#game .hud,#village .hud{position:absolute;z-index:3;left:0;right:0;top:0;display:flex;justify-content:space-between;align-items:center;gap:10px;
   padding-top:calc(14px + env(safe-area-inset-top,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-#game .hud .pill{font-family:var(--font-display);font-weight:800;font-size:28px;padding:8px 22px}
+#game .hud .pill,#village .hud .pill{font-family:var(--font-display);font-weight:800;font-size:28px;padding:8px 22px}
 #game .cheer{position:absolute;z-index:2;right:-2%;bottom:-4%;width:min(34vmin,260px);aspect-ratio:1;pointer-events:none;animation:heroBob 1.2s ease-in-out infinite}
 #game .cheer img{width:100%;height:100%;object-fit:contain}
 .gb{position:absolute;z-index:1;border-radius:50%;cursor:pointer;border:3px solid rgba(255,255,255,.95);
@@ -361,6 +361,103 @@ header{display:flex;align-items:center;gap:10px}
 .eggPick.locked{cursor:default}
 .eggPick.locked .pic img,.eggPick.locked .pic img.tintPink{filter:grayscale(.85) brightness(.9);opacity:.6;animation:none}
 
+/* ---------- 1.4: code-drawn garden things, tricks, goals, Fluff Village ---------- */
+#decor svg{position:absolute;overflow:visible;transform-origin:50% 100%;filter:drop-shadow(0 6px 8px rgba(30,60,20,.25))}
+#decor .tap{pointer-events:auto;cursor:pointer}
+#decor .tap:not(.picked):not(.new){animation:tapBob 2.4s ease-in-out infinite}
+@keyframes tapBob{50%{transform:scale(1.05,.96)}}
+.picked .fruit{display:none}
+.halo{opacity:0;transition:opacity 1.4s}
+#app.sleeping .halo{opacity:.95}
+.flap{transform-box:fill-box;transform-origin:50% 50%;animation:flap .3s ease-in-out infinite alternate}
+@keyframes flap{to{transform:scaleX(.2)}}
+.flutterPath{animation:flutterPath 6s ease-in-out infinite}
+@keyframes flutterPath{25%{transform:translate(8px,-10px)}50%{transform:translate(-6px,-4px)}75%{transform:translate(5px,8px)}}
+.spray{animation:spray 1.2s ease-in-out infinite}
+@keyframes spray{50%{opacity:.55}}
+.drift{animation:drift 3s ease-in-out infinite}
+@keyframes drift{0%{transform:translateY(0);opacity:0}20%{opacity:1}100%{transform:translateY(-40px);opacity:0}}
+.twinkle{animation:twinkle 1.6s ease-in-out infinite}
+@keyframes twinkle{50%{opacity:.25}}
+.sway{transform-box:view-box;transform-origin:90px 14px;animation:sway 3s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
+/* shop tabs */
+.shopTabs{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.shopTabs button{border:0;border-radius:999px;padding:6px 14px 6px 6px;display:flex;align-items:center;gap:8px;font-weight:900;font-size:15px;color:var(--ink-2);background:rgba(43,13,92,.08);cursor:pointer}
+.shopTabs button[aria-pressed="true"]{background:#fff;color:var(--busy-lo);box-shadow:0 3px 8px rgba(43,13,92,.18)}
+.shopTabs .av{width:30px;height:30px;border-radius:50%;overflow:hidden;display:grid;place-items:center;font-size:18px;background:radial-gradient(circle at 35% 30%,var(--busy-hi),var(--busy-lo))}
+.shopTabs .av.pink{background:radial-gradient(circle at 35% 30%,#ffa3d6,#e0147d)}
+.shopTabs .av.g{background:#fff3c4}
+.shopTabs .av img{width:130%;height:130%;object-fit:cover;object-position:50% 30%}
+.shopItem .pic svg{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 4px 6px rgba(43,13,92,.2))}
+.shopItem .does{font-weight:800;font-size:12.5px;line-height:1.25;color:var(--ink-2)}
+.shopItem .lockNote{font-weight:900;font-size:12.5px;line-height:1.25;color:var(--ink-2);padding:6px 0}
+.shopItem.locked .pic{filter:grayscale(.85);opacity:.55}
+/* tricks */
+#pet.t-fly,.res.t-fly{animation:tFly 2s ease-in-out}
+@keyframes tFly{0%{transform:none}15%{transform:scale(1.1,.9)}35%{transform:translateY(-36%) rotate(-5deg)}50%{transform:translateY(-44%) rotate(5deg)}65%{transform:translateY(-36%) rotate(-5deg)}88%{transform:translateY(0) scale(1.1,.9)}100%{transform:none}}
+#pet.t-peek,.res.t-peek{animation:tPeek 1.8s ease-in-out}
+@keyframes tPeek{0%{transform:none}25%,55%{transform:scale(1.15,.12)}70%{transform:translateY(-8%) scale(.9,1.25)}85%{transform:scale(1.06,.95)}100%{transform:none}}
+#pet.t-wiggle,.res.t-wiggle{animation:tWiggle 1.8s ease-in-out}
+@keyframes tWiggle{0%,100%{transform:none}10%,50%{transform:translateX(-6%) rotate(-12deg)}30%,70%{transform:translateX(6%) rotate(12deg)}90%{transform:scale(1.08,.92)}}
+#pet.t-flip,.res.t-flip{transform-origin:50% 55%;animation:tFlip 1.4s cubic-bezier(.4,0,.3,1)}
+@keyframes tFlip{0%{transform:none}15%{transform:scale(1.12,.86)}50%{transform:translateY(-34%) rotate(180deg)}85%{transform:translateY(0) rotate(360deg) scale(1.1,.9)}100%{transform:rotate(360deg)}}
+#pet.t-bounce,.res.t-bounce{animation:tBounce 2s ease-in-out}
+@keyframes tBounce{0%,100%{transform:none}10%,40%,70%{transform:scale(1.15,.82)}25%{transform:translateY(-30%) scale(.92,1.1)}55%{transform:translateY(-46%) scale(.9,1.12)}85%{transform:translateY(-18%)}}
+#pet.t-pirouette,.res.t-pirouette{animation:tPir 1.8s ease-in-out}
+@keyframes tPir{0%{transform:perspective(900px) translateY(0) rotateY(0)}15%{transform:perspective(900px) translateY(-6%) rotateY(0) scale(.95,1.06)}85%{transform:perspective(900px) translateY(-6%) rotateY(1080deg) scale(.95,1.06)}100%{transform:perspective(900px) translateY(0) rotateY(1080deg)}}
+#pet.t-leap,.res.t-leap{animation:tLeap 1.8s ease-in-out}
+@keyframes tLeap{0%,100%{transform:none}15%{transform:scale(1.1,.9)}35%{transform:translate(-22%,-34%) rotate(-12deg)}50%{transform:translate(0,-42%) rotate(0)}65%{transform:translate(22%,-34%) rotate(12deg)}85%{transform:scale(1.1,.9)}}
+#pet.t-tiptoe,.res.t-tiptoe{animation:tTip 1.8s linear}
+@keyframes tTip{0%,100%{transform:none}10%{transform:translate(-8%,-6%) rotate(-5deg)}20%{transform:translate(-14%,0)}30%{transform:translate(-8%,-6%) rotate(5deg)}40%{transform:translate(0,0)}50%{transform:translate(8%,-6%) rotate(5deg)}60%{transform:translate(14%,0)}70%{transform:translate(8%,-6%) rotate(-5deg)}80%{transform:translate(0,0)}90%{transform:translateY(-10%) scale(.95,1.06)}}
+#pet.t-music,.res.t-music{animation:tWiggle 1.8s ease-in-out,tPir 1.8s ease-in-out 1.8s}
+.res.hop{animation:hop .75s cubic-bezier(.3,.6,.4,1)}
+.res.spin{animation:spin .85s cubic-bezier(.3,.6,.4,1)}
+#trickTray{position:absolute;z-index:11;left:50%;transform:translateX(-50%);display:flex;gap:8px;padding:10px;border-radius:28px;max-width:calc(100% - 24px);overflow-x:auto;scrollbar-width:none}
+#trickTray::-webkit-scrollbar{display:none}
+#trickTray button{flex:0 0 auto;border:0;border-radius:20px;padding:10px 14px;font-family:var(--font-display);font-weight:800;font-size:17px;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;
+  background:linear-gradient(160deg,#fff,rgba(255,255,255,.75));box-shadow:0 5px 0 rgba(90,23,201,.22),inset 0 2px 0 #fff}
+#trickTray button:active{transform:translateY(3px)}
+#trickTray .em{font-size:22px;line-height:1}
+#trickTray .next{flex:0 0 auto;display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:20px;background:rgba(255,255,255,.45);font-weight:900;font-size:14px;color:var(--ink-2);white-space:nowrap}
+#trickTray .next i{display:block;width:90px;height:8px;margin-top:4px;border-radius:9px;background:rgba(43,13,92,.15);overflow:hidden}
+#trickTray .next b{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,#ff2f9a,#ffc400)}
+.itemBadge{position:absolute;top:0;right:4px;padding:1px 7px;border-radius:999px;background:var(--magenta);color:#fff;font-family:var(--font-display);font-weight:800;font-size:13px;line-height:20px;box-shadow:0 2px 0 #a80d5c,0 0 0 2px #fff}
+/* goals */
+.goalList{display:flex;flex-direction:column;gap:10px;text-align:left}
+.goal{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:20px;background:rgba(255,255,255,.6);border:1.5px solid #fff}
+.goal .tick{flex:0 0 auto;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-size:21px;background:rgba(43,13,92,.08)}
+.goal.done .tick{background:linear-gradient(160deg,#5ee67a,#1d9a3a);color:#fff;font-weight:900;box-shadow:0 3px 0 #137a2c}
+.goal .gtxt{flex:1;min-width:0}
+.goal b{display:block;font-family:var(--font-display);font-weight:800;font-size:18px;line-height:1.15}
+.goal .bar{height:9px;border-radius:9px;background:rgba(43,13,92,.14);margin:6px 0 2px;overflow:hidden}
+.goal .bar i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,#ff2f9a,#ffc400)}
+.goal small{font-weight:900;color:var(--ink-2);font-size:13px}
+.goal.done small{color:#1d9a3a}
+#foundEgg{position:absolute;pointer-events:auto;cursor:pointer;transform-origin:50% 100%;animation:eggReady 1.6s ease-in-out infinite;filter:drop-shadow(0 0 12px #fff) drop-shadow(0 0 26px #ffd84a)}
+#foundEgg img{width:100%;height:100%;object-fit:contain}
+#villageBtn{font-size:26px;line-height:1}
+/* Fluff Village */
+#village{position:fixed;inset:0;z-index:66;overflow:hidden;touch-action:none}
+#village .vbg{position:absolute;inset:-10px;background:linear-gradient(#7fd4ff,#ffd1ef)}
+#village .vbg img{width:100%;height:100%;object-fit:cover;object-position:50% 70%;filter:saturate(1.2) hue-rotate(-14deg) brightness(1.04)}
+#village .houses img{position:absolute;object-fit:contain}
+#village .houses .h1{left:1%;bottom:30%;width:min(30vmin,260px);filter:drop-shadow(0 8px 10px rgba(30,60,20,.3))}
+#village .houses .h2{right:2%;bottom:33%;width:min(26vmin,220px);filter:hue-rotate(70deg) drop-shadow(0 8px 10px rgba(30,60,20,.3))}
+#village .houses .h3{left:40%;bottom:46%;width:min(15vmin,120px);filter:hue-rotate(-60deg) drop-shadow(0 8px 10px rgba(30,60,20,.3))}
+#village .vtitle{font-size:26px}
+#village .vhint{position:absolute;left:50%;top:calc(84px + env(safe-area-inset-top,0px));transform:translateX(-50%);font-weight:900;font-size:16px;max-width:92vw}
+#village .row{position:absolute;left:0;right:0;bottom:calc(5% + env(safe-area-inset-bottom,0px));display:flex;flex-wrap:wrap-reverse;justify-content:center;align-items:flex-end;gap:14px 3vw;padding:0 16px}
+.res{position:relative;width:min(28vmin,230px);aspect-ratio:1;cursor:pointer;transform-origin:50% 96%;animation:breathe 3.2s ease-in-out infinite;touch-action:none}
+.res img{width:100%;height:100%;object-fit:contain;pointer-events:none}
+.res .tag{position:absolute;left:50%;bottom:-4px;transform:translateX(-50%);padding:4px 12px;border-radius:999px;background:#fff;font-family:var(--font-display);font-weight:800;font-size:15px;white-space:nowrap;box-shadow:0 4px 10px rgba(43,13,92,.2);pointer-events:none}
+.res .vsay{position:absolute;left:50%;bottom:96%;transform:translate(-50%,8px) scale(.85);opacity:0;background:#fff;border-radius:18px;padding:8px 14px;font-family:var(--font-display);font-weight:800;font-size:17px;white-space:nowrap;
+  box-shadow:0 8px 18px rgba(43,13,92,.22);transition:opacity .25s,transform .3s cubic-bezier(.3,1.6,.5,1);pointer-events:none;z-index:2}
+.res .vsay.show{opacity:1;transform:translate(-50%,0) scale(1)}
+.gb.split{background:radial-gradient(circle at 30% 28%,#fff 0 9%,rgba(180,140,255,.6) 35%,rgba(255,79,216,.5) 78%);border-color:#fff}
+.gb.split::before{content:"";position:absolute;inset:20%;border-radius:50%;border:3px solid rgba(255,255,255,.9)}
+.gb.split::after{content:"";position:absolute;inset:38%;border-radius:50%;background:rgba(255,255,255,.8)}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
@@ -408,6 +505,7 @@ header{display:flex;align-items:center;gap:10px}
       <div id="egg"></div>
       <svg id="cracks" viewBox="0 0 100 100"></svg>
     </div>
+    <div id="foundEgg" hidden aria-label="A new egg"></div>
     <div id="petWrap" hidden aria-label="Big Busy">
       <div class="groundshadow"></div>
       <div id="pet"></div>
@@ -427,6 +525,7 @@ header{display:flex;align-items:center;gap:10px}
       <div class="spacer"></div>
       <div class="pill glass" id="mealPill"></div>
       <button class="pill glass" id="shopBtn" aria-label="Star shop: decorate the garden" hidden></button>
+      <button class="roundbtn glass" id="villageBtn" aria-label="Visit Fluff Village" hidden>🏡</button>
       <button class="roundbtn glass" id="settingsBtn" aria-label="Grown-up settings">
         <svg viewBox="0 0 24 24" fill="none" stroke="#2b0d5c" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2.4"/><circle cx="10" cy="17" r="2.4"/></svg>
       </button>
@@ -435,6 +534,7 @@ header{display:flex;align-items:center;gap:10px}
   </div>
 
   <nav id="dock" aria-label="Things for Big Busy"><div class="dock-in glass" id="dockIn"></div></nav>
+  <div id="trickTray" class="glass" hidden></div>
 </div>
 
 <div id="ghost" hidden></div>
@@ -476,21 +576,38 @@ header{display:flex;align-items:center;gap:10px}
   <div class="card glass">
     <h2>Decorate the garden</h2>
     <div class="shopHave" id="shopHave"></div>
+    <div class="shopTabs" id="shopTabs"></div>
     <div class="shopGrid" id="shopGrid"></div>
-    <p style="font-size:14px">Earn stars by feeding your pet at meal times and playing Bubble Party.</p>
+    <p style="font-size:14px">Earn stars at meal times, in Bubble Party and from goals.</p>
     <div class="row"><button class="btn small" id="closeShop">Done</button></div>
   </div>
 </div>
 
-<div class="panel" id="donePanel" hidden>
+<div class="panel" id="goalsPanel" hidden>
   <div class="card glass">
-    <h2 id="doneTitle">All grown up!</h2>
-    <div class="hero" id="doneHero"></div>
-    <p id="doneText"></p>
-    <button class="btn" id="newEggBtn">Look after a new egg</button>
+    <h2 id="goalsTitle">Goals</h2>
+    <p id="goalsText"></p>
+    <div class="goalList" id="goalList"></div>
+    <div class="row"><button class="btn small" id="closeGoals">Done</button></div>
   </div>
 </div>
 
+<div class="panel" id="movePanel" hidden>
+  <div class="card glass">
+    <h2>Ready for a new egg?</h2>
+    <div class="hero" id="moveHero"></div>
+    <p id="moveText"></p>
+    <div class="row"><button class="btn plain small" id="moveNo">Not yet</button><button class="btn pink" id="moveYes">Yes, let's go!</button></div>
+  </div>
+</div>
+
+<div id="village" hidden>
+  <div class="vbg"><img alt="" src="assets/art/garden_day.webp"></div>
+  <div class="houses"><img class="h1" alt="" src="assets/decor/mushroom.webp"><img class="h2" alt="" src="assets/decor/mushroom.webp"><img class="h3" alt="" src="assets/decor/mushroom.webp"></div>
+  <div class="hud"><span class="pill glass vtitle">🏡 Fluff Village</span><button class="roundbtn glass" id="closeVillage" aria-label="Back to the garden">✕</button></div>
+  <div class="pill glass vhint" id="vHint"></div>
+  <div class="row"></div>
+</div>
 
 <div class="panel" id="eggPanel" hidden>
   <div class="card glass">
@@ -550,7 +667,8 @@ const CHARS = {
     yuck:'Bleurgh! Not broccoli!', fav:'Yum! Berries are my favourite!', favMid:'Berries! Yay!',
     grownHi:"I'm Big Busy! Look, I've got wings!", happyNeed:'Hug me! Press and hold me!',
     wantHint:'Big Busy wants a hug! Press and hold him', cuddledOut:"I'm all cuddled out, let's play!",
-    cuddleSay:['Aww, I love hugs!','Squeeeze!','Mmm, so cosy!'], home:'to live with Big Lizzy' },
+    cuddleSay:['Aww, I love hugs!','Squeeeze!','Mmm, so cosy!'], home:'to live with Big Lizzy',
+    his:'his', next:'lizzy', found:"Look what I found! It's my sister!", tricks:['wingFlap','peekaboo','wiggle','flip'] },
   lizzy:{ name:'Big Lizzy', he:'she', him:'her', egg:'pink', forms:['puff','twirl','lizzy'], tint:true,
     hatchMs:15*MIN, cosyDrainMs:2.5*MIN, rates:{ tummy:14, happy:9, energy:9, clean:4, fun:14 }, cuddle:'twirl', voice:1.18,
     foods:{
@@ -563,13 +681,27 @@ const CHARS = {
     yuck:'Eek! Lemons are SO sour!', fav:'Strawberries! My favourite!', favMid:'Berry yum!',
     grownHi:"I'm Big Lizzy! Let's dance!", happyNeed:'Twirl me! Draw a circle on me!',
     wantHint:'Big Lizzy wants a twirl! Draw a circle on her', cuddledOut:"I'm all twirled out, let's play!",
-    cuddleSay:['Wheee! Again!','Twirly whirly!','I love to dance!'], home:'to dance with Big Busy' }
+    cuddleSay:['Wheee! Again!','Twirly whirly!','I love to dance!'], home:'to dance with Big Busy',
+    his:'her', next:null, found:'Look! A brand new egg!', tricks:['pirouette','leap','peekaboo','tiptoe'] }
 };
 const KINDS = ['busy', 'lizzy'];
-const UNLOCK = { lizzy:{ by:'busy', text:'Raise Big Busy to unlock' } };
+const UNLOCK = { lizzy:{ by:'busy', text:"Finish Big Busy's goals to unlock" } };
 function C(){ return CHARS[S.kind] || CHARS.busy; }
 const cap = s => s[0].toUpperCase() + s.slice(1);
 const any = a => a[Math.floor(Math.random()*a.length)];
+// Tricks grown-ups learn (anim = CSS class). The last two come from shop items.
+const TRICKS = {
+  wingFlap: { n:'Wing flap',       em:'☁️', anim:'t-fly',       ms:2000, snd:'flutter', say:'Look, I can fly!' },
+  peekaboo: { n:'Peekaboo',        em:'🙈', anim:'t-peek',      ms:1800, snd:'giggle',  say:'Peekaboo!' },
+  wiggle:   { n:'Wiggle dance',    em:'💃', anim:'t-wiggle',    ms:1800, snd:'boing',   say:'Wiggle wiggle!' },
+  flip:     { n:'Somersault',      em:'🤸', anim:'t-flip',      ms:1400, snd:'poof',    say:'Ta-daa!' },
+  pirouette:{ n:'Pirouette',       em:'🩰', anim:'t-pirouette', ms:1800, snd:'shimmer', say:'Spinny spin!' },
+  leap:     { n:'Ballet leap',     em:'🦋', anim:'t-leap',      ms:1800, snd:'flutter', say:'Wheee-hee!' },
+  tiptoe:   { n:'Twinkle toes',    em:'✨', anim:'t-tiptoe',    ms:1800, snd:'sparkle', say:'Tippy tippy toes!' },
+  bounce:   { n:'Big bounce',      em:'🦘', anim:'t-bounce',    ms:2000, snd:'boing',   say:'Boing boing!' },
+  music:    { n:'Music box dance', em:'🎵', anim:'t-music',     ms:3600, snd:'shimmer', say:'La la la, dance with me!' },
+};
+const ANIMS = ['hop','munch','nope','wobble','squeeze','spin','sour', ...Object.values(TRICKS).map(t => t.anim)];
 
 /* ---------- storage ---------- */
 const KEY = 'bigbusy-v1';
@@ -602,8 +734,8 @@ function tick(ms){
   const f = quiet ? 0 : 1;
   P.tummy = clamp(P.tummy - R.tummy*h*f*(P.asleep?.5:1));
   P.clean = clamp(P.clean - R.clean*h*f);
-  P.fun   = clamp(P.fun   - R.fun*h*f*(P.asleep?.3:1)*(stage() === 1 ? .4 : 1));
-  if(P.asleep) P.energy = clamp(P.energy + T.sleepGain*h); else P.energy = clamp(P.energy - R.energy*h);
+  P.fun   = clamp(P.fun   - R.fun*h*f*(P.asleep?.3:1)*(stage() === 1 ? .4 : 1)*(has('danceFloor') ? .7 : 1));
+  if(P.asleep) P.energy = clamp(P.energy + T.sleepGain*h*(has('hammock') || has('ribbonSwing') ? 1.5 : 1)); else P.energy = clamp(P.energy - R.energy*h);
   const lows = ['tummy','clean','fun','energy'].filter(k => P[k] < 25).length;
   P.happy = clamp(P.happy - (R.happy + lows*4)*h*f*(P.asleep?.4:1));
   if(P.asleep && !P.autoSleep && P.energy >= 100){ P.asleep = false; pendingWake = true; }
@@ -615,8 +747,8 @@ const SFX = {};
 const lastPlay = {};
 // Her voice is the same family sounds, a little higher.
 const VOICE = new Set(['squeak','coo','giggle','squish','boing']);
-function play(n, vol = .8, gap = 0, rate = 1){
-  if(!S.sound) return; if(VOICE.has(n)) rate *= C().voice; const t = performance.now(); if(gap && lastPlay[n] && t - lastPlay[n] < gap) return; lastPlay[n] = t;
+function play(n, vol = .8, gap = 0, rate = 1, who){
+  if(!S.sound) return; if(VOICE.has(n)) rate *= (who ? CHARS[who] : C()).voice; const t = performance.now(); if(gap && lastPlay[n] && t - lastPlay[n] < gap) return; lastPlay[n] = t;
   try{ const a = SFX[n].cloneNode(); a.volume = vol; if(rate !== 1){ a.preservesPitch = false; a.webkitPreservesPitch = false; a.playbackRate = rate; } a.play().catch(()=>{}); }catch(e){}
 }
 
@@ -696,32 +828,129 @@ function layout(){
   $('hint').style.top = Math.min(dockTop - 52, gy + 10) + 'px';
   $('hint').style.left = gx + 'px';
   layoutDecor(oy, dh, gy, top, dockTop);
+  const fe = $('foundEgg'), fw = eggW*.42;
+  Object.assign(fe.style, { width:fw + 'px', height:fw + 'px', left:Math.min(W - fw - 8, gx + petW*st.s*.36) + 'px', top:(gy - fw) + 'px' });
+  $('trickTray').style.bottom = (innerHeight - dockTop + 10) + 'px';
 }
 /* ---------- garden decorations (bought with stars) ---------- */
 // x: centre as a fraction of the screen width; w: width as a fraction of the shorter screen side; spot: where it sits.
 const DECOR = [
-  { id:'flowers',  name:'Flower patch',   price:3,  x:.82, w:.17, ar:1.081, spot:'front', say:'Ooh, pretty flowers!' },
-  { id:'swing',    name:'Swing',          price:5,  x:.89, w:.20, ar:1.06,  spot:'back',  say:'A swing! Wheee!' },
-  { id:'pond',     name:'Duck pond',      price:6,  x:.19, w:.28, ar:1.508, spot:'front', say:'Quack quack! A duckling!' },
-  { id:'mushroom', name:'Mushroom house', price:8,  x:.11, w:.20, ar:.937,  spot:'back',  say:'A little house! Who lives there?' },
-  { id:'rainbow',  name:'Rainbow',        price:10, x:.80, w:.34, ar:1.571, spot:'sky',   say:'A RAINBOW! Best day ever!' },
+  // Garden: shared by everyone
+  { id:'flowers',   name:'Flower patch',   price:3,  x:.82, w:.17, ar:1.081, spot:'front', say:'Ooh, pretty flowers!' },
+  { id:'swing',     name:'Swing',          price:5,  x:.89, w:.20, ar:1.06,  spot:'back',  say:'A swing! Wheee!' },
+  { id:'pond',      name:'Duck pond',      price:6,  x:.19, w:.28, ar:1.508, spot:'front', say:'Quack quack! A duckling!' },
+  { id:'bunting',   name:'Party bunting',  price:8,  x:.5,  w:.96, ar:10.5,  spot:'top',   draw:'bunting', say:'Flags! Is it a party?' },
+  { id:'mushroom',  name:'Mushroom house', price:8,  x:.13, w:.20, ar:.937,  spot:'back',  say:'A little house! Who lives there?' },
+  { id:'rainbow',   name:'Rainbow',        price:10, x:.80, w:.34, ar:1.571, spot:'sky',   say:'A RAINBOW! Best day ever!' },
+  { id:'lanterns',  name:'Night lantern',  price:12, x:.95, w:.09, ar:.5,    spot:'front', draw:'lanterns', lit:true, does:'Glows at bedtime', say:'A pretty light for bedtime!' },
+  { id:'butterflies', name:'Butterflies',  price:15, x:.62, w:.13, ar:1,     spot:'air',   draw:'butterflies', say:'Hello, butterflies!' },
+  { id:'fountain',  name:'Fountain',       price:20, x:.70, w:.17, ar:1,     spot:'back',  draw:'fountain', say:'Splishy splashy!' },
+  { id:'treehouse', name:'Treehouse',      price:30, x:.06, w:.27, ar:.8,    spot:'back',  draw:'treehouse', say:'A treehouse! Can I climb it?' },
+  { id:'balloon',   name:'Hot-air balloon', price:40, x:.2, w:.14, ar:.75,   spot:'sky',   draw:'balloon', say:'Up, up and away!' },
+  // Big Busy's corner (only out while he's in the garden)
+  { id:'berryBush', who:'busy', name:'Berry bush', price:10, x:.64, w:.18, ar:1.3, spot:'front', draw:'berryBush', tap:true, does:'Free berries every day: tap the bush', say:'Berries! My favourite!' },
+  { id:'hammock',   who:'busy', name:'Purple hammock', price:14, x:.24, w:.21, ar:1.6, spot:'back', draw:'hammock', does:'He sleeps faster', say:'Ooh, a comfy hammock!' },
+  { id:'trampoline', who:'busy', name:'Trampoline', price:18, x:.36, w:.2, ar:1.6, spot:'front', draw:'trampoline', trick:'bounce', does:'Teaches him the Big Bounce trick', say:'Boing boing boing!' },
+  { id:'bubbleMachine', who:'busy', name:'Bubble machine', price:25, x:.8, w:.12, ar:.85, spot:'back', draw:'bubbleMachine', does:'A new splitting bubble in Bubble Party', say:'Bubbles everywhere!' },
+  // Big Lizzy's corner
+  { id:'strawberryPatch', who:'lizzy', name:'Strawberry patch', price:10, x:.64, w:.2, ar:1.6, spot:'front', draw:'strawberryPatch', tap:true, does:'Free strawberries every day: tap the patch', say:'Strawberries! Yummy!' },
+  { id:'ribbonSwing', who:'lizzy', name:'Ribbon swing', price:14, x:.24, w:.15, ar:.9, spot:'back', draw:'ribbonSwing', does:'She sleeps faster', say:'A ribbon swing! So pretty!' },
+  { id:'musicBox',  who:'lizzy', name:'Music box', price:18, x:.36, w:.15, ar:1, spot:'front', draw:'musicBox', trick:'music', does:'Teaches her the Music Box Dance', say:'La la la! Music!' },
+  { id:'danceFloor', who:'lizzy', name:'Dance floor', price:25, x:.8, w:.21, ar:1.4, spot:'back', draw:'danceFloor', does:'Her Fun goes down slower', say:"A glitter ball! Let's dance!" },
 ];
+const DEPTH = { sky:0, top:1, back:2, air:3, front:4 };
 function owned(id){ return (S.decor || []).includes(id); }
+// Garden things are always out; a character's corner things only while that character is in the garden.
+function present(D){ return owned(D.id) && (!D.who || D.who === S.kind); }
+function has(id){ const D = DECOR.find(d => d.id === id); return !!D && present(D); }
+/* Code-drawn placeholder pictures for the newer shop items (to be replaced with Runway art: see the roadmap). */
+const ART = {
+  lanterns:u => `<svg viewBox="0 0 100 200"><defs><radialGradient id="la${u}" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#fffbe0"/><stop offset=".45" stop-color="#ffd23f"/><stop offset="1" stop-color="#ff8a1a"/></radialGradient><filter id="lb${u}" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="9"/></filter><linearGradient id="lw${u}" x1="0" x2="1"><stop offset="0" stop-color="#a8703a"/><stop offset="1" stop-color="#6e4420"/></linearGradient></defs>
+    <circle class="halo" cx="64" cy="80" r="36" fill="#ffd84a" filter="url(#lb${u})"/>
+    <rect x="20" y="36" width="11" height="162" rx="5" fill="url(#lw${u})"/><rect x="20" y="33" width="50" height="9" rx="4" fill="url(#lw${u})"/><path d="M64 42v12" stroke="#5a3a1a" stroke-width="2.5"/>
+    <ellipse cx="64" cy="80" rx="22" ry="26" fill="url(#la${u})"/><path d="M53 66q-6 14 0 28M75 66q6 14 0 28" stroke="#ff9d1a" stroke-width="2" fill="none"/>
+    <rect x="53" y="52" width="22" height="7" rx="3" fill="#ff2f9a"/><rect x="53" y="101" width="22" height="7" rx="3" fill="#ff2f9a"/><ellipse cx="57" cy="72" rx="5" ry="8" fill="#fff" opacity=".6"/></svg>`,
+  bunting:u => { const cols = ['#ff2f9a','#ffc400','#14c8f5','#8a3ffc','#3fd85a','#ff7a1a']; let f = '';
+    const y = t => (1-t)*(1-t)*6 + 2*(1-t)*t*52 + t*t*6;
+    for(let i = 0; i < 14; i++){ const t = (i + .5)/14, x = t*800, yy = y(t); f += `<path d="M${x-20} ${yy-3}L${x+20} ${yy-3}L${x} ${yy+34}Z" fill="${cols[i%6]}" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>`; }
+    return `<svg viewBox="0 0 800 76"><path d="M0 6Q400 52 800 6" stroke="#fff" stroke-width="4" fill="none"/>${f}</svg>`; },
+  butterflies:u => { const b = (x, y, c, d) => `<g class="flutterPath" style="animation-delay:${d}s"><g transform="translate(${x} ${y})"><g class="flap" style="animation-delay:${d}s"><ellipse cx="-9" cy="-4" rx="10" ry="13" fill="${c}" stroke="#fff" stroke-width="2"/><ellipse cx="9" cy="-4" rx="10" ry="13" fill="${c}" stroke="#fff" stroke-width="2"/><ellipse cx="-7" cy="9" rx="6" ry="7" fill="${c}" stroke="#fff" stroke-width="2"/><ellipse cx="7" cy="9" rx="6" ry="7" fill="${c}" stroke="#fff" stroke-width="2"/></g><rect x="-2" y="-12" width="4" height="26" rx="2" fill="#2b0d5c"/></g></g>`;
+    return `<svg viewBox="0 0 100 100">${b(24,30,'#ff4fa8',0)}${b(72,46,'#22c4f5',-.7)}${b(40,76,'#ffc400',-1.4)}</svg>`; },
+  fountain:u => `<svg viewBox="0 0 200 200"><defs><linearGradient id="fs${u}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6f3ff"/><stop offset="1" stop-color="#b9b0d8"/></linearGradient><linearGradient id="fw${u}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fe3ff"/><stop offset="1" stop-color="#1e9bff"/></linearGradient></defs>
+    <g class="spray"><path d="M100 40C80 26 50 60 42 134M100 40C120 26 150 60 158 134" stroke="#9eeaff" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M100 76V34" stroke="#bff3ff" stroke-width="9" stroke-linecap="round"/></g>
+    <ellipse cx="100" cy="176" rx="88" ry="20" fill="url(#fs${u})"/><rect x="12" y="140" width="176" height="36" fill="url(#fs${u})"/><ellipse cx="100" cy="140" rx="88" ry="20" fill="#ece7fd"/><ellipse cx="100" cy="141" rx="76" ry="14" fill="url(#fw${u})"/>
+    <rect x="88" y="78" width="24" height="64" rx="8" fill="url(#fs${u})"/><ellipse cx="100" cy="80" rx="44" ry="11" fill="#ece7fd"/><ellipse cx="100" cy="80" rx="36" ry="7" fill="url(#fw${u})"/>
+    <circle class="twinkle" cx="70" cy="137" r="3.5" fill="#fff"/><circle class="twinkle" style="animation-delay:-.8s" cx="130" cy="144" r="3.5" fill="#fff"/></svg>`,
+  treehouse:u => `<svg viewBox="0 0 200 250"><defs><radialGradient id="tl${u}" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#8ef56a"/><stop offset="1" stop-color="#2f9e3a"/></radialGradient><linearGradient id="tt${u}" x1="0" x2="1"><stop offset="0" stop-color="#9b6534"/><stop offset="1" stop-color="#6a3f1c"/></linearGradient></defs>
+    <path d="M82 250C88 200 86 160 90 120H112C114 160 112 200 120 250Z" fill="url(#tt${u})"/>
+    <circle cx="58" cy="72" r="48" fill="url(#tl${u})"/><circle cx="142" cy="68" r="50" fill="url(#tl${u})"/><circle cx="100" cy="40" r="44" fill="url(#tl${u})"/><circle cx="100" cy="94" r="44" fill="url(#tl${u})"/>
+    <rect x="60" y="104" width="80" height="12" rx="4" fill="#8a5a2b"/><rect x="72" y="70" width="56" height="36" rx="4" fill="#ffe08a" stroke="#c98a2b" stroke-width="3"/>
+    <path d="M64 74L100 46L136 74Z" fill="#ff2f9a" stroke="#c0146f" stroke-width="3" stroke-linejoin="round"/><rect x="80" y="80" width="14" height="26" rx="6" fill="#8a3ffc"/><rect x="104" y="80" width="16" height="14" rx="3" fill="#7fd4ff" stroke="#fff" stroke-width="2"/>
+    <g stroke="#c98a2b" stroke-width="4" stroke-linecap="round"><path d="M124 116L134 236M142 116L152 236M126 140H144M129 165H147M131 190H149M133 215H151"/></g>
+    <circle cx="42" cy="58" r="5" fill="#ff4f8b"/><circle cx="162" cy="50" r="5" fill="#ff4f8b"/><circle cx="152" cy="98" r="5" fill="#ffc400"/><circle cx="34" cy="96" r="5" fill="#ffc400"/></svg>`,
+  balloon:u => `<svg viewBox="0 0 150 200"><defs><clipPath id="bc${u}"><path d="M75 6C120 6 142 40 142 72C142 104 110 124 92 140H58C40 124 8 104 8 72C8 40 30 6 75 6Z"/></clipPath><radialGradient id="bs${u}" cx="35%" cy="28%" r="70%"><stop offset="0" stop-color="#fff" stop-opacity=".6"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>
+    <g clip-path="url(#bc${u})"><rect width="150" height="150" fill="#ff2f9a"/><path d="M42 0C38 50 48 100 60 150H90C102 100 112 50 108 0Z" fill="#ffc400"/><path d="M75 0C72 50 74 100 75 150" stroke="#14c8f5" stroke-width="16" fill="none"/><path d="M0 0C8 60 30 110 50 150H0Z" fill="#8a3ffc"/><path d="M150 0C142 60 120 110 100 150H150Z" fill="#8a3ffc"/><rect width="150" height="150" fill="url(#bs${u})"/></g>
+    <path d="M60 140L62 168M90 140L88 168" stroke="#7a4a1f" stroke-width="2.5"/><rect x="55" y="166" width="40" height="28" rx="6" fill="#c98a2b"/><path d="M55 176H95M55 186H95" stroke="#9b6534" stroke-width="2"/></svg>`,
+  berryBush:u => { let b = ''; [[52,62],[80,44],[112,40],[142,54],[66,88],[100,72],[134,84],[162,76],[44,104],[88,104],[122,108],[154,104]].forEach(([x, y], i) => b += `<circle cx="${x}" cy="${y}" r="9" fill="${i%3 ? '#5a5cff' : '#3b3fe0'}"/><circle cx="${x-3}" cy="${y-3}" r="2.6" fill="#fff" opacity=".7"/>`);
+    return `<svg viewBox="0 0 200 154"><defs><radialGradient id="rb${u}" cx="40%" cy="30%" r="75%"><stop offset="0" stop-color="#7ee86a"/><stop offset="1" stop-color="#238a34"/></radialGradient></defs><circle cx="54" cy="98" r="48" fill="url(#rb${u})"/><circle cx="146" cy="96" r="48" fill="url(#rb${u})"/><circle cx="100" cy="68" r="56" fill="url(#rb${u})"/><circle cx="100" cy="112" r="40" fill="url(#rb${u})"/><g class="fruit">${b}</g></svg>`; },
+  hammock:u => `<svg viewBox="0 0 240 150"><defs><linearGradient id="hm${u}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c48bff"/><stop offset="1" stop-color="#6a22d6"/></linearGradient></defs>
+    <rect x="10" y="20" width="12" height="130" rx="5" fill="#9b6534"/><rect x="218" y="20" width="12" height="130" rx="5" fill="#9b6534"/>
+    <path d="M22 40C60 128 180 128 218 40C170 100 70 100 22 40Z" fill="url(#hm${u})" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M52 78C90 108 150 108 188 78" stroke="#ffc400" stroke-width="5" fill="none"/><path d="M40 64C90 100 150 100 200 64" stroke="#ff4fd8" stroke-width="4" fill="none"/>
+    <circle cx="16" cy="18" r="9" fill="#3fd85a"/><circle cx="224" cy="18" r="9" fill="#3fd85a"/></svg>`,
+  trampoline:u => { let d = ''; for(let i = 0; i < 14; i++){ const a = i/14*Math.PI*2; d += `<circle cx="${(120 + Math.cos(a)*104).toFixed(1)}" cy="${(76 + Math.sin(a)*30).toFixed(1)}" r="4" fill="#ffc400"/>`; }
+    return `<svg viewBox="0 0 240 150"><path d="M40 84L30 146M200 84L210 146M90 98L86 146M150 98L154 146" stroke="#2b6fd6" stroke-width="9" stroke-linecap="round"/><ellipse cx="120" cy="76" rx="114" ry="36" fill="#14c8f5"/><ellipse cx="120" cy="74" rx="96" ry="26" fill="#2b0d5c"/><ellipse cx="102" cy="67" rx="46" ry="8" fill="#fff" opacity=".18"/>${d}</svg>`; },
+  bubbleMachine:u => `<svg viewBox="0 0 170 200"><defs><linearGradient id="bm${u}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c48bff"/><stop offset="1" stop-color="#6a22d6"/></linearGradient></defs>
+    <g fill="rgba(160,230,255,.5)" stroke="#fff" stroke-width="2.5"><circle class="drift" cx="58" cy="70" r="14"/><circle class="drift" style="animation-delay:-1s" cx="100" cy="50" r="10"/><circle class="drift" style="animation-delay:-2s" cx="128" cy="78" r="16"/></g>
+    <rect x="30" y="110" width="110" height="80" rx="18" fill="url(#bm${u})"/><rect x="40" y="118" width="90" height="14" rx="7" fill="#fff" opacity=".35"/>
+    <circle cx="85" cy="100" r="20" fill="none" stroke="#ffc400" stroke-width="7"/><rect x="81" y="100" width="8" height="14" fill="#ffc400"/>
+    <circle cx="58" cy="160" r="9" fill="#ff2f9a"/><circle cx="85" cy="160" r="9" fill="#ffc400"/><circle cx="112" cy="160" r="9" fill="#14c8f5"/>
+    <rect x="40" y="188" width="20" height="10" rx="4" fill="#4b12a8"/><rect x="110" y="188" width="20" height="10" rx="4" fill="#4b12a8"/></svg>`,
+  strawberryPatch:u => { let s = ''; [[50,78],[96,66],[146,74],[72,104],[122,100],[176,96]].forEach(([x, y]) => s += `<g transform="translate(${x} ${y})"><path d="M0 18C-14 8-14-6 0-6C14-6 14 8 0 18Z" fill="#ff2a4f"/><path d="M-8-6L0-14L8-6L0-3Z" fill="#2fb24a"/><circle cx="-4" cy="2" r="1.4" fill="#ffe08a"/><circle cx="3" cy="6" r="1.4" fill="#ffe08a"/><circle cx="-1" cy="10" r="1.4" fill="#ffe08a"/></g>`);
+    const leaves = [30,70,110,150,190,215].map((x, i) => `<ellipse cx="${x}" cy="${86 + (i%2)*14}" rx="22" ry="13" transform="rotate(${i%2 ? 18 : -18} ${x} ${86 + (i%2)*14})"/>`).join('');
+    return `<svg viewBox="0 0 240 150"><ellipse cx="120" cy="124" rx="116" ry="26" fill="#9b6534"/><ellipse cx="120" cy="116" rx="108" ry="22" fill="#b97a45"/><g fill="#3fd85a" stroke="#238a34" stroke-width="2">${leaves}</g><g class="fruit">${s}</g></svg>`; },
+  ribbonSwing:u => `<svg viewBox="0 0 180 200"><path d="M14 196L30 12H150L166 196" stroke="#ff7cc4" stroke-width="10" fill="none" stroke-linejoin="round" stroke-linecap="round"/><path d="M24 12H156" stroke="#e0147d" stroke-width="12" stroke-linecap="round"/>
+    <g class="sway"><path d="M60 14C54 60 66 100 60 140M120 14C126 60 114 100 120 140" stroke="#ff2f9a" stroke-width="5" fill="none"/><path d="M60 14C66 60 54 100 60 140M120 14C114 60 126 100 120 140" stroke="#c48bff" stroke-width="4" fill="none"/>
+    <rect x="48" y="138" width="84" height="14" rx="7" fill="#ff9ad5" stroke="#fff" stroke-width="2.5"/><path d="M90 145l-12-8v16ZM90 145l12-8v16Z" fill="#ffc400"/><circle cx="90" cy="145" r="4" fill="#ff7a1a"/></g></svg>`,
+  musicBox:u => `<svg viewBox="0 0 160 160"><defs><linearGradient id="mb${u}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff9ad5"/><stop offset="1" stop-color="#e0147d"/></linearGradient></defs>
+    <g fill="#8a3ffc" font-family="sans-serif"><text class="drift" x="26" y="58" font-size="26">♪</text><text class="drift" style="animation-delay:-1.2s" x="112" y="48" font-size="30">♫</text><text class="drift" style="animation-delay:-2.2s" x="68" y="36" font-size="22">♪</text></g>
+    <path d="M28 92L36 48H124L132 92Z" fill="url(#mb${u})" stroke="#ffc400" stroke-width="4" stroke-linejoin="round"/>
+    <rect x="20" y="90" width="120" height="62" rx="10" fill="url(#mb${u})" stroke="#ffc400" stroke-width="4"/><path d="M20 112H140" stroke="#ffc400" stroke-width="3"/><circle cx="80" cy="130" r="9" fill="#ffc400"/>
+    <g transform="translate(80 92)"><circle cy="-36" r="7" fill="#ffd9ec"/><path d="M-13-12L0-28L13-12Z" fill="#fff"/><path d="M0-12V0" stroke="#ffd9ec" stroke-width="3"/></g></svg>`,
+  danceFloor:u => { let t = ''; const cols = ['#ff2f9a','#fff','#c48bff','#ffc400'];
+    for(let r = 0; r < 4; r++) for(let c = 0; c < 6; c++) t += `<rect x="${c*40}" y="${r*20}" width="40" height="20" fill="${cols[(r + c)%4]}"${(r*6 + c)%5 === 0 ? ' class="twinkle"' : ''}/>`;
+    return `<svg viewBox="0 0 280 200"><path d="M246 10V124" stroke="#c9c6d8" stroke-width="6"/><path d="M204 10H248M204 10V22" stroke="#c9c6d8" stroke-width="4"/>
+    <circle cx="204" cy="44" r="22" fill="#d9e2f2"/><g stroke="#fff" stroke-width="1.5"><path d="M182 44H226M186 32H222M186 56H222M204 22V66M193 24V64M215 24V64"/></g>
+    <circle class="twinkle" cx="196" cy="36" r="4" fill="#fff"/><circle class="twinkle" style="animation-delay:-.7s" cx="213" cy="52" r="3" fill="#fff"/>
+    <g transform="matrix(1 0 -.35 .9 40 120)">${t}</g></svg>`; },
+};
+let artN = 0;
+function drawArt(D){ // a code-drawn placeholder (SVG), or the painted picture for the first five
+  if(!D.draw) return pic('assets/decor/' + D.id + '.webp', '🌼', D.name);
+  const t = document.createElement('template'); t.innerHTML = ART[D.draw](++artN); return t.content.firstElementChild;
+}
+function snackUsed(){ return !!S.pet && S.pet.snackDay === gameDate().toDateString(); }
 function buildDecor(newId){
   const box = $('decor'); box.innerHTML = '';
-  DECOR.forEach(D => { if(!owned(D.id)) return;
-    const i = new Image(); i.alt = ''; i.draggable = false; i.src = 'assets/decor/' + D.id + '.webp'; i.dataset.id = D.id;
-    if(D.spot === 'sky') i.classList.add('sky'); if(D.id === newId) i.classList.add('new');
-    i.onerror = () => i.remove(); box.appendChild(i); });
+  DECOR.filter(present).sort((a, b) => DEPTH[a.spot] - DEPTH[b.spot]).forEach(D => {
+    const el = drawArt(D); el.dataset.id = D.id;
+    if(D.spot === 'sky') el.classList.add('sky'); if(D.lit) el.classList.add('lit'); if(D.id === newId) el.classList.add('new');
+    if(D.tap){ el.classList.add('tap'); el.addEventListener('pointerdown', e => { e.stopPropagation(); snackTap(D); }); }
+    if(el.tagName === 'IMG') el.onerror = () => el.remove();
+    box.appendChild(el); });
+  markPicked();
 }
+function markPicked(){ $('decor').querySelectorAll('.tap').forEach(e => e.classList.toggle('picked', snackUsed())); }
 function layoutDecor(oy, dh, gy, top, dockTop){
   const W = innerWidth, U = Math.min(W, innerHeight), horizon = oy + .47*dh;
-  $('decor').querySelectorAll('img').forEach(i => {
+  $('decor').querySelectorAll('[data-id]').forEach(i => {
     const D = DECOR.find(d => d.id === i.dataset.id); if(!D) return;
-    const w = D.w*U, h = w / D.ar;
+    const w = D.spot === 'top' ? D.w*W : D.w*U, h = w / D.ar;
     const bottom = D.spot === 'sky' ? Math.min(horizon + 10, top + 20 + h)
+                 : D.spot === 'top' ? top + 4 + h
                  : D.spot === 'back' ? gy - .12*(gy - horizon)
-                 : dockTop + 4;
+                 : D.spot === 'air' ? horizon + .5*(gy - horizon)
+                 : D.who ? dockTop - 8 : dockTop + 4;   // corner things sit just above the toy dock
     const cx = Math.max(w/2 + 6, Math.min(W - w/2 - 6, D.x*W));
     Object.assign(i.style, { width:w + 'px', height:h + 'px', left:(cx - w/2) + 'px', top:(bottom - h) + 'px' });
   });
@@ -732,14 +961,26 @@ function showShopBtn(){
   if(b.dataset.n !== String(n)){ const up = n > Number(b.dataset.n || n); b.dataset.n = n; b.innerHTML = ''; b.appendChild(pic(ICON('star'), '⭐')); b.append(String(n));
     if(up){ b.classList.remove('ping'); void b.offsetWidth; b.classList.add('ping'); } }
 }
-function openShop(){
+let shopTab = 'garden';
+function openShop(tab){
+  if(typeof tab === 'string') shopTab = tab;
   const n = S.stars || 0; $('shopHave').innerHTML = ''; $('shopHave').appendChild(pic(ICON('star'), '⭐')); $('shopHave').append(`You have ${n} star${n === 1 ? '' : 's'}`);
+  const tabs = $('shopTabs'); tabs.innerHTML = '';
+  ['garden', ...KINDS].forEach(t => {
+    const b = document.createElement('button'); b.setAttribute('aria-pressed', String(t === shopTab));
+    const av = document.createElement('span'); av.className = 'av ' + (t === 'garden' ? 'g' : CHARS[t].tint ? 'pink' : '');
+    if(t === 'garden') av.textContent = '🌼'; else av.appendChild(pic('assets/Sprites/' + FORMS[CHARS[t].forms[2]].files.idle + '.webp', '💜'));
+    b.appendChild(av); b.append(t === 'garden' ? 'Garden' : CHARS[t].name); b.onclick = () => openShop(t); tabs.appendChild(b);
+  });
   const g = $('shopGrid'); g.innerHTML = '';
-  DECOR.forEach(D => {
+  DECOR.filter(D => (D.who || 'garden') === shopTab).forEach(D => {
     const c = document.createElement('div'); c.className = 'shopItem';
-    const p = document.createElement('div'); p.className = 'pic'; p.appendChild(pic('assets/decor/' + D.id + '.webp', '🌼', D.name)); c.appendChild(p);
+    const p = document.createElement('div'); p.className = 'pic'; p.appendChild(drawArt(D)); c.appendChild(p);
     const nm = document.createElement('b'); nm.textContent = D.name; c.appendChild(nm);
-    if(owned(D.id)){ c.insertAdjacentHTML('beforeend', '<div class="owned">In the garden ✓</div>'); }
+    if(D.does) c.insertAdjacentHTML('beforeend', `<div class="does">${D.does}</div>`);
+    if(owned(D.id)) c.insertAdjacentHTML('beforeend', `<div class="owned">${!D.who || D.who === S.kind ? 'In the garden ✓' : `In ${CHARS[D.who].name}'s corner ✓`}</div>`);
+    else if(D.who && !unlocked(D.who)){ c.classList.add('locked'); c.insertAdjacentHTML('beforeend', `<div class="lockNote">🔒 ${UNLOCK[D.who].text}</div>`); }
+    else if(D.who && D.who !== S.kind){ c.classList.add('locked'); c.insertAdjacentHTML('beforeend', `<div class="lockNote">Buy it while ${CHARS[D.who].name} is in the garden</div>`); }
     else {
       const can = n >= D.price, b = document.createElement('button'); b.className = 'btn' + (can ? '' : ' off');
       b.appendChild(pic(ICON('star'), '⭐')); b.append(String(D.price)); b.setAttribute('aria-label', `Buy ${D.name} for ${D.price} stars`);
@@ -748,16 +989,18 @@ function openShop(){
     }
     g.appendChild(c);
   });
-  $('shopPanel').hidden = false; unlockAudio(); play('flutter', .5);
+  if($('shopPanel').hidden){ $('shopPanel').hidden = false; unlockAudio(); play('flutter', .5); }
 }
 function buyDecor(D){
-  if(owned(D.id)) return;
+  if(owned(D.id) || (D.who && D.who !== S.kind)) return;
   if((S.stars || 0) < D.price){ play('squeak', .5, 0, .8); toast(`Collect ${D.price - (S.stars || 0)} more stars for the ${D.name.toLowerCase()}!`, ICON('star')); return; }
   S.stars -= D.price; S.decor = (S.decor || []).concat(D.id); save();
   $('shopPanel').hidden = true; buildDecor(D.id); layout(); showShopBtn();
   play('poof', .6); setTimeout(() => { play('sparkle', .8); confetti(); }, 350);
   setTimeout(() => say(D.say), 900);
   toast(`${D.name} added to the garden!`, ICON('star'));
+  if(D.trick && stage() === 3) setTimeout(() => { toast(`${C().name} learned a new trick: ${TRICKS[D.trick].n}!`, null, TRICKS[D.trick].em); doTrick(D.trick); buildDock(); }, 2800);
+  render();
 }
 function stageInfo(){
   if(S.phase !== 'pet') return { n:'Egg', s:1, day:0 };
@@ -776,7 +1019,7 @@ function evolve(){
   if(evolving) return; evolving = true;
   const P = S.pet, F = form(), wrap = $('petWrap'), pet = $('pet');
   wrap.classList.remove('glowing'); $('hint').hidden = true;
-  play('shimmer', .9); pet.classList.remove('hop','munch','nope','wobble','spin','sour','squeeze'); pet.classList.add('evolving');
+  play('shimmer', .9); pet.classList.remove(...ANIMS); pet.classList.add('evolving');
   const r = targetRect(); for(let i=0;i<16;i++) setTimeout(() => fx(ICON('star'), '✨', r), i*120);
   setTimeout(() => flashOut(() => {
     P.form = F.next; pet.classList.remove('evolving'); setMood('idle', true);
@@ -786,6 +1029,7 @@ function evolve(){
     setTimeout(() => { say(nf.next ? C().mid[0] + ' Look at me!' : C().grownHi); }, 700);
     toast(`Wow! ${cap(C().he)}'s a ${nf.n} now!`, ICON('star'));
     if(nf.stage === 2) setTimeout(() => toast('Play is unlocked! Try the bubble game.', ICON('wand')), 4200);
+    if(nf.stage === 3) setTimeout(() => toast(`New: ${C().name}'s goals and tricks! Look in the toy dock.`, null, '🏆'), 4200);
     evolving = false; save();
   }), 2300);
 }
@@ -820,6 +1064,12 @@ function buildDock(){
   t.appendChild(mkItem('moon', ICON('moon'), '🌙', 'Bedtime'));
   const pl = mkItem('play', ICON('wand'), '🫧', 'Play', stage() === 1 ? 'locked' : ''); t.appendChild(pl);
   if(S.best){ const bd = document.createElement('span'); bd.className = 'bestBadge'; bd.textContent = '★' + S.best; pl.querySelector('.tile').appendChild(bd); }
+  if(stage() === 3){
+    t.appendChild(mkItem('tricks', '', '✨', 'Tricks'));
+    const gl = mkItem('goals', '', '🏆', 'Goals'); t.appendChild(gl);
+    const n = goalList().filter(x => x.done).length;
+    if(n < 4){ const bd = document.createElement('span'); bd.className = 'itemBadge'; bd.textContent = n + '/4'; gl.appendChild(bd); }
+  }
 }
 function mkItem(kind, src, em, label, cls){
   const b = document.createElement('button'); b.className = 'item ' + (cls || ''); b.dataset.kind = kind; b.dataset.src = src; b.dataset.em = em;
@@ -827,14 +1077,14 @@ function mkItem(kind, src, em, label, cls){
   const tile = document.createElement('span'); tile.className = 'tile'; tile.appendChild(pic(src, em)); b.appendChild(tile);
   b.insertAdjacentHTML('beforeend', `<small>${label}</small>`);
   b.addEventListener('pointerdown', startDrag);
-  b.addEventListener('click', () => { if(kind === 'play') startGame(); if(kind === 'moon' && !b._dragged) toggleSleep(); b._dragged = false; });
+  b.addEventListener('click', () => { if(kind === 'play') startGame(); if(kind === 'tricks') openTricks(); if(kind === 'goals') openGoals(); if(kind === 'moon' && !b._dragged) toggleSleep(); b._dragged = false; });
   return b;
 }
 
 /* ---------- drag & drop ---------- */
 let drag = null;
 function startDrag(e){
-  const btn = e.currentTarget, kind = btn.dataset.kind; if(kind === 'play') return;
+  const btn = e.currentTarget, kind = btn.dataset.kind; if(kind === 'play' || kind === 'tricks' || kind === 'goals') return;
   e.preventDefault(); unlockAudio();
   const g = $('ghost'); g.innerHTML = ''; g.appendChild(pic(btn.dataset.src, btn.dataset.em)); g.hidden = false;
   drag = { btn, kind, id:e.pointerId, moved:0, x:e.clientX, y:e.clientY, over:false, scrub:0 };
@@ -910,7 +1160,7 @@ function flashOut(cb){ const f = $('flash'); f.classList.add('on'); setTimeout((
 
 /* ---------- pet ---------- */
 function moodNow(){ const P = S.pet; if(!P) return 'idle'; if(P.asleep) return 'sleep'; return STATS.some(s => P[s.k] < 25) ? 'sad' : 'idle'; }
-function petAnim(cls){ const p = $('pet'); p.classList.remove('hop','munch','nope','wobble','squeeze','spin','sour'); void p.offsetWidth; p.classList.add(cls); clearTimeout(petAnim.t); petAnim.t = setTimeout(() => p.classList.remove(cls), 1400); }
+function petAnim(cls, ms = 1400){ const p = $('pet'); p.classList.remove(...ANIMS); void p.offsetWidth; p.classList.add(cls); clearTimeout(petAnim.t); petAnim.t = setTimeout(() => p.classList.remove(cls), ms); }
 // Big Busy hops; Big Lizzy does a little twirl.
 function hopPet(){ petAnim(C().cuddle === 'twirl' ? 'spin' : 'hop'); }
 const HEART = () => C().tint ? [null, '💗'] : [ICON('happy'), '💜'];
@@ -925,6 +1175,7 @@ function feed(k, x, y){
   if(P.tummy > 94){ setMood('idle'); petAnim('nope'); say("I'm full up!"); return; }
   eating = true; let n = 0; petAnim('munch'); play('squish', .8);
   const iv = setInterval(() => { setMood(n % 2 ? 'idle' : 'munch'); crumbs(); if(++n >= 6){ clearInterval(iv); finish(); } }, 200);
+  return true;
   function finish(){
     eating = false;
     P.tummy = clamp(P.tummy + f.tummy); P.happy = clamp(P.happy + (f.happy || 0));
@@ -933,13 +1184,14 @@ function feed(k, x, y){
     if(f.fav){ fx(...HEART(), r); fx(...HEART(), r); say(stage() === 3 ? C().fav : stage() === 2 ? C().favMid : C().baby[0]); play('sparkle', .5); }
     else if(stage() === 3) say(any(['Mmm, yummy!','Nom nom nom!','Delicious!']));
     else say(stage() === 2 ? 'Nom nom!' : 'Mmmf!');
-    mealBonus(); setMood(moodNow()); hopPet(); save(); render();
+    mealBonus(); careDone(f.fav ? 12 : 8); setMood(moodNow()); hopPet(); save(); render();
   }
 }
 function mealBonus(){
   const d = gameDate(), h = hourOf(d), key = d.toDateString(), m = MEALS.find(m => h >= m.a && h < m.b); if(!m) return;
   S.meals[key] = S.meals[key] || []; if(S.meals[key].includes(m.n)) return;
   S.meals[key].push(m.n); S.stars++;
+  if(stage() === 3){ S.pet.g = S.pet.g || {}; S.pet.g.meals = (S.pet.g.meals || 0) + 1; careDone(10); }
   setTimeout(() => { toast(`${m.n} on time! +1 star`, ICON('star')); fx(ICON('star'), '⭐', targetRect()); play('sparkle', .7); }, 600);
 }
 function crumbs(){
@@ -954,7 +1206,7 @@ function scrub(x, y){
     b.style.width = b.style.height = s + 'px'; b.style.left = (x - s/2 + (Math.random()-.5)*40) + 'px'; b.style.top = (y - s/2) + 'px';
     b.style.setProperty('--dx', ((Math.random()-.5)*90) + 'px'); document.body.appendChild(b); setTimeout(() => b.remove(), 1250); }
   play('splash', .35, 450); if(Math.random() < .25) petAnim('wobble');
-  if(was < 100 && P.clean >= 100){ play('poof', .8); say('Squeaky clean!'); fx(ICON('star'), '✨', targetRect()); bump('clean'); }
+  if(was < 100 && P.clean >= 100){ play('poof', .8); say('Squeaky clean!'); careDone(10); fx(ICON('star'), '✨', targetRect()); bump('clean'); }
   render();
 }
 function toggleSleep(){
@@ -986,7 +1238,7 @@ function holdTick(){
 function hug(){
   const P = S.pet, K = C(), twirl = K.cuddle === 'twirl';
   if(cuddledOut()){ petAnim('nope'); say(K.cuddledOut); return; }
-  P.happy = clamp(P.happy + HUG.gains[hugsRecent()]); P.hugs.push(S.simNow); S.pets++;
+  P.happy = clamp(P.happy + HUG.gains[hugsRecent()]); P.hugs.push(S.simNow); S.pets++; careDone(15);
   petAnim(twirl ? 'spin' : 'squeeze'); play(twirl ? 'flutter' : 'coo', .8); setTimeout(() => play('giggle', .6), 350);
   const r = targetRect(); for(let i = 0; i < 6; i++) setTimeout(() => fx(...HEART(), r), i * 80);
   say(any(K.cuddleSay));
@@ -1051,15 +1303,17 @@ const BUBBLES = {
   rainbow:{ pts:5,  snd:'shimmer', vol:.6 },
   grumpy: { pts:-1, snd:'squeak',  vol:.6, rate:.7 },
   berry:  { pts:1,  snd:'squish',  vol:.6, tummy:5 },
+  split:  { pts:2,  snd:'poof',    vol:.6 },   // bubble machine: pops into three little ones
+  mini:   { pts:1,  snd:'splash',  vol:.4 },
 };
 const GAME_MS = 25000, COMBO_MS = 900;
 // Level by look: Fuzzling gets big slow bubbles; Big Busy gets faster, smaller ones and more specials as the days go on.
 function gameLevel(){
   const st = stageInfo();
-  if(stage() === 2) return { size:[110,160], speed:[1.0,2.0], gap:[650,950], gold:.10, rainbow:.03, grumpy:.05, berry:.06 };
+  if(stage() === 2) return { size:[110,160], speed:[1.0,2.0], gap:[650,950], gold:.10, rainbow:.03, grumpy:.05, berry:.06, split:has('bubbleMachine') ? .08 : 0 };
   const d = Math.max(0, Math.min(1, (st.ageDays - 2) / 4));          // 0 on day 3 -> 1 by day 7
   return { size:[70 - d*12, 140 - d*40], speed:[1.6 + d*.8, 3.4 + d*1.2], gap:[480 - d*120, 840 - d*200],
-           gold:.12, rainbow:.04 + d*.03, grumpy:.08 + d*.07, berry:.05 };
+           gold:.12, rainbow:.04 + d*.03, grumpy:.08 + d*.07, berry:.05, split:has('bubbleMachine') ? .08 : 0 };
 }
 const rnd = (a, b) => a + Math.random()*(b - a);
 function startGame(){
@@ -1098,18 +1352,19 @@ function pickKind(){
   if(r < L.rainbow + L.gold) return 'gold';
   if(r < L.rainbow + L.gold + L.grumpy) return 'grumpy';
   if(r < L.rainbow + L.gold + L.grumpy + L.berry) return 'berry';
+  if(r < L.rainbow + L.gold + L.grumpy + L.berry + (L.split || 0)) return 'split';
   return 'plain';
 }
 function spawnBubble(kind, at){
   const g = $('game'); kind = kind || pickKind();
-  const L = G.lvl, s = kind === 'plain' ? rnd(L.size[0], L.size[1]) : Math.max(84, L.size[0] + 14);
+  const L = G.lvl, s = kind === 'plain' ? rnd(L.size[0], L.size[1]) : kind === 'mini' ? 58 : Math.max(84, L.size[0] + 14);
   const b = document.createElement('div'); b.className = 'gb ' + kind; b.style.width = b.style.height = s + 'px'; b.style.left = '0'; b.style.top = '0';
   const pink = C().tint;
   if(kind === 'berry'){ const f = pic(pink ? null : ICON('berries'), pink ? '🍓' : '🫐'); f.style.fontSize = (s*.5) + 'px'; b.appendChild(f); }
   if(kind === 'gold' && pink){ b.classList.add('heart'); const h = document.createElement('span'); h.className = 'hrt'; h.textContent = '♥'; h.style.fontSize = (s*.62) + 'px'; b.appendChild(h); }
   b.dataset.x = at ? at.x - s/2 : Math.random()*(innerWidth - s); b.dataset.y = at ? at.y - s/2 : innerHeight + 10;
   b.dataset.v = rnd(L.speed[0], L.speed[1]) * (kind === 'gold' || kind === 'rainbow' ? 1.6 : 1); b.dataset.p = Math.random()*6;
-  if(at) b.dataset.vx = -rnd(.6, 1.4);
+  if(at) b.dataset.vx = kind === 'mini' ? rnd(-2.4, 2.4) : -rnd(.6, 1.4);
   b.addEventListener('pointerdown', e => { e.preventDefault(); popBubble(b, kind, e.clientX, e.clientY); });
   g.appendChild(b);
 }
@@ -1125,6 +1380,7 @@ function popBubble(b, kind, x, y){
   play(B.snd, B.vol, 0, kind === 'grumpy' ? B.rate : 1 + Math.min(G.combo, 10) * .06);
   floatText(pts > 0 ? '+' + pts : String(pts), x, y, kind === 'grumpy' ? 'bad' : '');
   if(kind === 'berry') floatText('Yum!', x, y - 40, 'yum');
+  if(kind === 'split') for(let i = 0; i < 3; i++) spawnBubble('mini', { x, y });
   if(G.combo >= 3 && kind !== 'grumpy') showCombo(G.combo);
 }
 function floatText(t, x, y, cls){
@@ -1147,6 +1403,7 @@ function endGame(){
   P.fun = clamp(P.fun + 12 + sc*2.5); P.energy = clamp(P.energy - 6); P.happy = clamp(P.happy + 3); S.plays++;
   const stars = gameStars(sc), best = sc > (S.best || 0) && sc > 0;
   S.stars += stars; if(best) S.best = sc;
+  if(stage() === 3){ P.g = P.g || {}; P.g.best = Math.max(P.g.best || 0, sc); } careDone(10 + Math.min(15, Math.round(sc/2)));
   bump('fun'); if(fed) bump('tummy'); hopPet(); play('giggle', .7);
   if(best || sc >= 15) confetti();
   if(best || stars) setTimeout(() => { toast([best ? 'New best!' : '', sc + ' points', stars ? '+' + stars + ' ★' : ''].filter(Boolean).join(' · '), ICON('star')); play('sparkle', .7); }, 500);
@@ -1195,7 +1452,7 @@ function render(force){
   } else if(S.phase === 'pet'){
     const P = S.pet; $('hint').hidden = true;
     STATS.forEach(s => setMeter(s.k, P[s.k]));
-    $('sub').textContent = `${stage() === 3 ? 'Grown-up' : st.n} · Day ${st.day} of ${T.lifeDays}`;
+    $('sub').textContent = `${stage() === 3 ? 'Grown-up' : st.n} · Day ${st.day}`;
     const due = evolveDue() && !evolving, K = C();
     $('petWrap').classList.toggle('glowing', due && evolveCared());
     if(due && evolveCared()) hint(`Something is happening! Tap ${K.him}!`);
@@ -1208,9 +1465,13 @@ function render(force){
     $('app').classList.toggle('sleeping', P.asleep); $('zzz').hidden = !P.asleep;
     $('dirt').style.opacity = P.clean < 60 ? Math.min(1, (1 - P.clean/100)*1.4) : 0;
     if(!eating && !(drag && drag.over)) setMood(moodNow());
-    if(st.ageDays >= T.lifeDays && $('donePanel').hidden) showDone();
+    if(P.eggFound && !due && !wantsHug) hint("An egg! Tap it when you're ready for a new friend");
+    checkGoals(); markPicked();
   }
   showShopBtn(); setAvatar();
+  $('villageBtn').hidden = !(S.village || []).length;
+  const fe = $('foundEgg'); fe.hidden = !(S.phase === 'pet' && S.pet && S.pet.eggFound);
+  if(!fe.hidden && !fe.firstChild) fe.appendChild(eggPic(C().next || 'busy'));
   const h = hourOf(d), m = MEALS.find(m => h >= m.a && h < m.b), mp = $('mealPill');
   mp.classList.toggle('hot', !!m && S.phase === 'pet');
   mp.textContent = m && S.phase === 'pet' ? `${m.n} time!` : d.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
@@ -1228,14 +1489,114 @@ function setAvatar(){
   if(!av.src.endsWith(want)) av.src = want; av.classList.toggle('tintPink', !!F.tint);
 }
 function fmtDur(ms){ const m = Math.ceil(ms/MIN); if(m < 60) return m + ' min'; const h = Math.floor(m/60), r = m % 60; return h + ' hr' + (r ? ' ' + r + ' min' : ''); }
-function showDone(){
-  const K = C(), newKinds = KINDS.filter(k => UNLOCK[k] && UNLOCK[k].by === S.kind && !unlocked(k));
-  S.unlocked = (S.unlocked || []).concat(newKinds.filter(k => !(S.unlocked || []).includes(k))); save();
-  $('doneTitle').textContent = `${K.name} is all grown up!`;
-  $('doneText').textContent = `You looked after ${K.him} for a whole week: ${S.pets} cuddle${S.pets === 1 ? "" : "s"} and ${S.plays} game${S.plays === 1 ? "" : "s"}. ${cap(K.he)}'s off to Fluff Village ${K.home}, and ${K.he}'ll always remember you.`
-    + (newKinds.length ? ` And look: a ${CHARS[newKinds[0]].egg} egg has turned up for you!` : '');
-  $('doneHero').innerHTML = ''; $('doneHero').appendChild(pic('assets/Sprites/' + FORMS[K.forms[2]].files.idle + '.webp', '💜', K.name));
-  $('donePanel').hidden = false; play('shimmer', .8); confetti();
+/* ---------- grown-up goals, tricks, moving on, Fluff Village ---------- */
+function knownTricks(){
+  const P = S.pet; if(!P || stage() !== 3) return [];
+  const t = (P.tricks || []).slice(); DECOR.forEach(D => { if(D.trick && present(D) && !t.includes(D.trick)) t.push(D.trick); }); return t;
+}
+function nextTrick(){ return C().tricks.find(t => !(S.pet.tricks || []).includes(t)); }
+function trickNeed(){ return 60 + 20*(S.pet.tricks || []).length; }
+// Grown-ups learn tricks from the care you give them.
+function careDone(pts){
+  const P = S.pet; if(!P || stage() !== 3 || !nextTrick()) return;
+  P.tp = (P.tp || 0) + pts;
+  if(P.tp >= trickNeed()){
+    P.tp = 0; const t = nextTrick(); P.tricks = (P.tricks || []).concat(t); save();
+    setTimeout(() => { toast(`${C().name} learned a new trick: ${TRICKS[t].n}!`, null, TRICKS[t].em); play('sparkle', .8); doTrick(t); buildDock(); }, 1500);
+  }
+}
+let lastTrick = 0;
+function doTrick(t){
+  const X = TRICKS[t], P = S.pet; if(!P || evolving) return;
+  $('trickTray').hidden = true;
+  if(P.asleep){ say(`Zzz… ${C().he}'s asleep`); return; }
+  petAnim(X.anim, X.ms); play(X.snd, .7); say(X.say);
+  const r = targetRect();
+  if(t === 'music') for(let i = 0; i < 7; i++) setTimeout(() => fx(null, '🎵', r), i*450);
+  else for(let i = 0; i < 3; i++) setTimeout(() => fx(ICON('star'), '✨', r), i*220);
+  const now = performance.now(); if(now - lastTrick > 8000){ P.happy = clamp(P.happy + 2); P.fun = clamp(P.fun + 3); bump('fun'); } lastTrick = now;
+  save(); render();
+}
+function openTricks(){
+  const tr = $('trickTray'); if(!tr.hidden){ tr.hidden = true; return; }
+  const P = S.pet; unlockAudio(); if(P.asleep){ say(`Zzz… ${C().he}'s asleep`); return; }
+  tr.innerHTML = ''; const known = knownTricks();
+  known.forEach(t => { const b = document.createElement('button'); b.innerHTML = `<span class="em">${TRICKS[t].em}</span>${TRICKS[t].n}`; b.onclick = () => doTrick(t); tr.appendChild(b); });
+  if(nextTrick()){ const p = Math.min(1, (P.tp || 0) / trickNeed()), d = document.createElement('div'); d.className = 'next';
+    d.innerHTML = `<span class="em">❓</span><span>${known.length ? 'Next trick' : `Look after ${C().him} to learn tricks`}<i><b style="width:${Math.round(p*100)}%"></b></i></span>`; tr.appendChild(d); }
+  tr.hidden = false; play('flutter', .4);
+}
+function goalList(){
+  const K = C(), g = (S.pet && S.pet.g) || {};
+  return [
+    { id:'tricks', em:'✨', text:`Teach ${K.him} 3 tricks`, have:knownTricks().length, need:3 },
+    { id:'meals',  em:'⭐', text:'Get 6 meal-time stars', have:g.meals || 0, need:6 },
+    { id:'score',  em:'🫧', text:'Score 25 in Bubble Party', have:g.best || 0, need:25 },
+    { id:'shop',   em:'🛍️', text:`Buy something for ${K.name}'s corner`, have:DECOR.filter(D => D.who === S.kind && owned(D.id)).length, need:1 },
+  ].map(x => Object.assign(x, { done:x.have >= x.need }));
+}
+function checkGoals(){
+  const P = S.pet; if(!P || stage() !== 3 || evolving) return;
+  P.g = P.g || {}; P.g.done = P.g.done || [];
+  let changed = false;
+  goalList().forEach(x => { if(x.done && !P.g.done.includes(x.id)){ P.g.done.push(x.id); S.stars += 2; changed = true;
+    const n = P.g.done.length; setTimeout(() => { toast(`Goal done: ${x.text}! +2 ★`, ICON('star')); play('sparkle', .8); }, 700 + (n - 1)*3800); } });
+  if(changed){ save(); buildDock(); }
+  if(P.g.done.length >= 4 && !P.eggFound) findEgg();
+}
+function openGoals(){
+  const K = C(), L = goalList(), all = L.every(x => x.done); unlockAudio();
+  $('goalsTitle').textContent = `${K.name}'s goals`;
+  $('goalsText').textContent = all ? "All done! Tap the egg in the garden when you're ready."
+    : `Finish them all to find ${K.next ? CHARS[K.next].name + "'s egg" : 'a new egg'}! Each goal gives you 2 ★.`;
+  const g = $('goalList'); g.innerHTML = '';
+  L.forEach(x => { const d = document.createElement('div'); d.className = 'goal' + (x.done ? ' done' : ''); const p = Math.min(1, x.have / x.need);
+    d.innerHTML = `<span class="tick">${x.done ? '✓' : x.em}</span><div class="gtxt"><b>${x.text}</b>${x.done ? '<small>Done! +2 ★</small>'
+      : `<div class="bar"><i style="width:${Math.round(p*100)}%"></i></div><small>${Math.min(x.have, x.need)} of ${x.need}</small>`}</div>`;
+    g.appendChild(d); });
+  $('goalsPanel').hidden = false; play('flutter', .5);
+}
+// All goals done: an egg turns up in the garden. It waits there until the child is ready to move on.
+function findEgg(){
+  const P = S.pet, K = C(); P.eggFound = true;
+  if(K.next && !(S.unlocked || []).includes(K.next)) S.unlocked = (S.unlocked || []).concat(K.next);
+  save(); render();
+  setTimeout(() => { confetti(); play('shimmer', .9); hopPet(); say(K.found); }, 4200);
+  setTimeout(() => toast('All goals done! An egg has turned up in the garden!', null, '🥚'), 4400);
+}
+function openMove(){
+  const K = C(); unlockAudio();
+  $('moveText').textContent = `${K.name} will move to Fluff Village and take ${K.his} tricks along. You can visit ${K.him} any time with the 🏡 button.`;
+  const h = $('moveHero'); h.innerHTML = ''; h.appendChild(pic('assets/Sprites/' + FORMS[K.forms[2]].files.idle + '.webp', '💜', K.name));
+  $('movePanel').hidden = false; play('flutter', .5);
+}
+function moveOn(){ $('movePanel').hidden = true; const nx = C().next; if(nx) startEgg(nx); else openEggChoice(); }
+function toVillage(){ S.village = (S.village || []).concat({ kind:S.kind, tricks:knownTricks(), pets:S.pets, plays:S.plays, at:Date.now() }); return C().name; }
+function openVillage(){
+  const v = $('village'), row = v.querySelector('.row'), list = S.village || []; row.innerHTML = '';
+  list.forEach((R, i) => { const K = CHARS[R.kind] || CHARS.busy, d = document.createElement('div'); d.className = 'res'; d.style.animationDelay = (-i*.7) + 's';
+    d.appendChild(pic('assets/Sprites/' + FORMS[K.forms[2]].files.idle + '.webp', '💜', K.name));
+    d.insertAdjacentHTML('beforeend', `<span class="tag">${K.name}</span><span class="vsay"></span>`);
+    d.addEventListener('pointerdown', e => { e.preventDefault(); visit(d, R); }); row.appendChild(d); });
+  $('vHint').textContent = list.length === 1 ? 'Tap your friend to say hello!' : `${list.length} friends live here. Tap one to say hello!`;
+  v.hidden = false; unlockAudio(); play('flutter', .6);
+}
+function visit(el, R){
+  unlockAudio(); const K = CHARS[R.kind] || CHARS.busy, t = R.tricks && R.tricks.length && Math.random() < .7 ? any(R.tricks) : null, X = t && TRICKS[t];
+  const cls = X ? X.anim : K.cuddle === 'twirl' ? 'spin' : 'hop';
+  el.classList.remove(...ANIMS); void el.offsetWidth; el.classList.add(cls); clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove(cls), X ? X.ms : 900);
+  play(X ? X.snd : 'giggle', .7, 0, 1, R.kind);
+  const s = el.querySelector('.vsay'); s.textContent = X ? X.say : any(['I missed you!', 'Thanks for visiting!', 'Hello again!'].concat(K.grown));
+  s.classList.add('show'); clearTimeout(s._t); s._t = setTimeout(() => s.classList.remove('show'), 2200);
+  const r = el.getBoundingClientRect(); for(let i = 0; i < 3; i++) setTimeout(() => fx(...(K.tint ? [null, '💗'] : [ICON('happy'), '💜']), r), i*120);
+}
+// Berry bush / strawberry patch: one free favourite snack a day.
+function snackTap(D){
+  unlockAudio(); const P = S.pet; if(S.phase !== 'pet' || !P) return;
+  if(P.asleep){ say(`Zzz… ${C().he}'s asleep`); return; }
+  if(snackUsed()){ say(D.id === 'berryBush' ? 'All picked! More berries tomorrow' : 'All picked! More strawberries tomorrow'); return; }
+  const fav = Object.keys(C().foods).find(k => C().foods[k].fav);
+  if(feed(fav)){ P.snackDay = gameDate().toDateString(); markPicked(); save(); }
 }
 // Which eggs can be chosen: Big Busy always; the others once someone has been raised (or the grown-up setting says all).
 function unlocked(k){ return !UNLOCK[k] || S.unlockAll || (S.unlocked || []).includes(k); }
@@ -1274,17 +1635,29 @@ const syncs = [ segInit('segSound', () => S.sound ? 'on' : 'off', v => S.sound =
 $('settingsBtn').onclick = () => { syncs.forEach(f => f()); $('resetConfirm').hidden = true; $('settingsPanel').hidden = false; };
 $('closeSettings').onclick = () => $('settingsPanel').hidden = true;
 $('resetBtn').onclick = () => $('resetConfirm').hidden = false;
-$('resetYes').onclick = openEggChoice; $('newEggBtn').onclick = openEggChoice;
+$('resetYes').onclick = openEggChoice;
+$('closeGoals').onclick = () => $('goalsPanel').hidden = true;
+$('moveNo').onclick = () => $('movePanel').hidden = true;
+$('moveYes').onclick = moveOn;
+$('foundEgg').addEventListener('pointerdown', e => { e.stopPropagation(); openMove(); });
+$('villageBtn').onclick = openVillage;
+$('closeVillage').onclick = () => $('village').hidden = true;
+document.addEventListener('pointerdown', e => { const tr = $('trickTray'); if(!tr.hidden && !tr.contains(e.target) && !e.target.closest('[data-kind="tricks"]')) tr.hidden = true; }, true);
 $('closeEgg').onclick = () => $('eggPanel').hidden = true;
-$('shopBtn').onclick = openShop;
+$('shopBtn').onclick = () => openShop();
 $('closeShop').onclick = () => $('shopPanel').hidden = true;
-// The garden, any unspent stars and unlocked eggs stay when a new egg arrives.
+// The garden, stars, unlocked eggs and Fluff Village stay when a new egg arrives.
+// If the grown-up found an egg (all goals done), they move to Fluff Village first.
 function startEgg(kind){
-  const keep = { sound:S.sound, speed:S.speed, quiet:S.quiet, stars:S.stars || 0, decor:S.decor || [], unlocked:S.unlocked || [], unlockAll:!!S.unlockAll, best:S.best };
+  const moved = S.phase === 'pet' && S.pet && S.pet.eggFound ? toVillage() : null;
+  const keep = { sound:S.sound, speed:S.speed, quiet:S.quiet, stars:S.stars || 0, decor:S.decor || [], unlocked:S.unlocked || [], unlockAll:!!S.unlockAll, best:S.best, village:S.village || [] };
   S = Object.assign(fresh(kind), keep); save();
-  ['settingsPanel','donePanel','eggPanel'].forEach(id => $(id).hidden = true); render(true);
-  toast(`A new ${C().egg} egg! Keep it cosy.`, ICON('lamp'));
-  if(C().hatchMs > 6*MIN) setTimeout(() => toast("This egg gets chilly fast. Keep that lamp handy!", ICON('lamp')), 4000);
+  ['settingsPanel','eggPanel','movePanel','goalsPanel'].forEach(id => $(id).hidden = true); $('foundEgg').innerHTML = ''; $('trickTray').hidden = true;
+  buildDecor(); render(true);
+  const eggMsg = () => toast(`A new ${C().egg} egg! Keep it cosy.`, ICON('lamp'));
+  if(moved){ confetti(); play('shimmer', .8); toast(`${moved} moved to Fluff Village! Visit any time with 🏡`, null, '🏡'); setTimeout(eggMsg, 3800); }
+  else eggMsg();
+  if(C().hatchMs > 6*MIN) setTimeout(() => toast("This egg gets chilly fast. Keep that lamp handy!", ICON('lamp')), moved ? 7800 : 4000);
 }
 
 /* ---------- boot ---------- */

@@ -19,7 +19,10 @@ A virtual pet game starring **Big Busy**, a purple fluffy pom-pom character from
 - **Hands-on care:** drag food to mouth (munch animation; berries are his favourite, broccoli refused), stroke him to pet (hearts), drag sponge over him (bubbles), drag moon to sleep (night garden), bubble-pop mini-game (20s, gold bubbles = 3).
 - **Meal times:** breakfast 7–9, lunch 12–13:30, teatime 16:30–18:30 → bonus star if fed in the window.
 - **Quiet hours** 20:30–07:00: he sleeps, nothing drops.
-- **Kind by design:** no death. After day 7 he's "all grown up" and moves to Fluff Village; start a new egg.
+- **Kind by design:** no death, no day-7 ending.
+- **Grown-up goals (1.4):** once grown, 4 goals (3 tricks, 6 meal-time stars, 25 in Bubble Party, buy a corner item; +2★ each). All done → the next family egg appears in the garden (`findEgg`); tapping it when ready moves the grown-up to **Fluff Village** (`S.village`, visit with the 🏡 button) and starts the new egg.
+- **Tricks:** grown-ups learn tricks from care points (`careDone`, `TRICKS`, `CHARS[*].tricks`); some shop items add a bonus trick. Tricks tray in the dock.
+- **Shop tabs:** Garden (shared) + each character's corner (`DECOR` items with `who`; only shown/buyable while that character is in the garden). The 14 newer items are **code-drawn SVG placeholders** (`ART`) to be replaced with Runway art later. No accessories on characters (don't change their looks).
 - **Family eggs (1.3):** characters live in the `CHARS` table in `index.html` (name, pronouns, forms, egg timings, foods, talk, cuddle type, voice). `S.kind` says who is in the garden. After a character grows up, the egg chooser offers the next one (`UNLOCK`); grown-up setting "Family eggs: All unlocked" for testing.
 - **Big Lizzy:** pink egg, ~15 min hatch, lamp cools in ~2.5 min. Puffbud → Twirlet → Big Lizzy. Strawberries favourite, watermelon, ice cream (fun up, clean down), lemon refused (sour shiver). Twirl cuddle = draw a circle on her; she spins when tapped; voice = family sounds pitched up; fun drains faster, clean slower. Pink Bubble Party with heart bubbles (3 pts).
 - **Lizzy placeholder art:** her baby looks and egg are Big Busy's pictures pink-tinted in CSS (`.tintPink`, `#pet.tint`, `#egg.tint`); her foods are emoji. Only grown-up Lizzy (`lizzy_idle/sleep`) is real art. To be replaced with Runway art later.

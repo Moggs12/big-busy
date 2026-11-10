@@ -1,12 +1,12 @@
 // Offline helper for Big Busy.
 // Saves the whole game on the device the first time it's opened, so it works with no internet.
 // When you change the game: bump VERSION so devices pick up the new files straight away.
-const VERSION = 'bigbusy-2026-11-09d';
+const VERSION = 'bigbusy-2026-11-10a';
 const FONT_CACHE = 'bigbusy-fonts';
 
 const FILES = [
   './', 'index.html', 'manifest.webmanifest',
-  'assets/app-icons/icon-180.png', 'assets/app-icons/icon-192.png', 'assets/app-icons/icon-512.png',
+  'assets/app-icons/icon-180.png', 'assets/app-icons/icon-192.png', 'assets/app-icons/icon-512.png', 'assets/app-icons/icon-maskable-512.png',
   'assets/art/egg.webp', 'assets/art/egg_cracked.webp', 'assets/art/garden_day.webp', 'assets/art/garden_blur.webp', 'assets/art/garden_night.webp',
   'assets/Sprites/busy_idle.webp', 'assets/Sprites/busy_munch.webp', 'assets/Sprites/busy_sad.webp', 'assets/Sprites/busy_sleep.webp',
   'assets/Sprites/fluff_idle.webp', 'assets/Sprites/fluff_sleep.webp', 'assets/Sprites/fuzz_idle.webp', 'assets/Sprites/fuzz_sleep.webp',
@@ -19,7 +19,7 @@ const FILES = [
 ];
 
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(VERSION).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(VERSION).then(c => c.addAll(FILES.map(f => new Request(f, { cache: 'reload' })))).then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', e => {
@@ -37,7 +37,7 @@ self.addEventListener('fetch', e => {
   if (url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com') {
     e.respondWith(caches.open(FONT_CACHE).then(async c => {
       const hit = await c.match(req);
-      const fresh = fetch(req).then(r => { if (r.ok || r.type === 'opaque') c.put(req, r.clone()); return r; }).catch(() => hit);
+      const fresh = fetch(req).then(r => { if (r.ok || r.type === 'opaque') c.put(req, r.clone()); return r; }).catch(() => hit || Response.error());
       return hit || fresh;
     }));
     return;
@@ -46,7 +46,7 @@ self.addEventListener('fetch', e => {
 
   // The page itself: try the internet first (to get updates), fall back to the saved copy.
   if (req.mode === 'navigate') {
-    e.respondWith(fetch(req).then(r => {
+    e.respondWith(fetch(req.url, { cache: 'no-cache' }).then(r => {
       if (r.ok) caches.open(VERSION).then(c => c.put('index.html', r.clone()));
       return r;
     }).catch(() => caches.match('index.html', { ignoreSearch: true })));

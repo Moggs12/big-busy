@@ -81,7 +81,8 @@ header{display:flex;align-items:center;gap:10px}
   box-shadow:inset 0 2px 0 rgba(255,255,255,.6),0 3px 8px rgba(90,23,201,.4);overflow:hidden;display:grid;place-items:center}
 .avatar img{width:130%;height:130%;object-fit:cover;object-position:50% 30%}
 .nameblock{display:flex;flex-direction:column;min-width:0;line-height:1}
-.name{font-family:var(--font-display);font-weight:800;font-size:clamp(24px,3.6vmin,34px);color:var(--ink);white-space:nowrap;letter-spacing:.2px}
+.name{font-family:var(--font-display);font-weight:800;font-size:clamp(24px,3.6vmin,34px);color:var(--ink);white-space:nowrap;letter-spacing:.2px;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:430px){header{gap:6px}header .roundbtn{width:46px;height:46px}header .namepill{gap:8px;padding-right:12px}header .name{font-size:21px}}
 .sub{font-weight:900;font-size:13px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
 .spacer{flex:1}
 .pill{border-radius:999px;padding:10px 16px;font-weight:900;font-size:15px;white-space:nowrap;display:flex;align-items:center;gap:8px}
@@ -107,7 +108,7 @@ header{display:flex;align-items:center;gap:10px}
 .meter.low .ic{animation:shakeIc 1s ease-in-out infinite}
 .meter.low .tube i{animation:lowPulse 1s ease-in-out infinite}
 @keyframes shakeIc{0%,100%{transform:translateY(-50%) rotate(0)}20%{transform:translateY(-50%) rotate(-14deg)}40%{transform:translateY(-50%) rotate(12deg)}60%{transform:translateY(-50%) rotate(-6deg)}}
-@keyframes lowPulse{50%{filter:brightness(1.35)}}
+@keyframes lowPulse{50%{opacity:.6}}
 .meter.bump{animation:bump .5s cubic-bezier(.3,1.6,.5,1)}
 @keyframes bump{40%{transform:scale(1.08)}}
 #m-tummy{--fill:linear-gradient(90deg,#ff3b3b,#ff9a1f)}
@@ -183,7 +184,7 @@ header{display:flex;align-items:center;gap:10px}
 
 /* speech + hint */
 #bubble{position:absolute;z-index:8;left:50%;transform:translate(-50%,0) scale(1);background:#fff;border-radius:24px;padding:12px 20px;
-  font-family:var(--font-display);font-weight:800;font-size:clamp(18px,2.8vmin,26px);color:var(--ink);white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis;
+  font-family:var(--font-display);font-weight:800;font-size:clamp(18px,2.8vmin,26px);color:var(--ink);white-space:normal;text-align:center;line-height:1.2;width:max-content;max-width:min(92vw,420px);
   box-shadow:0 10px 24px rgba(43,13,92,.25),inset 0 -3px 0 rgba(43,13,92,.08);transition:opacity .25s,transform .35s cubic-bezier(.3,1.6,.5,1);pointer-events:none}
 #bubble::after{content:"";position:absolute;left:50%;bottom:-11px;margin-left:-11px;border:11px solid transparent;border-top-color:#fff;border-bottom:0}
 #bubble.hide{opacity:0;transform:translate(-50%,10px) scale(.85)}
@@ -201,7 +202,7 @@ header{display:flex;align-items:center;gap:10px}
 .item .tile img{width:88%;height:88%;object-fit:contain;filter:drop-shadow(0 4px 3px rgba(43,13,92,.25));pointer-events:none}
 .item .tile .em{font-size:clamp(34px,5vmin,46px);line-height:1}
 .item small{font-weight:900;font-size:13px;color:var(--ink);pointer-events:none;white-space:nowrap}
-.item:hover{transform:translateY(-4px)}
+@media (hover:hover){.item:hover{transform:translateY(-4px)}}
 .item:active{transform:scale(.92)}
 .item.fav .tile::after{content:"";position:absolute;top:0;right:8px;width:22px;height:22px;border-radius:50%;
   background:var(--magenta) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z'/%3E%3C/svg%3E") center/14px no-repeat;box-shadow:0 2px 0 #c0146f,0 0 0 2px #fff}
@@ -223,17 +224,19 @@ header{display:flex;align-items:center;gap:10px}
 .confetti{position:fixed;z-index:80;width:12px;height:18px;border-radius:3px;pointer-events:none;animation:conf 1.8s cubic-bezier(.2,.6,.4,1) forwards}
 @keyframes conf{to{transform:translate(var(--dx),var(--dy)) rotate(var(--r));opacity:0}}
 
-#toast{position:fixed;left:50%;top:calc(14px + env(safe-area-inset-top,0px));transform:translate(-50%,-160%);z-index:90;border-radius:999px;padding:12px 22px;font-weight:900;font-size:16px;
-  transition:transform .45s cubic-bezier(.3,1.5,.5,1);white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:8px}
+#toast{position:fixed;left:50%;top:calc(14px + env(safe-area-inset-top,0px));transform:translate(-50%,-160%);z-index:90;border-radius:28px;padding:12px 22px;font-weight:900;font-size:16px;
+  transition:transform .45s cubic-bezier(.3,1.5,.5,1);white-space:normal;text-align:center;line-height:1.25;width:max-content;max-width:min(92vw,560px);display:flex;align-items:center;gap:8px}
 #toast.show{transform:translate(-50%,0)}
 #toast img{width:28px;height:28px}
 
 /* ---------- panels ---------- */
 .panel{position:fixed;inset:0;z-index:70;display:grid;place-items:center;background:rgba(43,13,92,.25);
   -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px}
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-top:max(16px,env(safe-area-inset-top,0px));padding-bottom:max(16px,env(safe-area-inset-bottom,0px))}
 .card{border-radius:36px;padding:28px 26px 26px;width:min(480px,100%);display:flex;flex-direction:column;gap:16px;text-align:center;
-  animation:cardIn .5s cubic-bezier(.3,1.5,.5,1)}
+  animation:cardIn .5s cubic-bezier(.3,1.5,.5,1);max-height:100%;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y}
+@media (max-height:520px){.hero{width:min(220px,30vh)}.card{padding:18px 20px;gap:10px}}
 @keyframes cardIn{from{transform:scale(.85);opacity:0}}
 .card h2{font-family:var(--font-display);font-weight:800;font-size:30px;margin:0;line-height:1.1;text-wrap:balance}
 .card p{margin:0;color:var(--ink-2);font-weight:800;font-size:17px;line-height:1.45}
@@ -302,7 +305,7 @@ header{display:flex;align-items:center;gap:10px}
 @keyframes mS{from{transform:perspective(600px) rotateY(0)}to{transform:perspective(600px) rotateY(360deg)}}
 #dance .glitter{position:absolute;top:-6px;left:50%;width:44px;margin-left:-22px;font-size:40px;text-align:center;transform-origin:50% 0;animation:glit 2.4s ease-in-out infinite;filter:drop-shadow(0 0 10px #fff)}
 @keyframes glit{50%{transform:rotate(14deg)}}
-#dance .track{position:absolute;left:50%;top:37%;bottom:calc(16px + env(safe-area-inset-bottom,0px));width:min(calc(100% - 20px),540px);transform:translateX(-50%)}
+#dance .track{position:absolute;left:50%;top:37%;bottom:calc(16px + env(safe-area-inset-bottom,0px));width:min(calc(100% - 20px),540px,90vh);transform:translateX(-50%)}
 #dance .lg{position:absolute;top:0;bottom:0;width:21%;border-radius:22px;background:linear-gradient(rgba(255,255,255,0),rgba(255,255,255,.3))}
 #dance .lg:nth-child(1){left:2%}#dance .lg:nth-child(2){left:27.3%}#dance .lg:nth-child(3){left:51.7%}#dance .lg:nth-child(4){left:77%}
 #dance .pads{position:absolute;z-index:1;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(4,1fr)}
@@ -326,6 +329,14 @@ header{display:flex;align-items:center;gap:10px}
 @keyframes judgePop{0%{opacity:0;transform:translate(-50%,-50%) scale(.5)}25%{opacity:1;transform:translate(-50%,-50%) scale(1.12)}100%{opacity:0;transform:translate(-50%,-75%) scale(1)}}
 #dance .combo{top:26%;text-shadow:0 4px 0 #ff2f9a,0 0 24px rgba(255,255,255,.8)}
 
+button{touch-action:manipulation}
+#decor .lit{z-index:1}
+#decor .sky,#foundEgg{will-change:transform}
+#dance .pad.burst::after{content:"";position:absolute;inset:-16%;border-radius:36%;background:radial-gradient(closest-side,var(--pc),rgba(255,255,255,0));animation:burst .35s ease-out forwards;pointer-events:none}
+@keyframes burst{from{opacity:.95;transform:scale(.7)}to{opacity:0;transform:scale(1.35)}}
+#gTime.hurry,#dTime.hurry{color:#ff2f9a;animation:hurry .5s ease-in-out infinite alternate}
+@keyframes hurry{to{transform:scale(1.12)}}
+
 /* ---------- hatch film ---------- */
 #film{position:fixed;inset:0;z-index:85;background:#000;display:grid;place-items:center}
 #film video{width:100%;height:100%;object-fit:cover}
@@ -346,7 +357,7 @@ header{display:flex;align-items:center;gap:10px}
   box-shadow:inset -8px -10px 18px rgba(138,63,252,.3),0 6px 14px rgba(43,13,92,.15)}
 .gb.gold{background:radial-gradient(circle at 30% 28%,#fff 0 9%,#ffe36b 35%,#ffb300 80%);border-color:#fff6cf}
 .gb{will-change:transform;-webkit-tap-highlight-color:transparent}
-.gb.pop{animation:pop .25s ease-out forwards}
+.gb.pop{animation:pop .25s ease-out forwards;pointer-events:none}
 @keyframes pop{to{transform:var(--t) scale(1.7);opacity:0}}
 .gb.rainbow{background:none;border-color:#fff;box-shadow:0 0 18px rgba(255,255,255,.9),0 6px 14px rgba(43,13,92,.2)}
 .gb.rainbow::before,.gb.rainbow::after{content:"";position:absolute;inset:0;border-radius:50%;pointer-events:none}
@@ -496,7 +507,7 @@ header{display:flex;align-items:center;gap:10px}
 #village .houses .h2{right:2%;bottom:33%;width:min(26vmin,220px);filter:hue-rotate(70deg) drop-shadow(0 8px 10px rgba(30,60,20,.3))}
 #village .houses .h3{left:40%;bottom:46%;width:min(15vmin,120px);filter:hue-rotate(-60deg) drop-shadow(0 8px 10px rgba(30,60,20,.3))}
 #village .vtitle{font-size:26px}
-#village .vhint{position:absolute;left:50%;top:calc(84px + env(safe-area-inset-top,0px));transform:translateX(-50%);font-weight:900;font-size:16px;max-width:92vw}
+#village .vhint{position:absolute;left:50%;top:calc(84px + env(safe-area-inset-top,0px));transform:translateX(-50%);font-weight:900;font-size:16px;max-width:92vw;white-space:normal;text-align:center;width:max-content}
 #village .row{position:absolute;left:0;right:0;bottom:calc(5% + env(safe-area-inset-bottom,0px));display:flex;flex-wrap:wrap-reverse;justify-content:center;align-items:flex-end;gap:14px 3vw;padding:0 16px}
 .res{position:relative;width:min(28vmin,230px);aspect-ratio:1;cursor:pointer;transform-origin:50% 96%;animation:breathe 3.2s ease-in-out infinite;touch-action:none}
 .res img{width:100%;height:100%;object-fit:contain;pointer-events:none}
@@ -548,7 +559,7 @@ header{display:flex;align-items:center;gap:10px}
   </div>
 
   <div id="stage">
-    <div id="bubble" class="hide"></div>
+    <div id="bubble" class="hide" role="status" aria-live="polite"></div>
     <div id="hint" class="glass" hidden></div>
     <div id="eggWrap" hidden aria-label="Big Busy's egg">
       <div id="eggGlow"></div>
@@ -588,7 +599,7 @@ header{display:flex;align-items:center;gap:10px}
 </div>
 
 <div id="ghost" hidden></div>
-<div id="toast" class="glass"></div>
+<div id="toast" class="glass" role="status" aria-live="polite"></div>
 <div id="flash"></div>
 
 <div class="panel" id="startPanel">
@@ -616,7 +627,7 @@ header{display:flex;align-items:center;gap:10px}
       <button class="btn small" id="closeSettings">Done</button>
     </div>
     <div class="row" id="resetConfirm" hidden>
-      <p style="width:100%">Start again with a new egg? This pet's progress will be cleared.</p>
+      <p style="width:100%">Start again with a new egg? Your garden, stars and Fluff Village friends all stay.</p>
       <button class="btn pink small" id="resetYes">Yes, new egg</button>
     </div>
   </div>
@@ -764,7 +775,9 @@ const ANIMS = ['hop','munch','nope','wobble','squeeze','spin','sour', ...Object.
 
 /* ---------- storage ---------- */
 const KEY = 'bigbusy-v1';
-function load(){ try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s && s.v === 1) return s; }catch(e){} return null; }
+function load(){ let raw = null; try{ raw = localStorage.getItem(KEY); const s = JSON.parse(raw); if(s && s.v === 1) return s; }catch(e){}
+  if(raw) try{ localStorage.setItem(KEY + '-bad', raw); }catch(e){}   // keep a copy of a damaged save rather than losing it
+  return null; }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
 function fresh(kind){ const n = Date.now();
   return { v:1, kind:kind || 'busy', phase:'egg', last:n, simNow:n, speed:1, sound:true, quiet:true, egg:{cosy:70, warm:0, taps:0}, pet:null, stars:0, meals:{}, pets:0, plays:0 }; }
@@ -777,7 +790,8 @@ function gameDate(){ return new Date(S.simNow); }
 function hourOf(d){ return d.getHours() + d.getMinutes()/60; }
 function isQuiet(d){ if(!S.quiet) return false; const h = hourOf(d); return h >= 20.5 || h < 7; }
 function clamp(v){ return Math.max(0, Math.min(100, v)); }
-function step(dtReal){ let dt = dtReal * S.speed; while(dt > 0){ const c = Math.min(dt, MIN); S.simNow += c; dt -= c; tick(c); } }
+function step(dtReal){ let dt = Math.min(dtReal * S.speed, 10*24*HOUR);   // never more than 10 game days at once (stops freezes at test speeds)
+  while(dt > 0){ const c = Math.min(dt, MIN); S.simNow += c; dt -= c; tick(c); } }
 let pendingWake = false;
 function tick(ms){
   const h = ms / HOUR;
@@ -859,7 +873,7 @@ function busySVG(mood){
 const SPRITES = {};
 let curKey = null;
 Object.values(FORMS).forEach(F => Object.values(F.files).forEach(f => { if(SPRITES[f]) return;
-  const img = new Image(); img.alt = 'Big Busy'; img.draggable = false;
+  const img = new Image(); img.alt = ''; img.draggable = false;
   img.onerror = () => { SPRITES[f] = { svg:busySVG(f.split('_')[1]) }; if(curKey === f) setMood(curMoodName, true); };
   img.src = 'assets/Sprites/' + f + '.webp'; SPRITES[f] = { img }; }));
 function form(){ return FORMS[(S.pet && S.pet.form) || C().forms[2]]; }
@@ -914,22 +928,22 @@ const DECOR = [
   { id:'mushroom',  name:'Mushroom house', price:8,  x:.13, w:.20, ar:.937,  spot:'back',  say:'A little house! Who lives there?' },
   { id:'rainbow',   name:'Rainbow',        price:10, x:.80, w:.34, ar:1.571, spot:'sky',   say:'A RAINBOW! Best day ever!' },
   { id:'lanterns',  name:'Night lantern',  price:12, x:.95, w:.09, ar:.5,    spot:'front', draw:'lanterns', lit:true, does:'Glows at bedtime', say:'A pretty light for bedtime!' },
-  { id:'butterflies', name:'Butterflies',  price:15, x:.62, w:.13, ar:1,     spot:'air',   draw:'butterflies', say:'Hello, butterflies!' },
+  { id:'butterflies', name:'Butterflies',  price:15, x:.86, w:.13, ar:1,     spot:'air',   draw:'butterflies', say:'Hello, butterflies!' },
   { id:'fountain',  name:'Fountain',       price:20, x:.70, w:.17, ar:1,     spot:'back',  draw:'fountain', say:'Splishy splashy!' },
-  { id:'treehouse', name:'Treehouse',      price:30, x:.06, w:.27, ar:.8,    spot:'back',  draw:'treehouse', say:'A treehouse! Can I climb it?' },
+  { id:'treehouse', name:'Treehouse',      price:30, x:.06, w:.27, ar:.8,    spot:'far',   draw:'treehouse', say:'A treehouse! Can I climb it?' },
   { id:'balloon',   name:'Hot-air balloon', price:40, x:.2, w:.14, ar:.75,   spot:'sky',   draw:'balloon', say:'Up, up and away!' },
   // Big Busy's corner (only out while he's in the garden)
   { id:'berryBush', who:'busy', name:'Berry bush', price:10, x:.64, w:.18, ar:1.3, spot:'front', draw:'berryBush', tap:true, does:'Free berries every day: tap the bush', say:'Berries! My favourite!' },
   { id:'hammock',   who:'busy', name:'Purple hammock', price:14, x:.24, w:.21, ar:1.6, spot:'back', draw:'hammock', does:'He sleeps faster', say:'Ooh, a comfy hammock!' },
-  { id:'trampoline', who:'busy', name:'Trampoline', price:18, x:.36, w:.2, ar:1.6, spot:'front', draw:'trampoline', trick:'bounce', does:'Teaches him the Big Bounce trick', say:'Boing boing boing!' },
+  { id:'trampoline', who:'busy', name:'Trampoline', price:18, x:.44, w:.2, ar:1.6, spot:'front', draw:'trampoline', trick:'bounce', does:'Teaches him the Big Bounce trick', say:'Boing boing boing!' },
   { id:'bubbleMachine', who:'busy', name:'Bubble machine', price:25, x:.8, w:.12, ar:.85, spot:'back', draw:'bubbleMachine', does:'A new splitting bubble in Bubble Party', say:'Bubbles everywhere!' },
   // Big Lizzy's corner
   { id:'strawberryPatch', who:'lizzy', name:'Strawberry patch', price:10, x:.64, w:.2, ar:1.6, spot:'front', draw:'strawberryPatch', tap:true, does:'Free strawberries every day: tap the patch', say:'Strawberries! Yummy!' },
   { id:'ribbonSwing', who:'lizzy', name:'Ribbon swing', price:14, x:.24, w:.15, ar:.9, spot:'back', draw:'ribbonSwing', does:'She sleeps faster', say:'A ribbon swing! So pretty!' },
-  { id:'musicBox',  who:'lizzy', name:'Music box', price:18, x:.36, w:.15, ar:1, spot:'front', draw:'musicBox', trick:'music', does:'Teaches her the Music Box Dance', say:'La la la! Music!' },
-  { id:'danceFloor', who:'lizzy', name:'Dance floor', price:25, x:.8, w:.21, ar:1.4, spot:'back', draw:'danceFloor', does:'Her Fun goes down slower, and gold star arrows in Dance Party', say:"A glitter ball! Let's dance!" },
+  { id:'musicBox',  who:'lizzy', name:'Music box', price:18, x:.44, w:.15, ar:1, spot:'front', draw:'musicBox', trick:'music', does:'Teaches her the Music Box Dance', say:'La la la! Music!' },
+  { id:'danceFloor', who:'lizzy', name:'Dance floor', price:25, x:.8, w:.21, ar:1.4, spot:'back', draw:'danceFloor', does:'Her Fun lasts longer, plus gold star arrows in Dance Party', say:"A glitter ball! Let's dance!" },
 ];
-const DEPTH = { sky:0, top:1, back:2, air:3, front:4 };
+const DEPTH = { sky:0, top:1, far:1.5, back:2, air:3, front:4 };
 function owned(id){ return (S.decor || []).includes(id); }
 // Garden things are always out; a character's corner things only while that character is in the garden.
 function present(D){ return owned(D.id) && (!D.who || D.who === S.kind); }
@@ -1005,7 +1019,7 @@ function buildDecor(newId){
   const box = $('decor'); box.innerHTML = '';
   DECOR.filter(present).sort((a, b) => DEPTH[a.spot] - DEPTH[b.spot]).forEach(D => {
     const el = drawArt(D); el.dataset.id = D.id;
-    if(D.spot === 'sky') el.classList.add('sky'); if(D.lit) el.classList.add('lit'); if(D.id === newId) el.classList.add('new');
+    if(D.spot === 'sky') el.classList.add('sky'); if(D.lit) el.classList.add('lit'); if(D.id === newId){ el.classList.add('new'); setTimeout(() => el.classList.remove('new'), 900); }
     if(D.tap){ el.classList.add('tap'); el.addEventListener('pointerdown', e => { e.stopPropagation(); snackTap(D); }); }
     if(el.tagName === 'IMG') el.onerror = () => el.remove();
     box.appendChild(el); });
@@ -1019,6 +1033,7 @@ function layoutDecor(oy, dh, gy, top, dockTop){
     const w = D.spot === 'top' ? D.w*W : D.w*U, h = w / D.ar;
     const bottom = D.spot === 'sky' ? Math.min(horizon + 10, top + 20 + h)
                  : D.spot === 'top' ? top + 4 + h
+                 : D.spot === 'far' ? gy - .4*(gy - horizon)      // further back, so the treehouse sits behind the mushroom house
                  : D.spot === 'back' ? gy - .12*(gy - horizon)
                  : D.spot === 'air' ? horizon + .5*(gy - horizon)
                  : D.who ? dockTop - 8 : dockTop + 4;   // corner things sit just above the toy dock
@@ -1068,7 +1083,7 @@ function buyDecor(D){
   S.stars -= D.price; S.decor = (S.decor || []).concat(D.id); save();
   $('shopPanel').hidden = true; buildDecor(D.id); layout(); showShopBtn();
   play('poof', .6); setTimeout(() => { play('sparkle', .8); confetti(); }, 350);
-  setTimeout(() => say(D.say), 900);
+  if(!S.pet || !S.pet.asleep) setTimeout(() => say(D.say), 900);
   toast(`${D.name} added to the garden!`, ICON('star'));
   if(D.trick && stage() === 3) setTimeout(() => { toast(`${C().name} learned a new trick: ${TRICKS[D.trick].n}!`, null, TRICKS[D.trick].em); doTrick(D.trick); buildDock(); }, 2800);
   render();
@@ -1093,13 +1108,13 @@ function evolve(){
   play('shimmer', .9); pet.classList.remove(...ANIMS); pet.classList.add('evolving');
   const r = targetRect(); for(let i=0;i<16;i++) setTimeout(() => fx(ICON('star'), '✨', r), i*120);
   setTimeout(() => flashOut(() => {
-    P.form = F.next; pet.classList.remove('evolving'); setMood('idle', true);
+    P.form = F.next; delete P.evolveToldAt; pet.classList.remove('evolving'); setMood('idle', true);
     pet.classList.add('reveal'); setTimeout(() => pet.classList.remove('reveal'), 950);
     layout(); render(true); confetti(); play('boing', .8);
     const nf = form();
     setTimeout(() => { say(nf.next ? C().mid[0] + ' Look at me!' : C().grownHi); }, 700);
-    toast(`Wow! ${cap(C().he)}'s a ${nf.n} now!`, ICON('star'));
-    if(nf.stage === 2) setTimeout(() => toast(`Play is unlocked! Try ${C().game === 'dance' ? 'Dance Party' : 'the bubble game'}.`, ICON('wand')), 4200);
+    toast(nf.stage === 3 ? `Wow! ${cap(C().he)}'s all grown up!` : `Wow! ${cap(C().he)}'s a ${nf.n} now!`, ICON('star'));
+    if(nf.stage === 2) setTimeout(() => toast(`Play is unlocked! Try ${C().game === 'dance' ? 'Dance Party' : 'Bubble Party'}.`, ICON('wand')), 4200);
     if(nf.stage === 3) setTimeout(() => toast(`New: ${C().name}'s goals and tricks! Look in the toy dock.`, null, '🏆'), 4200);
     evolving = false; save();
   }), 2300);
@@ -1120,13 +1135,14 @@ function buildMeters(){
 }
 function setMeter(k, v){
   const d = $('m-' + k); if(!d) return;
-  d.querySelector('i').style.width = Math.max(6, v) + '%';
+  const i = d.querySelector('i'), w = Math.round(Math.max(6, v)) + '%'; if(i.style.width !== w) i.style.width = w;   // whole numbers: the bar only animates when it really moves
   d.querySelector('.tube').setAttribute('aria-valuenow', Math.round(v));
   d.classList.toggle('low', v < 25 && k !== 'hatch');
 }
 function bump(k){ const d = $('m-' + k); if(!d) return; d.classList.remove('bump'); void d.offsetWidth; d.classList.add('bump'); }
 
 function buildDock(){
+  if(drag){ buildDock.later = true; return; }   // don't swap the toys out from under a finger
   const t = $('dockIn'); t.innerHTML = '';
   if(S.phase === 'egg'){ t.appendChild(mkItem('lamp', ICON('lamp'), '🔆', 'Heat lamp', 'lamp')); return; }
   Object.entries(C().foods).forEach(([k, f]) => t.appendChild(mkItem('food:' + k, f.icon ? ICON(f.icon) : '', f.em, f.name, f.fav ? 'fav' : '')));
@@ -1157,7 +1173,8 @@ function mkItem(kind, src, em, label, cls){
 let drag = null;
 function startDrag(e){
   const btn = e.currentTarget, kind = btn.dataset.kind; if(kind === 'play' || kind === 'tricks' || kind === 'goals') return;
-  e.preventDefault(); unlockAudio();
+  if(drag) return;                    // a second finger doesn't steal the first toy
+  btn._dragged = false; e.preventDefault(); unlockAudio(); dragRect = targetRect();   // measured once, not on every finger move
   const g = $('ghost'); g.innerHTML = ''; g.appendChild(pic(btn.dataset.src, btn.dataset.em));
   // On touch the toy only lifts once the finger moves, so a sideways swipe can scroll the dock instead.
   const live = e.pointerType !== 'touch' || kind === 'lamp'; g.hidden = !live;
@@ -1167,7 +1184,8 @@ function startDrag(e){
 }
 function moveGhost(x, y){ const g = $('ghost'); g.style.left = x + 'px'; g.style.top = y + 'px'; }
 function targetRect(){ return (S.phase === 'egg' ? $('eggWrap') : $('petWrap')).getBoundingClientRect(); }
-function overTarget(x, y, pad = 0){ const r = targetRect(); return x > r.left - pad && x < r.right + pad && y > r.top - pad && y < r.bottom + pad; }
+let dragRect = null;
+function overTarget(x, y, pad = 0){ const r = dragRect || targetRect(); return x > r.left - pad && x < r.right + pad && y > r.top - pad && y < r.bottom + pad; }
 function onDrag(e){
   if(!drag || e.pointerId !== drag.id) return;
   const dist = Math.hypot(e.clientX - drag.x, e.clientY - drag.y); drag.moved += dist; drag.x = e.clientX; drag.y = e.clientY;
@@ -1184,6 +1202,7 @@ function endDrag(e){
   removeEventListener('pointermove', onDrag); removeEventListener('pointerup', endDrag); removeEventListener('pointercancel', endDrag);
   $('ghost').hidden = true; $('eggWrap').classList.remove('warm');
   const d = drag; drag = null; if(d.moved > 10) d.btn._dragged = true;
+  if(buildDock.later){ buildDock.later = false; setTimeout(buildDock, 0); }
   if(e.type === 'pointercancel'){ if(S.pet && !eating) setMood(moodNow()); return; }   // the dock scrolled instead
   const over = overTarget(e.clientX, e.clientY, 24);
   if(d.kind.startsWith('food:')){ if(over) feed(d.kind.slice(5), e.clientX, e.clientY); else { if(S.pet) setMood(moodNow()); if(d.moved < 10) say('Drag it to my mouth!'); } }
@@ -1210,19 +1229,23 @@ function tapEgg(){
   unlockAudio(); if(S.phase !== 'egg') return;
   if(eggAsleep()){ say('Zzz… sleeping till morning'); return; }
   if(!eggReady()){ wiggleEgg(); say(S.egg.cosy < 30 ? 'Brrr! I need warming up' : 'Not yet… keep me cosy!'); return; }
+  if(hatching) return;                // extra fast taps don't hatch it twice
   S.egg.taps++; play('squeak', .7); showEgg(); wiggleEgg(); fx(ICON('star'), '✨', targetRect());
   if(S.egg.taps >= 4) hatch(); else say(['Tap tap!','Crack!','Nearly there!'][S.egg.taps - 1]);
   save();
 }
+let hatching = false;
 function hatch(){
-  const g = $('egg'); g.classList.add('shake'); play('shimmer', .9);
+  hatching = true; const g = $('egg'); g.classList.add('shake'); play('shimmer', .9);
   const done = () => {
-    g.classList.remove('shake'); const K = C();
+    g.classList.remove('shake'); const K = C(); hatching = false;
     S.phase = 'pet'; S.pet = { born:S.simNow, form:K.forms[0], tummy:55, happy:80, energy:75, clean:100, fun:60, asleep:false, autoSleep:false };
     save(); render(true); confetti(); play('boing', .8); $('pet').classList.add('reveal'); setTimeout(() => $('pet').classList.remove('reveal'), 950);
     setTimeout(() => say(K.baby[0]), 600);
     const [fk, fav] = Object.entries(K.foods).find(([k, f]) => f.fav);
-    setTimeout(() => toast(`It's a baby ${form().n}! ${cap(K.he)}'s hungry. Drag some ${fav.name.toLowerCase()} to ${K.him}.`, fav.icon ? ICON(fav.icon) : null, fav.em), 1700);
+    const night = isQuiet(gameDate());
+    setTimeout(() => toast(night ? `It's a baby ${form().n}! Shh… ${K.he}'s sleepy. Feed ${K.him} in the morning.`
+      : `It's a baby ${form().n}! ${cap(K.he)}'s hungry. Drag some ${fav.name.toLowerCase()} to ${K.him}.`, fav.icon ? ICON(fav.icon) : null, fav.em), 1700);
   };
   setTimeout(() => {
     const r = targetRect(), cx = r.left + r.width/2, cy = r.top + r.height*.5;
@@ -1244,8 +1267,8 @@ let eating = false;
 function feed(k, x, y){
   const P = S.pet, f = C().foods[k]; if(!f) return;
   if(P.asleep){ say(`Zzz… ${C().he}'s asleep`); return; }
-  if(eating) return;
-  if(f.yuck){ setMood('idle'); const sour = C().cuddle === 'twirl'; petAnim(sour ? 'sour' : 'nope'); play('squeak', .8, 0, sour ? 1.15 : 1);
+  if(eating || evolving) return;
+  if(f.yuck){ setMood('idle'); const sour = C().cuddle === 'twirl'; petAnim(sour ? 'sour' : 'nope'); play('squeak', .8);
     if(sour) fx(null, '😖', targetRect());
     say(stage() === 3 ? C().yuck : sour ? 'Eek!' : 'Bleh!'); return; }
   if(P.tummy > 94){ setMood('idle'); petAnim('nope'); say("I'm full up!"); return; }
@@ -1286,14 +1309,14 @@ function scrub(x, y){
   render();
 }
 function toggleSleep(){
-  const P = S.pet; if(!P) return;
+  const P = S.pet; if(!P || evolving) return;
   if(P.asleep){
     if(P.autoSleep){ say("Shh… it's night-time"); return; }
     if(P.energy < 30){ say('Five more minutes…'); return; }
     P.asleep = false; play('flutter', .7); say('Good morning!'); hopPet();
   } else {
     if(P.energy > 85){ petAnim('nope'); say("I'm not sleepy yet!"); return; }
-    P.asleep = true; say('Night night…');
+    P.asleep = true; play('coo', .5, 0, .85); say('Night night…');
   }
   save(); render();
 }
@@ -1312,6 +1335,7 @@ function holdTick(){
 }
 // A hug (Big Busy: press and hold) or a twirl (Big Lizzy: draw a circle on her). Same reward either way.
 function hug(){
+  if(evolving) return;
   const P = S.pet, K = C(), twirl = K.cuddle === 'twirl';
   if(cuddledOut()){ petAnim('nope'); say(K.cuddledOut); return; }
   P.happy = clamp(P.happy + HUG.gains[hugsRecent()]); P.hugs.push(S.simNow); S.pets++; careDone(15);
@@ -1324,7 +1348,7 @@ function hug(){
 /* stroking (and drawing twirl circles) */
 let stroke = null;
 function petCentre(){ const r = $('petWrap').getBoundingClientRect(); return { x:r.left + r.width/2, y:r.top + r.height*.6, r:r.width }; }
-function petDown(e){ if(S.phase !== 'pet' || drag) return; unlockAudio(); stroke = { id:e.pointerId, x:e.clientX, y:e.clientY, acc:0, total:0, t0:performance.now(), sx:e.clientX, sy:e.clientY, turn:0 }; $('hugHand').hidden = true;
+function petDown(e){ if(S.phase !== 'pet' || drag || evolving) return; unlockAudio(); stroke = { id:e.pointerId, x:e.clientX, y:e.clientY, acc:0, total:0, t0:performance.now(), sx:e.clientX, sy:e.clientY, turn:0 }; $('hugHand').hidden = true;
   if(!S.pet.asleep && C().cuddle === 'hug') setTimeout(holdTick, 16);$('petWrap').setPointerCapture(e.pointerId); }
 function petMove(e){
   if(!stroke || e.pointerId !== stroke.id) return;
@@ -1360,9 +1384,9 @@ function petUp(e){
   const short = stroke.total < 12 || Math.hypot(stroke.x - stroke.sx, stroke.y - stroke.sy) < 18, quick = performance.now() - stroke.t0 < 350, hugged = stroke.hugged;
   stroke = null; hugRing(0);
   if(hugged){ save(); return; }
+  if(short && S.pet && !S.pet.asleep && evolveDue() && evolveCared()){ evolve(); return; }   // a slower tap still makes him grow
   if(short && S.pet && (quick || S.pet.asleep)){
     if(S.pet.asleep){ toggleSleep(); return; }
-    if(evolveDue() && evolveCared()){ evolve(); return; }
     hopPet(); play('boing', .5, 600);
     const need = STATS.find(s => S.pet[s.k] < 35);
     if(need) sayNeed(need); else say(any(stage() === 3 ? C().grown : stage() === 2 ? C().mid : C().baby));
@@ -1393,7 +1417,7 @@ function gameLevel(){
 }
 const rnd = (a, b) => a + Math.random()*(b - a);
 function startGame(){
-  const P = S.pet; if(!P) return; unlockAudio();
+  const P = S.pet; if(!P || G || DP) return; unlockAudio();
   if(P.asleep){ say(`Zzz… ${C().he}'s asleep`); return; }
   if(stage() === 1){ say(`${cap(C().he)}'s too little to play. Tomorrow!`, ICON('wand')); return; }
   if(P.energy < 12){ say("I'm too tired to play"); return; }
@@ -1415,12 +1439,12 @@ const MAX_BUBS = 14;
 function gameLoop(t){
   if(!G) return;
   const f = Math.min(3, Math.max(0, (t - G.last)/(1000/60))); G.last = t;   // frames' worth of movement (60 a second), same on 60Hz and 120Hz screens
-  const secs = Math.max(0, Math.ceil((G.end - t)/1000)); if(secs !== G.secs){ G.secs = secs; $('gTime').textContent = secs + 's'; }
+  const secs = Math.max(0, Math.ceil((G.end - t)/1000)); if(secs !== G.secs){ G.secs = secs; $('gTime').textContent = secs + 's'; $('gTime').classList.toggle('hurry', secs <= 5); }
   if(t > G.spawn){ G.spawn = t + rnd(G.lvl.gap[0], G.lvl.gap[1]); if(G.bubs.length < MAX_BUBS) spawnBubble(); }
   if(t > G.puff){ G.puff = t + rnd(3000, 4500); busyPuff(); }
   for(let i = G.bubs.length - 1; i >= 0; i--){
     const B = G.bubs[i];
-    B.y -= B.v*G.k*f; B.x += (Math.sin(t/600 + B.p)*.7 + B.vx)*f;
+    B.y -= B.v*G.k*f; B.x = Math.max(-B.s/2, Math.min(innerWidth - B.s/2, B.x + (Math.sin(t/600 + B.p)*.7 + B.vx)*f));   // stays tappable on screen
     if(B.y < -180){ B.el.remove(); G.bubs.splice(i, 1); continue; }
     B.el.style.transform = `translate3d(${B.x}px,${B.y}px,0)`;
   }
@@ -1443,7 +1467,7 @@ function spawnBubble(kind, at){
   const pink = C().tint;
   if(kind === 'berry'){ const f = pic(pink ? null : ICON('berries'), pink ? '🍓' : '🫐'); f.style.fontSize = (s*.5) + 'px'; b.appendChild(f); }
   if(kind === 'gold' && pink){ b.classList.add('heart'); const h = document.createElement('span'); h.className = 'hrt'; h.textContent = '♥'; h.style.fontSize = (s*.62) + 'px'; b.appendChild(h); }
-  const B = { el:b, kind, x:at ? at.x - s/2 : Math.random()*(innerWidth - s), y:at ? at.y - s/2 : innerHeight + 10,
+  const B = { el:b, kind, s, x:at ? at.x - s/2 : Math.random()*(innerWidth - s), y:at ? at.y - s/2 : innerHeight + 10,
     v:rnd(L.speed[0], L.speed[1]) * (kind === 'gold' || kind === 'rainbow' ? 1.6 : 1), p:Math.random()*6, vx:at ? (kind === 'mini' ? rnd(-2.4, 2.4) : -rnd(.6, 1.4)) : 0 };
   b.style.transform = `translate3d(${B.x}px,${B.y}px,0)`;
   b.addEventListener('pointerdown', e => { e.preventDefault(); popBubble(B, e.clientX, e.clientY); });
@@ -1478,10 +1502,10 @@ function showCombo(n){
 function busyPuff(){
   const ch = $('game').querySelector('.cheer'); const r = ch.getBoundingClientRect();
   ch.classList.remove('puff'); void ch.offsetWidth; ch.classList.add('puff');
-  setTimeout(() => { if(G) spawnBubble(Math.random() < .3 ? 'gold' : 'plain', { x:r.left + r.width*.3, y:r.top + r.height*.35 }); play('poof', .35); }, 250);
+  setTimeout(() => { if(G && G.bubs.length < MAX_BUBS + 4) spawnBubble(Math.random() < .3 ? 'gold' : 'plain', { x:r.left + r.width*.3, y:r.top + r.height*.35 }); play('poof', .35); }, 250);
 }
 function gameStars(sc){ return sc >= 30 ? 3 : sc >= 20 ? 2 : sc >= 10 ? 1 : 0; }
-function endGame(){ const sc = G.score, fed = G.fed; G = null; $('game').hidden = true; gameReward(sc, fed, 'best'); }
+function endGame(){ const sc = G.score, fed = G.fed; G.bubs.forEach(B => B.el.remove()); G = null; $('game').hidden = true; gameReward(sc, fed, 'best'); }
 // Rewards after any game. key = where that game's best score is kept (Bubble Party: best, Dance Party: dBest).
 function gameReward(sc, fed, key){
   const P = S.pet;
@@ -1529,24 +1553,34 @@ function danceChart(L){
 function readyPads(){
   if(padsReady) return; padsReady = true;
   $('dance').querySelectorAll('.pad').forEach(p => { const l = +p.dataset.l; p.innerHTML = ARROW(LANES[l].col, LANES[l].rot);
-    p.addEventListener('pointerdown', e => { e.preventDefault(); danceHit(l); }); });
+    p.style.setProperty('--pc', LANES[l].col);
+    p.addEventListener('pointerdown', e => { e.preventDefault(); danceHit(l, e.timeStamp); }); });
+  addEventListener('resize', () => { if(DP) measureDance(); });
   document.addEventListener('keydown', e => { if(!DP) return; const l = LANES.findIndex(x => x.k === e.key); if(l >= 0){ e.preventDefault(); if(DP.L.lanes.includes(l)) danceHit(l); } });
   document.addEventListener('visibilitychange', () => { if(document.hidden && DP) endDance(); });
+  // Bubble Party pauses while the app is in the background, so a glance at something else doesn't end the round.
+  document.addEventListener('visibilitychange', () => { if(!G) return; const n = performance.now();
+    if(document.hidden) G.hid = n; else if(G.hid){ const d = n - G.hid; G.end += d; G.spawn += d; G.puff += d; G.last = n; G.hid = 0; } });
 }
 function startDance(){
-  readyPads(); const el = $('dance'); el.hidden = false;
+  if(DP) return; readyPads(); const el = $('dance'); el.hidden = false;
   el.querySelectorAll('.note,.combo').forEach(n => n.remove());
   const img = el.querySelector('.dancer img'); img.src = 'assets/Sprites/' + form().files.idle + '.webp'; img.classList.toggle('tintPink', !!form().tint);
   el.querySelector('.glitter').hidden = !has('danceFloor');
   $('dBest').textContent = S.dBest ? 'Best ' + S.dBest : '';
   const L = danceLevel(), tr = el.querySelector('.track'), trr = tr.getBoundingClientRect(), pads = [...el.querySelectorAll('.pad')];
   pads.forEach(p => p.classList.toggle('off', !L.lanes.includes(+p.dataset.l)));
-  const pr = pads.map(p => p.getBoundingClientRect());
-  DP = { L, beat:60000/L.bpm, notes:danceChart(L), next:0, live:[], score:0, combo:0, t0:performance.now() + 150, lastBeat:-1, step:0, secs:-1,
-         size:pr[0].width, hitY:pr[0].top - trr.top, laneX:pr.map(r => r.left - trr.left), track:tr };
+  DP = { L, beat:60000/L.bpm, notes:danceChart(L), next:0, live:[], score:0, combo:0, t0:performance.now() + 150, lastBeat:-1, step:0, secs:-1, track:tr };
+  measureDance();
   DP.end = (DP.notes.length ? DP.notes[DP.notes.length - 1].hit : SONG_MS) + 1500;
   startMusic(); setDScore();
   requestAnimationFrame(danceLoop);
+}
+// Where the pads are; measured again if the iPad is turned mid-song.
+function measureDance(){
+  const el = $('dance'), trr = DP.track.getBoundingClientRect(), pr = [...el.querySelectorAll('.pad')].map(p => p.getBoundingClientRect());
+  DP.size = pr[0].width; DP.hitY = pr[0].top - trr.top; DP.laneX = pr.map(r => r.left - trr.left);
+  DP.live.forEach(N => { N.el.style.width = N.el.style.height = DP.size + 'px'; });
 }
 function setDScore(){ $('dScore').textContent = '♪ ' + DP.score; }
 function danceLoop(){
@@ -1567,7 +1601,7 @@ function danceLoop(){
     N.el.style.transform = `translate3d(${DP.laneX[N.lane]}px,${y}px,0)`;
     N.el.style.opacity = Math.min(1, (1 - left/DP.L.travel)*5);
   }
-  const secs = Math.max(0, Math.ceil((DP.end - now)/1000)); if(secs !== DP.secs){ DP.secs = secs; $('dTime').textContent = secs + 's'; }
+  const secs = Math.max(0, Math.ceil((DP.end - now)/1000)); if(secs !== DP.secs){ DP.secs = secs; $('dTime').textContent = secs + 's'; $('dTime').classList.toggle('hurry', secs <= 5); }
   if(now >= DP.end) return endDance();
   requestAnimationFrame(danceLoop);
 }
@@ -1580,9 +1614,9 @@ function bigText(t){
   const el = $('dance'); el.querySelectorAll('.combo').forEach(c => c.remove());
   const c = document.createElement('div'); c.className = 'combo'; c.textContent = t; el.appendChild(c); setTimeout(() => c.remove(), 700);
 }
-function danceHit(l){
+function danceHit(l, ts){
   if(!DP) return; unlockAudio();
-  const now = performance.now() - DP.t0, pad = $('dance').querySelectorAll('.pad')[l];
+  const now = (ts || performance.now()) - DP.t0, pad = $('dance').querySelectorAll('.pad')[l];   // the moment the finger touched
   pad.classList.add('on'); clearTimeout(pad._t); pad._t = setTimeout(() => pad.classList.remove('on'), 130);
   let best = null;
   for(const N of DP.live) if(N.lane === l && Math.abs(N.hit - now) <= GREAT_MS && (!best || Math.abs(N.hit - now) < Math.abs(best.hit - now))) best = N;
@@ -1594,7 +1628,7 @@ function danceHit(l){
   DP.score += pts; setDScore();
   best.el.style.opacity = 1; best.el.classList.add('hit'); const e = best.el; setTimeout(() => e.remove(), 300);
   const j = $('dJudge'); j.textContent = best.star ? 'Star! +' + pts : perfect ? 'Perfect!' : 'Great!'; j.style.setProperty('--jc', best.star ? '#d98a00' : LANES[l].col); restartAnim(j, 'show');
-  hitTone(l, perfect);
+  hitTone(l, perfect); restartAnim(pad, 'burst');
   const img = $('dance').querySelector('.dancer img'); img.classList.remove('mL', 'mR', 'mU', 'mD', 'mS'); void img.offsetWidth;
   img.classList.add(DP.combo % 8 === 0 ? 'mS' : LANES[l].move);   // every 8 in a row she does a twirl
 }
@@ -1608,13 +1642,15 @@ function startMusic(){
   DP.mix = null; if(!AC || !S.sound) return;
   wakeAudio();
   const mix = AC.createGain(); mix.gain.value = .6; mix.connect(AC.destination); DP.mix = mix;
-  DP.a0 = AC.currentTime + (DP.t0 - performance.now())/1000;
+  DP.a0 = null;   // pinned on the first frame the audio is really running (see scheduleMusic)
   if(!NOISE){ NOISE = AC.createBuffer(1, Math.floor(AC.sampleRate*.3), AC.sampleRate); const d = NOISE.getChannelData(0); for(let i = 0; i < d.length; i++) d[i] = Math.random()*2 - 1; }
 }
 function scheduleMusic(now){
-  if(!DP.mix) return;
+  if(!DP.mix || AC.state !== 'running') return;
+  // Line the music up with the arrows, allowing for speaker / AirPods delay so taps to the beat count as Perfect.
+  if(DP.a0 == null){ DP.lat = AC.outputLatency || AC.baseLatency || 0; DP.a0 = AC.currentTime - DP.lat - now/1000; }
   const half = DP.beat/2;
-  while(DP.step*half < now + 160 && DP.step*half < DP.end - 600){      // eighth-note steps, a little ahead of time
+  while(DP.step*half < now + 160 + DP.lat*1000 && DP.step*half < DP.end - 600){      // eighth-note steps, a little ahead of time
     const s = DP.step++, at = DP.a0 + s*half/1000; if(at < AC.currentTime) continue;
     const pos = s % 8, ch = CHORDS[Math.floor(s/8) % 4];
     if(pos % 2 === 0) mKick(at); else if(s >= 8) mHat(at);
@@ -1664,8 +1700,15 @@ function confetti(){
 let sayT; function say(t, icon){
   if(stage() === 1 && !icon && !C().baby.includes(t) && !/^[A-Z][a-z]+!$/.test(t)) t = any(C().baby);   // babies only babble
   const b = $('bubble'); b.textContent = t; if(icon){ b.textContent = ''; b.appendChild(pic(icon, '?')); b.append(t); } b.classList.remove('hide'); clearTimeout(sayT); sayT = setTimeout(() => b.classList.add('hide'), 2600); }
-function hint(t){ const h = $('hint'); h.textContent = t; h.hidden = false; }
-let toastT; function toast(t, icon, em){ const el = $('toast'); el.innerHTML = ''; if(icon || em) el.appendChild(pic(icon, em || '⭐')); el.append(t); el.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('show'), 3600); }
+function setText(el, t){ if(el.textContent !== t) el.textContent = t; }   // skip rewrites that change nothing (saves repaints every tick)
+function hint(t){ const h = $('hint'); setText(h, t); h.hidden = false; }
+// Messages wait their turn instead of wiping each other out.
+let toastT, toastQ = [];
+function toast(t, icon, em){ if(toastQ.some(q => q[0] === t) || toastQ.length >= 4) return; toastQ.push([t, icon, em]); if(toastQ.length === 1) showToast(); }
+function showToast(){
+  const a = toastQ[0]; if(!a) return; const el = $('toast'); el.innerHTML = ''; if(a[1] || a[2]) el.appendChild(pic(a[1], a[2] || '⭐')); el.append(a[0]); el.classList.add('show');
+  clearTimeout(toastT); toastT = setTimeout(() => { el.classList.remove('show'); setTimeout(() => { toastQ.shift(); showToast(); }, 450); }, toastQ.length > 1 ? 2800 : 3600);
+}
 
 /* ---------- render ---------- */
 let renderedPhase = null;
@@ -1679,7 +1722,7 @@ function render(force){
   const d = gameDate(), st = stageInfo();
   if(S.phase === 'egg'){
     setMeter('cosy', S.egg.cosy); setMeter('hatch', 100*S.egg.warm/C().hatchMs);
-    $('sub').textContent = eggReady() ? 'Egg · ready to hatch!' : eggAsleep() ? 'Egg · fast asleep' : 'Egg · keep it cosy';
+    setText($('sub'), eggReady() ? 'Egg · ready to hatch!' : eggAsleep() ? 'Egg · fast asleep' : 'Egg · keep it cosy');
     const left = Math.max(0, (C().hatchMs - S.egg.warm) / S.speed / eggRate());
     hint(eggReady() ? "It's moving! Tap the egg!" : eggAsleep() ? 'Shh… the egg is sleeping until morning' : S.egg.cosy < 30 ? 'Brrr! The egg needs the lamp' : `Hatching in about ${fmtDur(left)}`);
     $('egg').classList.toggle('ready', eggReady() && !$('egg').classList.contains('shake'));
@@ -1687,11 +1730,11 @@ function render(force){
   } else if(S.phase === 'pet'){
     const P = S.pet; $('hint').hidden = true;
     STATS.forEach(s => setMeter(s.k, P[s.k]));
-    $('sub').textContent = `${stage() === 3 ? 'Grown-up' : st.n} · Day ${st.day}`;
+    setText($('sub'), `${stage() === 3 ? 'Grown-up' : st.n} · Day ${st.day}`);
     const due = evolveDue() && !evolving, K = C();
     $('petWrap').classList.toggle('glowing', due && evolveCared());
     if(due && evolveCared()) hint(`Something is happening! Tap ${K.him}!`);
-    else if(due) hint(`${cap(K.he)} wants to grow! Feed ${K.him} and give ${K.him} cuddles`);
+    else if(due) hint(`${cap(K.he)} wants to grow! ${P.tummy < 30 ? `Feed ${K.him}` : P.clean < 25 ? `Give ${K.him} a bath` : K.cuddle === 'twirl' ? `Give ${K.him} twirls` : `Give ${K.him} cuddles`} first`);
     const wantsHug = !due && !P.asleep && !G && !eating && P.happy < 50 && !cuddledOut();
     if(wantsHug) hint(K.wantHint);
     $('hugHand').hidden = !wantsHug || !!stroke;
@@ -1706,10 +1749,10 @@ function render(force){
   showShopBtn(); setAvatar();
   $('villageBtn').hidden = !(S.village || []).length;
   const fe = $('foundEgg'); fe.hidden = !(S.phase === 'pet' && S.pet && S.pet.eggFound);
-  if(!fe.hidden && !fe.firstChild) fe.appendChild(eggPic(C().next || 'busy'));
+  if(!fe.hidden && !fe.firstChild) fe.appendChild(eggPic(C().next || S.kind));
   const h = hourOf(d), m = MEALS.find(m => h >= m.a && h < m.b), mp = $('mealPill');
   mp.classList.toggle('hot', !!m && S.phase === 'pet');
-  mp.textContent = m && S.phase === 'pet' ? `${m.n} time!` : d.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
+  setText(mp, m && S.phase === 'pet' ? (/time$/i.test(m.n) ? m.n + '!' : m.n + ' time!') : d.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'}));
 }
 // Names and labels for whoever is in the garden.
 function applyChar(){
@@ -1737,7 +1780,7 @@ function careDone(pts){
   P.tp = (P.tp || 0) + pts;
   if(P.tp >= trickNeed()){
     P.tp = 0; const t = nextTrick(); P.tricks = (P.tricks || []).concat(t); save();
-    setTimeout(() => { toast(`${C().name} learned a new trick: ${TRICKS[t].n}!`, null, TRICKS[t].em); play('sparkle', .8); doTrick(t); buildDock(); }, 1500);
+    setTimeout(() => { if(S.pet !== P) return; toast(`${C().name} learned a new trick: ${TRICKS[t].n}!`, null, TRICKS[t].em); play('sparkle', .8); doTrick(t); buildDock(); }, 1500);
   }
 }
 let lastTrick = 0;
@@ -1773,9 +1816,9 @@ function goalList(){
 function checkGoals(){
   const P = S.pet; if(!P || stage() !== 3 || evolving) return;
   P.g = P.g || {}; P.g.done = P.g.done || [];
-  let changed = false;
+  let changed = false, k = 0;
   goalList().forEach(x => { if(x.done && !P.g.done.includes(x.id)){ P.g.done.push(x.id); S.stars += 2; changed = true;
-    const n = P.g.done.length; setTimeout(() => { toast(`Goal done: ${x.text}! +2 ★`, ICON('star')); play('sparkle', .8); }, 700 + (n - 1)*3800); } });
+    setTimeout(() => { if(S.pet !== P) return; toast(`Goal done: ${x.text}! +2 ★`, ICON('star')); play('sparkle', .8); }, 700 + (k++)*200); } });
   if(changed){ save(); buildDock(); }
   if(P.g.done.length >= 4 && !P.eggFound) findEgg();
 }
@@ -1796,12 +1839,12 @@ function findEgg(){
   const P = S.pet, K = C(); P.eggFound = true;
   if(K.next && !(S.unlocked || []).includes(K.next)) S.unlocked = (S.unlocked || []).concat(K.next);
   save(); render();
-  setTimeout(() => { confetti(); play('shimmer', .9); hopPet(); say(K.found); }, 4200);
-  setTimeout(() => toast('All goals done! An egg has turned up in the garden!', null, '🥚'), 4400);
+  setTimeout(() => { if(S.pet !== P) return; confetti(); play('shimmer', .9); hopPet(); say(K.found); }, 1800);
+  setTimeout(() => { if(S.pet !== P) return; toast('All goals done! An egg has turned up in the garden!', null, '🥚'); }, 1900);
 }
 function openMove(){
   const K = C(); unlockAudio();
-  $('moveText').textContent = `${K.name} will move to Fluff Village and take ${K.his} tricks along. You can visit ${K.him} any time with the 🏡 button.`;
+  $('moveText').textContent = `${K.name} will move to Fluff Village and take ${K.his} tricks along. You can visit ${K.him} any time with the 🏡 button.${K.next ? '' : ' Then you can choose your next egg!'}`;
   const h = $('moveHero'); h.innerHTML = ''; h.appendChild(pic('assets/Sprites/' + FORMS[K.forms[2]].files.idle + '.webp', '💜', K.name));
   $('movePanel').hidden = false; play('flutter', .5);
 }
@@ -1811,7 +1854,8 @@ function openVillage(){
   const v = $('village'), row = v.querySelector('.row'), list = S.village || []; row.innerHTML = '';
   list.forEach((R, i) => { const K = CHARS[R.kind] || CHARS.busy, d = document.createElement('div'); d.className = 'res'; d.style.animationDelay = (-i*.7) + 's';
     d.appendChild(pic('assets/Sprites/' + FORMS[K.forms[2]].files.idle + '.webp', '💜', K.name));
-    d.insertAdjacentHTML('beforeend', `<span class="tag">${K.name}</span><span class="vsay"></span>`);
+    const nth = list.slice(0, i + 1).filter(x => x.kind === R.kind).length;   // a second Big Busy is "Big Busy 2"
+    d.insertAdjacentHTML('beforeend', `<span class="tag">${K.name}${nth > 1 ? ' ' + nth : ''}</span><span class="vsay"></span>`);
     d.addEventListener('pointerdown', e => { e.preventDefault(); visit(d, R); }); row.appendChild(d); });
   $('vHint').textContent = list.length === 1 ? 'Tap your friend to say hello!' : `${list.length} friends live here. Tap one to say hello!`;
   v.hidden = false; unlockAudio(); play('flutter', .6);
@@ -1820,14 +1864,14 @@ function visit(el, R){
   unlockAudio(); const K = CHARS[R.kind] || CHARS.busy, t = R.tricks && R.tricks.length && Math.random() < .7 ? any(R.tricks) : null, X = t && TRICKS[t];
   const cls = X ? X.anim : K.cuddle === 'twirl' ? 'spin' : 'hop';
   el.classList.remove(...ANIMS); void el.offsetWidth; el.classList.add(cls); clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove(cls), X ? X.ms : 900);
-  play(X ? X.snd : 'giggle', .7, 0, 1, R.kind);
+  play(X ? X.snd : 'giggle', .7, 500, 1, R.kind);
   const s = el.querySelector('.vsay'); s.textContent = X ? X.say : any(['I missed you!', 'Thanks for visiting!', 'Hello again!'].concat(K.grown));
   s.classList.add('show'); clearTimeout(s._t); s._t = setTimeout(() => s.classList.remove('show'), 2200);
   const r = el.getBoundingClientRect(); for(let i = 0; i < 3; i++) setTimeout(() => fx(...(K.tint ? [null, '💗'] : [ICON('happy'), '💜']), r), i*120);
 }
 // Berry bush / strawberry patch: one free favourite snack a day.
 function snackTap(D){
-  unlockAudio(); const P = S.pet; if(S.phase !== 'pet' || !P) return;
+  unlockAudio(); const P = S.pet; if(S.phase !== 'pet' || !P){ toast(`Free ${D.id === 'berryBush' ? 'berries' : 'strawberries'} once the egg hatches!`, null, D.id === 'berryBush' ? '🫐' : '🍓'); return; }
   if(P.asleep){ say(`Zzz… ${C().he}'s asleep`); return; }
   if(snackUsed()){ say(D.id === 'berryBush' ? 'All picked! More berries tomorrow' : 'All picked! More strawberries tomorrow'); return; }
   const fav = Object.keys(C().foods).find(k => C().foods[k].fav);
@@ -1864,7 +1908,10 @@ function segInit(id, get, set){
   seg.addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; set(b.dataset.v); sync(); save(); render(); }); sync(); return sync;
 }
 const syncs = [ segInit('segSound', () => S.sound ? 'on' : 'off', v => S.sound = v === 'on'),
-  segInit('segSpeed', () => S.speed, v => S.speed = Number(v)),
+  segInit('segSpeed', () => S.speed, v => { S.speed = Number(v);
+    // Back to Normal: bring the game clock back to real time (it ran ahead while testing), keeping the pet's age.
+    const ahead = S.simNow - Date.now();
+    if(S.speed === 1 && ahead > 0){ S.simNow -= ahead; if(S.pet){ S.pet.born -= ahead; S.pet.hugs = []; if(S.pet.evolveToldAt) S.pet.evolveToldAt -= ahead; } } }),
   segInit('segQuiet', () => S.quiet ? 'on' : 'off', v => S.quiet = v === 'on'),
   segInit('segEggs', () => S.unlockAll ? 'all' : 'earn', v => S.unlockAll = v === 'all') ];
 $('settingsBtn').onclick = () => { syncs.forEach(f => f()); $('resetConfirm').hidden = true; $('settingsPanel').hidden = false; };
@@ -1910,11 +1957,11 @@ document.addEventListener('pointerdown', e => {
   const p = $('pet'); p.style.setProperty('--leanR', (k * 7).toFixed(1) + 'deg'); p.style.setProperty('--leanX', (k * 14).toFixed(0) + 'px');
   clearTimeout(leanT); leanT = setTimeout(() => { p.style.setProperty('--leanR', '0deg'); p.style.setProperty('--leanX', '0px'); }, 1100);
 }, true);
-const pw = $('petWrap'); pw.addEventListener('pointerdown', petDown); pw.addEventListener('pointermove', petMove); pw.addEventListener('pointerup', petUp); pw.addEventListener('pointercancel', petUp);
+const pw = $('petWrap'); pw.addEventListener('pointerdown', petDown); pw.addEventListener('pointermove', petMove); pw.addEventListener('pointerup', petUp); pw.addEventListener('pointercancel', e => { if(stroke && e.pointerId === stroke.id){ stroke = null; hugRing(0); } });
 document.addEventListener('contextmenu', e => e.preventDefault());
 // iPhone/iPad: no double-tap or pinch zoom (it knocks the garden out of place and can't be undone in-game).
 let lastTouchEnd = 0;
-document.addEventListener('touchend', e => { const t = Date.now(); if(t - lastTouchEnd < 350 && e.cancelable) e.preventDefault(); lastTouchEnd = t; }, { passive:false });
+document.addEventListener('touchend', e => { const t = Date.now(); if(t - lastTouchEnd < 350 && e.cancelable && !(e.target.closest && e.target.closest('button,.card'))) e.preventDefault(); lastTouchEnd = t; }, { passive:false });   // buttons keep quick taps (they use touch-action:manipulation)
 ['gesturestart', 'gesturechange', 'dblclick'].forEach(ev => document.addEventListener(ev, e => e.preventDefault(), { passive:false }));
 $('avatar').appendChild(pic('assets/Sprites/busy_idle.webp', '💜', ''));
 
@@ -1938,6 +1985,7 @@ setInterval(() => {
   render();
 }, 500);
 setInterval(save, 5000);
+addEventListener('pagehide', save);
 document.addEventListener('visibilitychange', () => { if(document.hidden) save(); else { const n = Date.now(), gap = n - S.last; if(gap > 2000){ step(gap); S.last = n; prev = performance.now(); render(); } } });
 })();
 // Offline helper (saves the game on the device so it works without internet)

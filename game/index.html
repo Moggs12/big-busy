@@ -931,17 +931,17 @@ const DECOR = [
   { id:'butterflies', name:'Butterflies',  price:15, x:.86, w:.13, ar:1,     spot:'air',   draw:'butterflies', say:'Hello, butterflies!' },
   { id:'fountain',  name:'Fountain',       price:20, x:.70, w:.17, ar:1,     spot:'back',  draw:'fountain', say:'Splishy splashy!' },
   { id:'treehouse', name:'Treehouse',      price:30, x:.06, w:.27, ar:.8,    spot:'far',   draw:'treehouse', say:'A treehouse! Can I climb it?' },
-  { id:'balloon',   name:'Hot-air balloon', price:40, x:.2, w:.14, ar:.75,   spot:'sky',   draw:'balloon', say:'Up, up and away!' },
+  { id:'balloon',   name:'Hot-air balloon', price:40, x:.6, w:.14, ar:.75,   spot:'sky',   draw:'balloon', say:'Up, up and away!' },
   // Big Busy's corner (only out while he's in the garden)
   { id:'berryBush', who:'busy', name:'Berry bush', price:10, x:.64, w:.18, ar:1.3, spot:'front', draw:'berryBush', tap:true, does:'Free berries every day: tap the bush', say:'Berries! My favourite!' },
   { id:'hammock',   who:'busy', name:'Purple hammock', price:14, x:.24, w:.21, ar:1.6, spot:'back', draw:'hammock', does:'He sleeps faster', say:'Ooh, a comfy hammock!' },
   { id:'trampoline', who:'busy', name:'Trampoline', price:18, x:.44, w:.2, ar:1.6, spot:'front', draw:'trampoline', trick:'bounce', does:'Teaches him the Big Bounce trick', say:'Boing boing boing!' },
-  { id:'bubbleMachine', who:'busy', name:'Bubble machine', price:25, x:.8, w:.12, ar:.85, spot:'back', draw:'bubbleMachine', does:'A new splitting bubble in Bubble Party', say:'Bubbles everywhere!' },
+  { id:'bubbleMachine', who:'busy', name:'Bubble machine', price:25, x:.94, w:.12, ar:.85, spot:'back', draw:'bubbleMachine', does:'A new splitting bubble in Bubble Party', say:'Bubbles everywhere!' },
   // Big Lizzy's corner
   { id:'strawberryPatch', who:'lizzy', name:'Strawberry patch', price:10, x:.64, w:.2, ar:1.6, spot:'front', draw:'strawberryPatch', tap:true, does:'Free strawberries every day: tap the patch', say:'Strawberries! Yummy!' },
   { id:'ribbonSwing', who:'lizzy', name:'Ribbon swing', price:14, x:.24, w:.15, ar:.9, spot:'back', draw:'ribbonSwing', does:'She sleeps faster', say:'A ribbon swing! So pretty!' },
   { id:'musicBox',  who:'lizzy', name:'Music box', price:18, x:.44, w:.15, ar:1, spot:'front', draw:'musicBox', trick:'music', does:'Teaches her the Music Box Dance', say:'La la la! Music!' },
-  { id:'danceFloor', who:'lizzy', name:'Dance floor', price:25, x:.8, w:.21, ar:1.4, spot:'back', draw:'danceFloor', does:'Her Fun lasts longer, plus gold star arrows in Dance Party', say:"A glitter ball! Let's dance!" },
+  { id:'danceFloor', who:'lizzy', name:'Dance floor', price:25, x:.9, w:.21, ar:1.4, spot:'back', draw:'danceFloor', does:'Her Fun lasts longer, plus gold star arrows in Dance Party', say:"A glitter ball! Let's dance!" },
 ];
 const DEPTH = { sky:0, top:1, far:1.5, back:2, air:3, front:4 };
 function owned(id){ return (S.decor || []).includes(id); }
@@ -1026,11 +1026,12 @@ function buildDecor(newId){
   markPicked();
 }
 function markPicked(){ $('decor').querySelectorAll('.tap').forEach(e => e.classList.toggle('picked', snackUsed())); }
+const DECOR_SIZE = 1.4;   // garden things were too small next to the pet; everything except the bunting is drawn this much bigger
 function layoutDecor(oy, dh, gy, top, dockTop){
   const W = innerWidth, U = Math.min(W, innerHeight), horizon = oy + .47*dh;
   $('decor').querySelectorAll('[data-id]').forEach(i => {
     const D = DECOR.find(d => d.id === i.dataset.id); if(!D) return;
-    const w = D.spot === 'top' ? D.w*W : D.w*U, h = w / D.ar;
+    const w = D.spot === 'top' ? D.w*W : D.w*U*DECOR_SIZE, h = w / D.ar;
     const bottom = D.spot === 'sky' ? Math.min(horizon + 10, top + 20 + h)
                  : D.spot === 'top' ? top + 4 + h
                  : D.spot === 'far' ? gy - .4*(gy - horizon)      // further back, so the treehouse sits behind the mushroom house

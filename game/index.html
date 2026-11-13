@@ -337,6 +337,96 @@ button{touch-action:manipulation}
 #gTime.hurry,#dTime.hurry{color:#ff2f9a;animation:hurry .5s ease-in-out infinite alternate}
 @keyframes hurry{to{transform:scale(1.12)}}
 
+/* ---------- garden things you can tap ---------- */
+#decor .poke{pointer-events:auto;cursor:pointer}
+#decor .pk-squash{animation:pkSquash .55s cubic-bezier(.3,1.6,.5,1) !important}
+#decor .pk-sway{animation:pkSway .9s ease-in-out !important}
+#decor .pk-float{animation:pkFloat 1.6s ease-in-out !important}
+#decor .pk-glow{animation:pkGlow .8s ease-out !important}
+#decor .pk-fly{animation:pkFly 3.2s ease-in-out !important}
+@keyframes pkSquash{30%{transform:scale(1.12,.86)}60%{transform:scale(.94,1.08)}}
+@keyframes pkSway{25%{transform:rotate(-6deg)}75%{transform:rotate(6deg)}}
+@keyframes pkFloat{50%{transform:translate(-40px,-30px) rotate(-6deg)}}
+@keyframes pkGlow{40%{transform:scale(1.08);opacity:.75}}
+@keyframes pkFly{45%{transform:translate(-32vw,-3vh) rotate(-8deg)}55%{transform:translate(-32vw,-3vh) rotate(6deg)}}
+
+/* ---------- drifting clouds ---------- */
+.clouds{position:absolute;inset:0;overflow:hidden;pointer-events:none;transition:opacity 1.4s}
+#app.sleeping .clouds{opacity:0}
+.clouds i{position:absolute;left:0;width:150px;height:46px;border-radius:40px;background:#fff;opacity:.82;will-change:transform;
+  box-shadow:inset 0 -8px 14px rgba(150,190,230,.35);animation:drift 110s linear infinite}
+.clouds i::before,.clouds i::after{content:"";position:absolute;background:#fff;border-radius:50%}
+.clouds i::before{width:62px;height:62px;left:22px;top:-30px}
+.clouds i::after{width:46px;height:46px;left:72px;top:-20px}
+.clouds i:nth-child(1){top:14%;animation-delay:-20s}
+.clouds i:nth-child(2){top:24%;transform:scale(.7);animation-duration:150s;animation-delay:-95s}
+.clouds i:nth-child(3){top:9%;animation-duration:130s;animation-delay:-60s}
+@keyframes drift{from{transform:translateX(-200px)}to{transform:translateX(calc(100vw + 60px))}}
+
+/* ---------- little idle moves ---------- */
+#pet img.idTilt{animation:idTilt 1.4s ease-in-out}
+#pet img.idBounce{animation:idBounce .9s ease-out}
+#pet img.idShuffle{animation:idShuffle 1.2s ease-in-out}
+#pet img.idLook{animation:idLook 1.6s ease-in-out}
+#pet img.idSigh{animation:idSigh 1.6s ease-in-out}
+@keyframes idTilt{40%,60%{transform:rotate(-7deg)}}
+@keyframes idBounce{20%{transform:scale(1.05,.95)}45%{transform:translateY(-8%) scale(.96,1.05)}70%{transform:scale(1.04,.96)}}
+@keyframes idShuffle{25%{transform:translateX(-4%) rotate(-3deg)}75%{transform:translateX(4%) rotate(3deg)}}
+@keyframes idLook{30%,70%{transform:translateX(3%) rotate(5deg)}}
+@keyframes idSigh{50%{transform:scale(1.02,.94) translateY(2%)}}
+#pet.hop ~ .groundshadow,#petWrap:has(#pet.hop) .groundshadow{animation:shadowHop .6s ease-out}
+@keyframes shadowHop{40%{transform:scale(.6);opacity:.5}}
+
+/* ---------- today's wish ---------- */
+#wish{position:absolute;right:2%;top:4%;width:24%;aspect-ratio:1;display:grid;place-items:center;pointer-events:none;
+  background:#fff;border-radius:50%;box-shadow:0 8px 18px rgba(43,13,92,.22);animation:wishIn .6s cubic-bezier(.3,1.6,.5,1),wishBob 2.6s ease-in-out .6s infinite}
+#wish::before,#wish::after{content:"";position:absolute;background:#fff;border-radius:50%;box-shadow:0 4px 8px rgba(43,13,92,.18)}
+#wish::before{width:22%;height:22%;left:-6%;bottom:-6%}
+#wish::after{width:11%;height:11%;left:-18%;bottom:-18%}
+#wish img,#wish .em{width:62%;height:62%;object-fit:contain;font-size:min(9vmin,56px);line-height:1;display:grid;place-items:center}
+#wish.done{animation:wishPop .5s ease-in forwards}
+@keyframes wishIn{from{transform:scale(0)}}
+@keyframes wishBob{50%{transform:translateY(-6%)}}
+@keyframes wishPop{to{transform:scale(1.6);opacity:0}}
+
+/* ---------- daily present and sunflower ---------- */
+#gift{position:absolute;z-index:6;pointer-events:auto;cursor:pointer;font-size:min(16vmin,84px);line-height:1;filter:drop-shadow(0 8px 8px rgba(30,60,20,.3));
+  animation:giftBob 1.8s ease-in-out infinite;-webkit-tap-highlight-color:transparent;background:none;border:0;padding:0}
+#gift.open{animation:giftOpen .5s ease-in forwards}
+@keyframes giftBob{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-12%) rotate(4deg)}}
+@keyframes giftOpen{40%{transform:scale(1.3,.8)}to{transform:scale(1.6);opacity:0}}
+#decor .sunflower{position:absolute;transform-origin:50% 100%;pointer-events:auto;cursor:pointer;overflow:visible;filter:drop-shadow(0 6px 8px rgba(30,60,20,.25))}
+
+/* ---------- results card ---------- */
+#resultsPanel .card{gap:12px}
+.resScore{font-family:var(--font-display);font-weight:800;font-size:72px;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+.resStars{display:flex;justify-content:center;gap:10px}
+.rstar{width:64px;height:64px;display:grid;place-items:center;font-size:52px;line-height:1;color:rgba(43,13,92,.15);transition:color .2s}
+.rstar.on{color:#ffc400;text-shadow:0 4px 0 #e08a00;animation:starPop .5s cubic-bezier(.3,1.8,.5,1)}
+@keyframes starPop{from{transform:scale(.2) rotate(-40deg)}}
+.rstar small{display:block;font-size:12px;font-weight:900;color:var(--ink-2,#5b4a7a);text-shadow:none}
+.rstarWrap{display:flex;flex-direction:column;align-items:center;gap:2px}
+.resBest{font-weight:900;font-size:18px}
+.resBest.new{color:#ff2f9a;animation:starPop .5s cubic-bezier(.3,1.8,.5,1)}
+
+/* ---------- first-time finger lessons ---------- */
+#teach{position:fixed;left:0;top:0;z-index:45;width:64px;height:64px;pointer-events:none;animation:teach 2.6s ease-in-out infinite}
+#teach .ti{position:absolute;inset:0;display:grid;place-items:center;opacity:.6;font-size:44px}
+#teach .ti img{width:100%;height:100%;object-fit:contain}
+#teach .th{position:absolute;left:38%;top:42%;font-size:46px;line-height:1;filter:drop-shadow(0 4px 4px rgba(0,0,0,.25))}
+@keyframes teach{0%{transform:translate(var(--sx),var(--sy)) scale(.9);opacity:0}12%{opacity:1;transform:translate(var(--sx),var(--sy)) scale(1)}
+  70%{transform:translate(var(--tx),var(--ty)) scale(1);opacity:1}86%,100%{transform:translate(var(--tx),var(--ty)) scale(.9);opacity:0}}
+
+/* ---------- grown-up bits ---------- */
+#settingsBtn.holding{animation:holdRing 1.5s linear forwards}
+@keyframes holdRing{to{box-shadow:0 0 0 6px #ffc400}}
+.playTime{font-size:14px;font-weight:800;color:var(--ink-2,#5b4a7a);text-align:left}
+#backupBox{display:flex;flex-direction:column;gap:8px}
+#backupText{width:100%;min-height:72px;border-radius:14px;border:2px solid rgba(43,13,92,.15);padding:10px;font:13px/1.4 ui-monospace,monospace;
+  -webkit-user-select:text;user-select:text;touch-action:auto;resize:vertical}
+#backupMsg{font-weight:800;font-size:14px;margin:0}
+@media (prefers-reduced-motion:reduce){.clouds i,#gift,#wish,#teach{animation:none}}
+
 /* ---------- hatch film ---------- */
 #film{position:fixed;inset:0;z-index:85;background:#000;display:grid;place-items:center}
 #film video{width:100%;height:100%;object-fit:cover}
@@ -554,6 +644,7 @@ button{touch-action:manipulation}
   <div class="scene">
     <img id="bgDay" alt="" src="assets/art/garden_day.webp">
     <img id="bgNight" alt="" src="assets/art/garden_night.webp">
+    <div class="clouds" aria-hidden="true"><i></i><i></i><i></i></div>
     <div id="decor"></div>
     <div id="nightTint"></div>
   </div>
@@ -567,12 +658,14 @@ button{touch-action:manipulation}
       <svg id="cracks" viewBox="0 0 100 100"></svg>
     </div>
     <div id="foundEgg" hidden aria-label="A new egg"></div>
+    <button id="gift" hidden aria-label="A present! Tap to open">🎁</button>
     <div id="petWrap" hidden aria-label="Big Busy">
       <div class="groundshadow"></div>
       <div id="pet"></div>
       <div id="dirt"></div>
       <div id="zzz" hidden><span>z</span><span>z</span><span>z</span></div>
       <div id="hugHand" hidden aria-hidden="true">👆</div>
+      <div id="wish" hidden aria-label="Today's wish"></div>
       <svg id="hugRing" hidden viewBox="0 0 100 100" aria-hidden="true"><circle class="track" cx="50" cy="50" r="46"/><circle class="fill" cx="50" cy="50" r="46"/></svg>
     </div>
   </div>
@@ -599,6 +692,7 @@ button{touch-action:manipulation}
 </div>
 
 <div id="ghost" hidden></div>
+<div id="teach" hidden aria-hidden="true"><div class="ti"></div><div class="th">👆</div></div>
 <div id="toast" class="glass" role="status" aria-live="polite"></div>
 <div id="flash"></div>
 
@@ -614,14 +708,24 @@ button{touch-action:manipulation}
 <div class="panel" id="settingsPanel" hidden>
   <div class="card glass">
     <h2>Grown-up settings</h2>
-    <div class="setrow"><label for="segSound">Sounds</label>
+    <div class="setrow"><label for="segSound">Sound effects</label>
       <div class="seg" id="segSound"><button data-v="on">On</button><button data-v="off">Off</button></div></div>
+    <div class="setrow"><label for="segMusic">Music (Dance Party)</label>
+      <div class="seg" id="segMusic"><button data-v="on">On</button><button data-v="off">Off</button></div></div>
     <div class="setrow"><label for="segSpeed">Game speed (for testing)</label>
       <div class="seg" id="segSpeed"><button data-v="1">Normal</button><button data-v="20">Fast ×20</button><button data-v="240">Super ×240</button></div></div>
     <div class="setrow"><label for="segQuiet">Quiet hours: your pet sleeps overnight and nothing drops</label>
       <div class="seg" id="segQuiet"><button data-v="on">8:30pm – 7am</button><button data-v="off">Off</button></div></div>
     <div class="setrow"><label for="segEggs">Family eggs</label>
       <div class="seg" id="segEggs"><button data-v="earn">Earn them</button><button data-v="all">All unlocked</button></div></div>
+    <p class="playTime" id="playTime"></p>
+    <div class="setrow"><label>Backup (to move to a new iPad, or just in case)</label>
+      <div class="row"><button class="btn plain small" id="backupCopy">Copy backup code</button><button class="btn plain small" id="backupOpen">Load a backup</button></div>
+      <div id="backupBox" hidden>
+        <textarea id="backupText" aria-label="Backup code" placeholder="Paste a backup code here"></textarea>
+        <button class="btn pink small" id="backupLoad" hidden>Load it (replaces this game)</button>
+        <p id="backupMsg" role="status"></p>
+      </div></div>
     <div class="row">
       <button class="btn plain small" id="resetBtn">Start over</button>
       <button class="btn small" id="closeSettings">Done</button>
@@ -630,6 +734,20 @@ button{touch-action:manipulation}
       <p style="width:100%">Start again with a new egg? Your garden, stars and Fluff Village friends all stay.</p>
       <button class="btn pink small" id="resetYes">Yes, new egg</button>
     </div>
+  </div>
+</div>
+
+<div class="panel" id="resultsPanel" hidden>
+  <div class="card glass">
+    <h2 id="resTitle">Bubble Party!</h2>
+    <div class="resScore" id="resScore">0</div>
+    <div class="resStars">
+      <div class="rstarWrap"><span class="rstar">★</span><small>10</small></div>
+      <div class="rstarWrap"><span class="rstar">★</span><small>20</small></div>
+      <div class="rstarWrap"><span class="rstar">★</span><small>30</small></div>
+    </div>
+    <p class="resBest" id="resBest"></p>
+    <div class="row"><button class="btn plain small" id="resAgain">Play again</button><button class="btn small" id="resDone">Done</button></div>
   </div>
 </div>
 
@@ -1021,9 +1139,69 @@ function buildDecor(newId){
     const el = drawArt(D); el.dataset.id = D.id;
     if(D.spot === 'sky') el.classList.add('sky'); if(D.lit) el.classList.add('lit'); if(D.id === newId){ el.classList.add('new'); setTimeout(() => el.classList.remove('new'), 900); }
     if(D.tap){ el.classList.add('tap'); el.addEventListener('pointerdown', e => { e.stopPropagation(); snackTap(D); }); }
+    else if(POKE[D.id]){ el.classList.add('poke'); el.addEventListener('pointerdown', e => { e.stopPropagation(); pokeDecor(D, el); }); }
     if(el.tagName === 'IMG') el.onerror = () => el.remove();
     box.appendChild(el); });
-  markPicked();
+  buildSunflower(); markPicked();
+}
+// Tapping a garden thing makes it do something, and the pet joins in.
+const POKE = {
+  flowers:    { a:'sway',   snd:'flutter', em:'🌸', say:'Mmm, they smell lovely!' },
+  swing:      { a:'sway',   snd:'boing',   em:'⭐', say:'Push me higher!' },
+  pond:       { a:'squash', snd:'splash',  em:'🦆', say:'Quack quack!' },
+  bunting:    { a:'sway',   snd:'flutter', em:'🎉', say:'Party time!' },
+  mushroom:   { a:'squash', snd:'squeak',  em:'🐌', say:'Knock knock! Who lives here?' },
+  rainbow:    { a:'glow',   snd:'shimmer', em:'✨', say:'Make a wish!' },
+  lanterns:   { a:'squash', snd:'sparkle', em:'✨', say:'So twinkly!' },
+  butterflies:{ a:'float',  snd:'flutter', em:'🦋', say:'Hello, butterflies!' },
+  fountain:   { a:'squash', snd:'splash',  em:'💧', say:'Splishy splashy!' },
+  treehouse:  { a:'sway',   snd:'boing',   em:'🍃', say:'One day I will climb it!' },
+  balloon:    { a:'fly',    snd:'poof',    em:'🎈', say:'Up, up and away!', ms:3200 },
+  hammock:    { a:'sway',   snd:'coo',     em:'💤', say:'So comfy…' },
+  trampoline: { a:'squash', snd:'boing',   em:'⭐', say:'Boing boing!' },
+  bubbleMachine:{ a:'squash', snd:'poof',  em:'🫧', say:'Bubbles everywhere!', bubbles:true },
+  ribbonSwing:{ a:'sway',   snd:'flutter', em:'🎀', say:'Wheee!' },
+  musicBox:   { a:'squash', snd:'shimmer', em:'🎵', say:'La la la!' },
+  danceFloor: { a:'squash', snd:'sparkle', em:'🪩', say:"Let's dance!" },
+};
+function pokeDecor(D, el){
+  unlockAudio(); const X = POKE[D.id], cls = 'pk-' + X.a;
+  if(el.classList.contains(cls)) return;
+  el.classList.add(cls); setTimeout(() => el.classList.remove(cls), X.ms || 950);
+  play(X.snd, .55, 300);
+  const r = el.getBoundingClientRect(); for(let i = 0; i < 3; i++) setTimeout(() => fx(null, X.em, r), i*140);
+  if(X.bubbles) for(let i = 0; i < 6; i++) setTimeout(() => { const b = document.createElement('i'); b.className = 'bub'; const s = 18 + Math.random()*26;
+    b.style.width = b.style.height = s + 'px'; b.style.left = (r.left + r.width*(.3 + Math.random()*.4)) + 'px'; b.style.top = (r.top + r.height*.2) + 'px';
+    b.style.setProperty('--dx', ((Math.random()-.5)*120) + 'px'); document.body.appendChild(b); setTimeout(() => b.remove(), 1250); }, i*90);
+  const P = S.pet; if(S.phase !== 'pet' || !P || P.asleep || evolving) return;
+  hopPet(); say(X.say);
+  const day = gameDate().toDateString();                                   // first poke of the day cheers him up a little
+  if(P.pokeDay !== day){ P.pokeDay = day; P.happy = clamp(P.happy + 5); bump('happy'); save(); }
+}
+// Sunflower days: grows one step on each day you visit (days don't need to be in a row) and never wilts.
+function sunStage(){ return Math.max(1, Math.min(7, S.visits || 1)); }
+function buildSunflower(){
+  const n = sunStage(), stem = 40 + n*34, head = n >= 3 ? 10 + n*4.5 : 0, top = 290 - stem;
+  const leaf = (y, flip) => `<path d="M50 ${y} q${flip ? -26 : 26} -14 ${flip ? -34 : 34} 2 q${flip ? 14 : -14} 14 ${flip ? 34 : -34} -2" fill="#3fbf4a"/>`;
+  const petals = head ? Array.from({length:12}, (_, i) => `<ellipse cx="50" cy="${top - head*.9}" rx="${head*.32}" ry="${head*.62}" fill="#ffc400" transform="rotate(${i*30} 50 ${top})"/>`).join('') : '';
+  const bud = n < 3 ? `<ellipse cx="50" cy="${top - 6}" rx="${6 + n*3}" ry="${8 + n*3}" fill="#5fd65a"/>` : '';
+  const face = head ? `<circle cx="50" cy="${top}" r="${head*.55}" fill="#8a4b12"/><circle cx="${50 - head*.18}" cy="${top - head*.08}" r="${head*.07}" fill="#2b0d5c"/><circle cx="${50 + head*.18}" cy="${top - head*.08}" r="${head*.07}" fill="#2b0d5c"/>
+    <path d="M${50 - head*.2} ${top + head*.14} q${head*.2} ${head*.18} ${head*.4} 0" stroke="#2b0d5c" stroke-width="2.4" fill="none" stroke-linecap="round"/>` : '';
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); svg.setAttribute('viewBox', '0 0 100 300'); svg.classList.add('sunflower'); svg.dataset.sun = '1';
+  svg.setAttribute('aria-label', `Sunflower: day ${n} of 7`);
+  svg.innerHTML = `<ellipse cx="50" cy="294" rx="26" ry="6" fill="rgba(60,40,10,.35)"/><path d="M50 292 C47 ${292 - stem*.5} 53 ${292 - stem*.6} 50 ${top}" stroke="#2f9e3a" stroke-width="6" fill="none" stroke-linecap="round"/>
+    ${n >= 2 ? leaf(292 - stem*.35, false) : ''}${n >= 4 ? leaf(292 - stem*.6, true) : ''}${bud}${petals}${face}`;
+  svg.addEventListener('pointerdown', e => { e.stopPropagation(); unlockAudio(); svg.classList.remove('pk-sway'); void svg.getBoundingClientRect(); svg.classList.add('pk-sway');
+    setTimeout(() => svg.classList.remove('pk-sway'), 950); play('flutter', .5, 300);
+    if(S.phase === 'pet' && S.pet && !S.pet.asleep) say(n >= 7 ? 'My sunflower is all grown up!' : 'It grows a bit every day you visit!'); });
+  $('decor').appendChild(svg);
+}
+function countVisit(){
+  const day = gameDate().toDateString(); if(S.visitDay === day) return;
+  if((S.visits || 0) >= 7){ S.visits = 0; S.blooms = (S.blooms || 0) + 1; }          // full bloom last time: plant a new seed
+  S.visitDay = day; S.visits = (S.visits || 0) + 1; save(); buildDecor(); layout();
+  if(S.visits >= 7){ S.stars += 3; setTimeout(() => { toast('Your sunflower is fully grown! +3 ★', null, '🌻'); play('sparkle', .7); }, 2500); }
+  else if(S.visits > 1) setTimeout(() => toast('Your sunflower grew a little!', null, '🌻'), 2500);
 }
 function markPicked(){ $('decor').querySelectorAll('.tap').forEach(e => e.classList.toggle('picked', snackUsed())); }
 const DECOR_SIZE = 1.4;   // garden things were too small next to the pet; everything except the bunting is drawn this much bigger
@@ -1041,6 +1219,10 @@ function layoutDecor(oy, dh, gy, top, dockTop){
     const cx = Math.max(w/2 + 6, Math.min(W - w/2 - 6, D.x*W));
     Object.assign(i.style, { width:w + 'px', height:h + 'px', left:(cx - w/2) + 'px', top:(bottom - h) + 'px' });
   });
+  const sf = $('decor').querySelector('[data-sun]');
+  if(sf){ const w = .085*U*DECOR_SIZE, h = w*3, cx = W*.5 + U*.3; Object.assign(sf.style, { width:w + 'px', height:h + 'px', left:(cx - w/2) + 'px', top:(gy + U*.02 - h) + 'px' }); }   // beside the stone, so you can watch it grow
+  // the daily present sits on the grass beside the stone
+  const g = $('gift'), gw = Math.min(innerHeight*.16, 84); Object.assign(g.style, { left:Math.max(8, W*.5 - U*.36) + 'px', top:(gy - gw) + 'px' });
 }
 function showShopBtn(){
   const b = $('shopBtn'), n = S.stars || 0;
@@ -1217,6 +1399,7 @@ function endDrag(e){
 /* ---------- egg ---------- */
 let warmAcc = 0;
 function warmEgg(dist){
+  teachDone('lamp');
   S.egg.cosy = clamp(S.egg.cosy + dist*.06); warmAcc += dist;
   if(warmAcc > 260){ warmAcc = 0; wiggleEgg(); if(Math.random() < .6) fx(ICON('star'), '✨', targetRect()); }
   setMeter('cosy', S.egg.cosy);
@@ -1284,7 +1467,7 @@ function feed(k, x, y){
     if(f.fav){ fx(...HEART(), r); fx(...HEART(), r); say(stage() === 3 ? C().fav : stage() === 2 ? C().favMid : C().baby[0]); play('sparkle', .5); }
     else if(stage() === 3) say(any(['Mmm, yummy!','Nom nom nom!','Delicious!']));
     else say(stage() === 2 ? 'Nom nom!' : 'Mmmf!');
-    mealBonus(); careDone(f.fav ? 12 : 8); setMood(moodNow()); hopPet(); save(); render();
+    mealBonus(); careDone(f.fav ? 12 : 8); setMood(moodNow()); hopPet(); teachDone('food'); wishDone('food:' + k); save(); render();
   }
 }
 function mealBonus(){
@@ -1306,7 +1489,8 @@ function scrub(x, y){
     b.style.width = b.style.height = s + 'px'; b.style.left = (x - s/2 + (Math.random()-.5)*40) + 'px'; b.style.top = (y - s/2) + 'px';
     b.style.setProperty('--dx', ((Math.random()-.5)*90) + 'px'); document.body.appendChild(b); setTimeout(() => b.remove(), 1250); }
   play('splash', .35, 450); if(Math.random() < .25) petAnim('wobble');
-  if(was < 100 && P.clean >= 100){ play('poof', .8); say('Squeaky clean!'); careDone(10); fx(ICON('star'), '✨', targetRect()); bump('clean'); }
+  teachDone('sponge');
+  if(was < 100 && P.clean >= 100){ play('poof', .8); say('Squeaky clean!'); careDone(10); fx(ICON('star'), '✨', targetRect()); bump('clean'); wishDone('bath'); }
   render();
 }
 function toggleSleep(){
@@ -1317,7 +1501,7 @@ function toggleSleep(){
     P.asleep = false; play('flutter', .7); say('Good morning!'); hopPet();
   } else {
     if(P.energy > 85){ petAnim('nope'); say("I'm not sleepy yet!"); return; }
-    P.asleep = true; play('coo', .5, 0, .85); say('Night night…');
+    P.asleep = true; play('coo', .5, 0, .85); say('Night night…'); teachDone('moon');
   }
   save(); render();
 }
@@ -1339,7 +1523,7 @@ function hug(){
   if(evolving) return;
   const P = S.pet, K = C(), twirl = K.cuddle === 'twirl';
   if(cuddledOut()){ petAnim('nope'); say(K.cuddledOut); return; }
-  P.happy = clamp(P.happy + HUG.gains[hugsRecent()]); P.hugs.push(S.simNow); S.pets++; careDone(15);
+  P.happy = clamp(P.happy + HUG.gains[hugsRecent()]); P.hugs.push(S.simNow); S.pets++; careDone(15); wishDone('hug');
   petAnim(twirl ? 'spin' : 'squeeze'); play(twirl ? 'flutter' : 'coo', .8); setTimeout(() => play('giggle', .6), 350);
   const r = targetRect(); for(let i = 0; i < 6; i++) setTimeout(() => fx(...HEART(), r), i * 80);
   say(any(K.cuddleSay));
@@ -1505,6 +1689,22 @@ function busyPuff(){
   ch.classList.remove('puff'); void ch.offsetWidth; ch.classList.add('puff');
   setTimeout(() => { if(G && G.bubs.length < MAX_BUBS + 4) spawnBubble(Math.random() < .3 ? 'gold' : 'plain', { x:r.left + r.width*.3, y:r.top + r.height*.35 }); play('poof', .35); }, 250);
 }
+// Results card: score counts up, stars pop in one by one, then Play again or Done.
+let resultsSay = '';
+function showResults(sc, stars, best, key){
+  const p = $('resultsPanel'), n = $('resScore'), st = [...p.querySelectorAll('.rstar')];
+  $('resTitle').textContent = key === 'dBest' ? 'Dance Party!' : 'Bubble Party!';
+  st.forEach(s => s.classList.remove('on')); n.textContent = '0';
+  const b = $('resBest'); b.classList.remove('new'); b.textContent = '';
+  p.hidden = false;
+  const t0 = performance.now(), dur = Math.min(1400, 300 + sc*25);
+  (function up(t){ const k = Math.min(1, (t - t0)/dur); n.textContent = Math.round(sc*k); if(k < 1 && !p.hidden) requestAnimationFrame(up); })(t0);
+  [10, 20, 30].forEach((th, i) => { if(sc >= th) setTimeout(() => { if(p.hidden) return; st[i].classList.add('on'); play('sparkle', .5, 0, 1 + i*.12); }, 500 + i*450); });
+  setTimeout(() => { if(p.hidden) return; const bits = [best ? 'New best!' : S[key] ? `Best: ${S[key]}` : ''];
+    if(stars) bits.push(`+${stars} ★ for the shop`); else if(sc < 10) bits.push('10 points gets a star!');
+    b.textContent = bits.filter(Boolean).join('  ·  '); b.classList.toggle('new', best); }, 600 + stars*450);
+}
+function closeResults(){ $('resultsPanel').hidden = true; if(resultsSay) say(resultsSay); resultsSay = ''; }
 function gameStars(sc){ return sc >= 30 ? 3 : sc >= 20 ? 2 : sc >= 10 ? 1 : 0; }
 function endGame(){ const sc = G.score, fed = G.fed; G.bubs.forEach(B => B.el.remove()); G = null; $('game').hidden = true; gameReward(sc, fed, 'best'); }
 // Rewards after any game. key = where that game's best score is kept (Bubble Party: best, Dance Party: dBest).
@@ -1516,8 +1716,8 @@ function gameReward(sc, fed, key){
   if(stage() === 3){ P.g = P.g || {}; P.g.best = Math.max(P.g.best || 0, sc); } careDone(10 + Math.min(15, Math.round(sc/2)));
   bump('fun'); if(fed) bump('tummy'); hopPet(); play('giggle', .7);
   if(best || sc >= 15) confetti();
-  if(best || stars) setTimeout(() => { toast([best ? 'New best!' : '', sc + ' points', stars ? '+' + stars + ' ★' : ''].filter(Boolean).join(' · '), ICON('star')); play('sparkle', .7); }, 500);
-  say(best ? `WOW! ${sc}! My best ever!` : sc >= 15 ? `WOW! ${sc} points!` : `${sc} points! That was fun!`);
+  resultsSay = best ? `WOW! ${sc}! My best ever!` : sc >= 15 ? `WOW! ${sc} points!` : `${sc} points! That was fun!`;
+  showResults(sc, stars, best, key); wishDone('play');
   save(); render(); buildDock();
 }
 
@@ -1640,7 +1840,7 @@ function endDance(){
 }
 // The music is made right here with Web Audio: a bouncy beat, a little bass and a sparkly tune. No files, no Runway credits.
 function startMusic(){
-  DP.mix = null; if(!AC || !S.sound) return;
+  DP.mix = null; if(!AC || !(S.music ?? S.sound)) return;
   wakeAudio();
   const mix = AC.createGain(); mix.gain.value = .6; mix.connect(AC.destination); DP.mix = mix;
   DP.a0 = null;   // pinned on the first frame the audio is really running (see scheduleMusic)
@@ -1681,6 +1881,105 @@ function hitTone(l, perfect){
   if(!DP.mix) return;
   const now = performance.now() - DP.t0, ch = CHORDS[Math.max(0, Math.floor(now/(DP.beat*4))) % 4], f = [ch[0]*2, ch[1]*2, ch[2]*2, ch[0]*4][l], at = AC.currentTime;
   mTone(f, at, .35, 'triangle', perfect ? .22 : .14); if(perfect) mTone(f*2, at + .04, .25, 'sine', .07);
+}
+
+/* ---------- today's wish ---------- */
+// Now and then a thought bubble shows something he'd love. Grant it for a bonus star; if not, it just fades.
+function pickWish(){
+  const K = C(), foods = Object.keys(K.foods).filter(k => !K.foods[k].yuck), opts = foods.map(k => 'food:' + k).concat('bath', 'hug');
+  if(stage() >= 2) opts.push('play');
+  return any(opts);
+}
+function updateWish(){
+  const P = S.pet, el = $('wish'); if(!P) { el.hidden = true; return; }
+  const now = S.simNow, quiet = isQuiet(gameDate());
+  if(P.wish && now - P.wish.at > 3*HOUR){ P.wish = null; P.wishNext = now + HOUR; }        // faded away, no harm done
+  if(!P.wish && !P.asleep && !quiet && !evolving && now > (P.wishNext || 0)) P.wish = { k:pickWish(), at:now };
+  const show = !!P.wish && !P.asleep && !quiet;
+  if(!show){ el.hidden = true; return; }
+  if(el.dataset.k !== P.wish.k){ el.dataset.k = P.wish.k; el.innerHTML = ''; el.classList.remove('done');
+    const k = P.wish.k, f = k.startsWith('food:') && C().foods[k.slice(5)];
+    el.appendChild(f ? pic(f.icon ? ICON(f.icon) : null, f.em) : k === 'bath' ? pic(ICON('sponge'), '🧽') : k === 'play' ? pic(ICON('wand'), '🫧') : pic(...HEART())); }
+  el.hidden = false;
+}
+function wishDone(kind){
+  const P = S.pet; if(!P || !P.wish || P.wish.k !== kind) return;
+  P.wish = null; P.wishNext = S.simNow + 2*HOUR; S.stars++;
+  const el = $('wish'); el.classList.add('done'); setTimeout(() => { el.hidden = true; el.dataset.k = ''; el.classList.remove('done'); }, 520);
+  setTimeout(() => { toast('Wish come true! +1 ★', ICON('star')); play('shimmer', .7); hopPet(); fx(ICON('star'), '⭐', targetRect()); fx(...HEART(), targetRect()); }, 900);
+  careDone(10); showShopBtn(); save();
+}
+
+/* ---------- daily present ---------- */
+// A small present by the stone on the first visit of each day. Missed days are never mentioned.
+const GIFT_SAY = ['A present for me? Thank you!', 'Ooh, what is it?', 'Best surprise ever!', 'You are the best!'];
+function updateGift(){
+  const g = $('gift'), day = gameDate().toDateString();
+  g.hidden = !(S.giftDay !== day && !isQuiet(gameDate()) && (S.phase === 'pet' ? !S.pet.asleep : true) && !G && !DP);
+}
+function openGift(){
+  const g = $('gift'); if(g.hidden || g.classList.contains('open')) return; unlockAudio();
+  S.giftDay = gameDate().toDateString(); const n = 1 + Math.floor(Math.random()*2); S.stars += n; save();
+  g.classList.add('open'); play('poof', .7); setTimeout(() => play('sparkle', .7), 250);
+  const r = g.getBoundingClientRect(); for(let i = 0; i < 6; i++) setTimeout(() => fx(ICON('star'), '⭐', r), i*90);
+  setTimeout(() => { g.hidden = true; g.classList.remove('open'); confetti(); toast(`A present! +${n} ★`, null, '🎁'); showShopBtn();
+    if(S.phase === 'pet' && S.pet && !S.pet.asleep){ hopPet(); say(any(GIFT_SAY)); } }, 520);
+}
+
+/* ---------- little idle moves ---------- */
+// Every few seconds he does something small, so he never looks like a statue. A sad pet mostly sighs.
+const IDLE = ['idTilt', 'idBounce', 'idShuffle', 'idLook'], IDLE_MS = { idTilt:1400, idBounce:900, idShuffle:1200, idLook:1600, idSigh:1600 };
+const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+function idleMove(){
+  setTimeout(idleMove, 4000 + Math.random()*5000);
+  const P = S.pet; if(calm || document.hidden || S.phase !== 'pet' || !P || P.asleep || evolving || eating || drag || stroke || G || DP) return;
+  const pet = $('pet'), img = pet.querySelector('img'); if(!img || ANIMS.some(a => pet.classList.contains(a))) return;
+  const m = moodNow() === 'sad' ? 'idSigh' : any(IDLE);
+  img.classList.add(m); setTimeout(() => img.classList.remove(m), IDLE_MS[m]);
+}
+setTimeout(idleMove, 5000);
+
+/* ---------- first-time finger lessons ---------- */
+// The first time each tool matters, a finger shows how to drag it from the dock, until the child does it once.
+function teachDone(k){ S.taught = S.taught || {}; if(!S.taught[k]){ S.taught[k] = true; save(); updateTeach(); } }
+function teachNow(){
+  const T = S.taught || {}, P = S.pet;
+  if(S.phase === 'egg') return !T.lamp && !eggAsleep() && !eggReady() ? 'lamp' : null;
+  if(!P || P.asleep || evolving) return null;
+  if(!T.food) return 'food';
+  if(!T.sponge && P.clean < 70) return 'sponge';
+  if(!T.moon && P.energy < 45) return 'moon';
+  return null;
+}
+function updateTeach(){
+  const t = $('teach'), k = teachNow(), blocked = drag || G || DP || [...document.querySelectorAll('.panel')].some(p => !p.hidden) || !$('village').hidden;
+  if(!k || blocked){ t.hidden = true; t.dataset.k = ''; return; }
+  const kind = k === 'food' ? 'food:' + Object.keys(C().foods).find(f => C().foods[f].fav) : k;
+  const item = document.querySelector(`#dockIn [data-kind="${kind}"]`); if(!item){ t.hidden = true; return; }
+  const a = item.getBoundingClientRect(), d = $('dock').getBoundingClientRect();
+  if(a.left < d.left || a.right > d.right){ t.hidden = true; return; }                    // scrolled out of view
+  const b = targetRect();
+  if(t.dataset.k !== kind){ t.dataset.k = kind; const ti = t.querySelector('.ti'); ti.innerHTML = ''; const src = item.dataset.src; ti.appendChild(pic(src && src !== 'null' && src !== 'undefined' ? src : null, item.dataset.em)); }
+  t.style.setProperty('--sx', (a.left + a.width/2 - 32) + 'px'); t.style.setProperty('--sy', (a.top + a.height/2 - 32) + 'px');
+  t.style.setProperty('--tx', (b.left + b.width/2 - 32) + 'px'); t.style.setProperty('--ty', (b.top + b.height*.5 - 32) + 'px');
+  t.hidden = false;
+}
+
+/* ---------- grown-up: play time and backup ---------- */
+function logPlay(ms){
+  if(document.hidden) return; const day = new Date().toDateString(); S.playLog = S.playLog || {};
+  S.playLog[day] = (S.playLog[day] || 0) + ms;
+  const keys = Object.keys(S.playLog); if(keys.length > 14) keys.sort((a, b) => new Date(a) - new Date(b)).slice(0, keys.length - 14).forEach(k => delete S.playLog[k]);
+}
+function playTimeText(){
+  const L = S.playLog || {}, today = new Date(), min = ms => Math.round(ms/60000);
+  let week = 0; for(let i = 0; i < 7; i++){ const d = new Date(today); d.setDate(d.getDate() - i); week += L[d.toDateString()] || 0; }
+  return `Played today: ${min(L[today.toDateString()] || 0)} min · last 7 days: ${min(week)} min`;
+}
+function backupCode(){ return 'BB1:' + btoa(unescape(encodeURIComponent(JSON.stringify(S)))); }
+function readBackup(t){
+  t = (t || '').trim(); if(!t.startsWith('BB1:')) return null;
+  try{ const s = JSON.parse(decodeURIComponent(escape(atob(t.slice(4))))); return s && s.v === 1 ? s : null; }catch(e){ return null; }
 }
 
 function sayNeed(need){ if(stage() === 3) say(need.k === 'happy' ? C().happyNeed : need.need); else say(' ?', ICON(need.icon)); }
@@ -1741,6 +2040,7 @@ function render(force){
     $('hugHand').hidden = !wantsHug || !!stroke;
     if(due && !P.evolveToldAt){ P.evolveToldAt = S.simNow; play('sparkle', .7); }
     $('petWrap').style.transform = `translateX(-50%) scale(${st.s})`;
+    updateWish();
     $('app').classList.toggle('sleeping', P.asleep); $('zzz').hidden = !P.asleep;
     $('dirt').style.opacity = P.clean < 60 ? Math.min(1, (1 - P.clean/100)*1.4) : 0;
     if(!eating && !(drag && drag.over)) setMood(moodNow());
@@ -1913,9 +2213,31 @@ const syncs = [ segInit('segSound', () => S.sound ? 'on' : 'off', v => S.sound =
     // Back to Normal: bring the game clock back to real time (it ran ahead while testing), keeping the pet's age.
     const ahead = S.simNow - Date.now();
     if(S.speed === 1 && ahead > 0){ S.simNow -= ahead; if(S.pet){ S.pet.born -= ahead; S.pet.hugs = []; if(S.pet.evolveToldAt) S.pet.evolveToldAt -= ahead; } } }),
+  segInit('segMusic', () => (S.music ?? S.sound) ? 'on' : 'off', v => S.music = v === 'on'),
   segInit('segQuiet', () => S.quiet ? 'on' : 'off', v => S.quiet = v === 'on'),
   segInit('segEggs', () => S.unlockAll ? 'all' : 'earn', v => S.unlockAll = v === 'all') ];
-$('settingsBtn').onclick = () => { syncs.forEach(f => f()); $('resetConfirm').hidden = true; $('settingsPanel').hidden = false; };
+function openSettings(){ syncs.forEach(f => f()); $('resetConfirm').hidden = true; $('backupBox').hidden = true; $('backupMsg').textContent = '';
+  $('playTime').textContent = playTimeText(); $('settingsPanel').hidden = false; }
+// Grown-ups press and hold the cog, so little fingers don't land on Start over by accident. (Keyboard Enter still opens it.)
+{ const sb = $('settingsBtn'); let holdT = null;
+  const stop = () => { clearTimeout(holdT); holdT = null; sb.classList.remove('holding'); };
+  sb.addEventListener('pointerdown', e => { e.preventDefault(); sb.classList.remove('holding'); void sb.offsetWidth; sb.classList.add('holding');
+    holdT = setTimeout(() => { stop(); holdT = 'done'; play('sparkle', .5); openSettings(); }, 1500); });
+  sb.addEventListener('pointerup', () => { if(holdT && holdT !== 'done') toast('Grown-ups: press and hold to open settings', null, '⚙️'); stop(); });
+  sb.addEventListener('pointerleave', stop); sb.addEventListener('pointercancel', stop);
+  sb.addEventListener('click', e => { if(e.detail === 0) openSettings(); }); }
+$('backupCopy').onclick = () => { const code = backupCode(), box = $('backupBox'), ta = $('backupText'), msg = $('backupMsg');
+  box.hidden = false; $('backupLoad').hidden = true; ta.value = code;
+  const ok = () => msg.textContent = 'Copied! Keep it somewhere safe, like a note or an email to yourself.';
+  const sel = () => { ta.focus(); ta.select(); msg.textContent = 'Copy this code and keep it somewhere safe.'; };
+  try{ navigator.clipboard.writeText(code).then(ok, sel); }catch(e){ sel(); } };
+$('backupOpen').onclick = () => { $('backupBox').hidden = false; $('backupText').value = ''; $('backupLoad').hidden = false; $('backupMsg').textContent = 'Paste the backup code, then tap Load.'; $('backupText').focus(); };
+$('backupLoad').onclick = () => { const s = readBackup($('backupText').value);
+  if(!s){ $('backupMsg').textContent = "That code doesn't look right. Check it was copied in full."; return; }
+  S = s; S.last = Date.now(); save(); location.reload(); };
+$('resAgain').onclick = () => { $('resultsPanel').hidden = true; resultsSay = ''; startGame(); };
+$('resDone').onclick = closeResults;
+$('gift').addEventListener('pointerdown', e => { e.stopPropagation(); e.preventDefault(); openGift(); });
 $('closeSettings').onclick = () => $('settingsPanel').hidden = true;
 $('resetBtn').onclick = () => $('resetConfirm').hidden = false;
 $('resetYes').onclick = openEggChoice;
@@ -1933,7 +2255,7 @@ $('closeShop').onclick = () => $('shopPanel').hidden = true;
 // If the grown-up found an egg (all goals done), they move to Fluff Village first.
 function startEgg(kind){
   const moved = S.phase === 'pet' && S.pet && S.pet.eggFound ? toVillage() : null;
-  const keep = { sound:S.sound, speed:S.speed, quiet:S.quiet, stars:S.stars || 0, decor:S.decor || [], unlocked:S.unlocked || [], unlockAll:!!S.unlockAll, best:S.best, dBest:S.dBest, village:S.village || [] };
+  const keep = { sound:S.sound, speed:S.speed, quiet:S.quiet, stars:S.stars || 0, decor:S.decor || [], unlocked:S.unlocked || [], unlockAll:!!S.unlockAll, best:S.best, dBest:S.dBest, music:S.music, taught:S.taught, playLog:S.playLog, giftDay:S.giftDay, visitDay:S.visitDay, visits:S.visits, blooms:S.blooms, village:S.village || [] };
   S = Object.assign(fresh(kind), keep); save();
   ['settingsPanel','eggPanel','movePanel','goalsPanel'].forEach(id => $(id).hidden = true); $('foundEgg').innerHTML = ''; $('trickTray').hidden = true;
   buildDecor(); render(true);
@@ -1983,7 +2305,7 @@ let prev = performance.now();
 setInterval(() => {
   const t = performance.now(), dt = t - prev; prev = t; step(dt); S.last = Date.now();
   if(pendingWake){ pendingWake = false; play('flutter', .6); say('I had a lovely sleep!'); hopPet(); }
-  render();
+  logPlay(dt); render(); updateGift(); updateTeach(); countVisit();
 }, 500);
 setInterval(save, 5000);
 addEventListener('pagehide', save);

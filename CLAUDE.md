@@ -15,7 +15,7 @@ A virtual pet game starring **Big Busy**, a purple fluffy pom-pom character from
 - **Egg (~5 min for Big Busy's first egg; later family eggs take longer = difficulty progression):** drag heat lamp over egg to keep "Cosy" up (drains in ~4 min). Hatching runs full speed while cosy, slower when chilly, and very slowly when cold (never stops). Sleeps in quiet hours (nothing changes, night garden). When ready the egg swaps to the cracked art; tap 4 times to hatch (in-code shell burst + flash).
 - **Four looks:** Egg → **Fluffball** (day 1: tiny pom-pom, beady eyes, no mouth/limbs, baby talk "Pip!", needs shown as icons, Play locked) → **Fuzzling** (day 2: feet + antenna nubs, short words, Play unlocks) → **Big Busy** (day 3–7: full character, keeps growing in size).
 - **Transformation:** at the right age he glows; child taps him → spin, white silhouette, flash, reveal, confetti. Only happens if reasonably cared for (happy ≥40, tummy ≥30, clean ≥25); otherwise he waits. Never regresses.
-- **Five meters:** Tummy, Happy, Energy, Clean, Fun.
+- **Five meters:** Tummy, Happy, Energy, Clean, Fun. Under 25 the dock item that fixes a low meter glows (`glowFixes`); he only looks sad under 15 (`SAD_AT`). The grumpy bubble keeps its −1 (owner decided).
 - **Hands-on care:** drag food to mouth (munch animation; berries are his favourite, broccoli refused), stroke him to pet (hearts), drag sponge over him (bubbles), drag moon to sleep (night garden), Bubble Party mini-game is Big Busy's (25s, gold bubbles = 3; bubbles move by time, sounds play through Web Audio — keep it that way for iPhone smoothness).
 - **Meal times:** breakfast 7–9, lunch 12–13:30, teatime 16:30–18:30 → bonus star if fed in the window.
 - **Quiet hours** 20:30–07:00: he sleeps, nothing drops.

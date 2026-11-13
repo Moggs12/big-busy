@@ -206,6 +206,8 @@ header{display:flex;align-items:center;gap:10px}
 .item:active{transform:scale(.92)}
 .item.fav .tile::after{content:"";position:absolute;top:0;right:8px;width:22px;height:22px;border-radius:50%;
   background:var(--magenta) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z'/%3E%3C/svg%3E") center/14px no-repeat;box-shadow:0 2px 0 #c0146f,0 0 0 2px #fff}
+.item.need .tile{animation:needGlow 1.6s ease-in-out infinite}
+@keyframes needGlow{50%{box-shadow:0 0 0 5px #ffd84a,0 0 22px 6px rgba(255,196,0,.75)}}
 .item.lamp{width:clamp(120px,16vmin,160px);touch-action:none}
 .item.lamp .tile{width:clamp(100px,13vmin,130px);background:linear-gradient(160deg,#fff2c6,#ffc65a)}
 .sep{width:2px;align-self:stretch;margin:10px 2px;border-radius:2px;background:rgba(43,13,92,.12)}
@@ -1442,7 +1444,17 @@ function hatch(){
 function flashOut(cb){ const f = $('flash'); f.classList.add('on'); setTimeout(() => { cb(); f.classList.remove('on'); }, 220); }
 
 /* ---------- pet ---------- */
-function moodNow(){ const P = S.pet; if(!P) return 'idle'; if(P.asleep) return 'sleep'; return STATS.some(s => P[s.k] < 25) ? 'sad' : 'idle'; }
+function moodNow(){ const P = S.pet; if(!P) return 'idle'; if(P.asleep) return 'sleep'; return STATS.some(s => P[s.k] < SAD_AT) ? 'sad' : 'idle'; }
+// He only looks sad when a meter is really low. Before that, the thing that fixes it glows in the dock (happy has its own hug hint).
+const SAD_AT = 15, GLOW_AT = 25;
+function glowFixes(P){
+  const on = new Set(), low = k => P[k] < GLOW_AT && !P.asleep && !G && !DP;
+  if(low('tummy')) Object.keys(C().foods).filter(k => !C().foods[k].yuck).forEach(k => on.add('food:' + k));
+  if(low('clean')) on.add('sponge');
+  if(low('energy')) on.add('moon');
+  if(low('fun') && stage() >= 2) on.add('play');
+  document.querySelectorAll('#dockIn .item').forEach(b => b.classList.toggle('need', on.has(b.dataset.kind)));
+}
 function petAnim(cls, ms = 1400){ const p = $('pet'); p.classList.remove(...ANIMS); void p.offsetWidth; p.classList.add(cls); clearTimeout(petAnim.t); petAnim.t = setTimeout(() => p.classList.remove(cls), ms); }
 // Big Busy hops; Big Lizzy does a little twirl.
 function hopPet(){ petAnim(C().cuddle === 'twirl' ? 'spin' : 'hop'); }
@@ -2044,6 +2056,7 @@ function render(force){
     $('app').classList.toggle('sleeping', P.asleep); $('zzz').hidden = !P.asleep;
     $('dirt').style.opacity = P.clean < 60 ? Math.min(1, (1 - P.clean/100)*1.4) : 0;
     if(!eating && !(drag && drag.over)) setMood(moodNow());
+    glowFixes(P);
     if(P.eggFound && !due && !wantsHug) hint("An egg! Tap it when you're ready for a new friend");
     checkGoals(); markPicked();
   }
